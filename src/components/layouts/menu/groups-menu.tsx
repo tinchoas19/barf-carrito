@@ -111,7 +111,7 @@ const GroupsMenu: React.FC<GroupsMenuProps> = ({
               <Menu.Item key={id}>
                 {({ active }) => (
                   <Link
-                    href={`/${slug}`}
+                    href={`?category=${slug}`}
                     className={cn(
                       'flex space-x-4 rtl:space-x-reverse items-center w-full px-5 py-2.5 text-sm font-semibold capitalize transition duration-200 hover:text-accent focus:outline-none',
                       active ? 'text-accent' : 'text-body-dark'

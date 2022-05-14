@@ -117,7 +117,6 @@ export const AddressForm: React.FC<any> = ({
             variant="outline"
           />
 
-          <GroupsDropdownMenu variant="minimal" />
 
           <TextArea
             label={t('text-address-note')}

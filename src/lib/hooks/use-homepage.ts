@@ -13,6 +13,6 @@ export default function useHomepage() {
     };
   }
   return {
-    homePage: types.find((type) => type.settings.isHome) ?? types[0],
+    homePage: types[0],
   };
 }

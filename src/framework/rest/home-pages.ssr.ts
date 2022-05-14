@@ -57,7 +57,7 @@ export const getStaticProps: GetStaticProps<
   let pageType: string | undefined;
   if (!pages) {
     pageType =
-      types.find((type) => type.settings.isHome)?.slug ?? types[0].slug;
+      types.find((type) => true)?.slug ?? types[0].slug;
   } else {
     pageType = pages[0];
   }
@@ -92,10 +92,7 @@ export const getStaticProps: GetStaticProps<
   const categoryVariables = {
     type: pageType,
     limit: CATEGORIES_PER_PAGE,
-    parent:
-      types.find((t) => t.slug === pageType)?.settings.layoutType === 'minimal'
-        ? 'all'
-        : 'null',
+    parent: 'all'
   };
   await queryClient.prefetchInfiniteQuery(
     [API_ENDPOINTS.CATEGORIES, categoryVariables],
@@ -112,9 +109,7 @@ export const getStaticProps: GetStaticProps<
           type: pageType,
         },
       },
-      layout:
-        types.find((t) => t.slug === pageType)?.settings.layoutType ??
-        'default',
+      layout: 'classic',
       ...(await serverSideTranslations(locale!, ['common', 'banner'])),
       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     },
@@ -129,7 +124,7 @@ groups: 8kB,
 group: 2kB,
 settings: 2kB,
 perProduct: 4.2 * 30 = 120kB,
-total = 14 + 30 + 22 + 8 + 2 + 2 + 120 = 198kB 
+total = 14 + 30 + 22 + 8 + 2 + 2 + 120 = 198kB
 others: 225 - 198 = 27kB
 
  */

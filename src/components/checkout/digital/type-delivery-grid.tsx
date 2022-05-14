@@ -1,0 +1,19 @@
+<div>
+    <Label>{t('text-type')}</Label>
+    <div className="flex items-center space-x-4 rtl:space-x-reverse">
+        <Radio
+            id="billing"
+            {...register('type')}
+            type="radio"
+            value={AddressType.Billing}
+            label={t('text-billing')}
+        />
+        <Radio
+            id="shipping"
+            {...register('type')}
+            type="radio"
+            value={AddressType.Shipping}
+            label={t('text-shipping')}
+        />
+    </div>
+</div>
