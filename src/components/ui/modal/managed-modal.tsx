@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 import Modal from '@/components/ui/modal/modal';
 import { useModalAction, useModalState } from './modal.context';
-const OtpLoginView = dynamic(() => import('@/components/auth/otp-login'));
+
 const Login = dynamic(() => import('@/components/auth/login-form'), {
   ssr: false,
 });
@@ -43,8 +43,6 @@ const ManagedModal = () => {
       {view === 'LOGIN_VIEW' && <Login />}
       {view === 'REGISTER' && <Register />}
       {view === 'FORGOT_VIEW' && <ForgotPassword />}
-      {view === 'OTP_LOGIN' && <OtpLoginView />}
-      {view === 'REFUND_REQUEST' && <CreateRefundView />}
       {view === 'ADD_OR_UPDATE_ADDRESS' && <CreateOrUpdateAddressForm />}
       {view === 'ADD_OR_UPDATE_GUEST_ADDRESS' && (
         <CreateOrUpdateGuestAddressForm />
@@ -58,13 +56,6 @@ const ManagedModal = () => {
       {view === 'DELETE_ADDRESS' && <AddressDeleteView />}
       {view === 'PRODUCT_DETAILS' && (
         <ProductDetailsModalView productSlug={data} />
-      )}
-      {view === 'SHOP_INFO' && (
-        <ShopInfoCard
-          shop={data?.shop}
-          cardClassName="!hidden"
-          className="!flex !h-screen !w-screen max-w-screen-sm flex-col"
-        />
       )}
     </Modal>
   );

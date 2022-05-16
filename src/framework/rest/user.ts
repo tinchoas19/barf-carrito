@@ -16,7 +16,6 @@ import { useState } from 'react';
 import {
   RegisterUserInput,
   ChangePasswordUserInput,
-  OtpLoginInputType,
 } from '@/types';
 import { initialOtpState, optAtom } from '@/components/otp/atom';
 import { useStateMachine } from 'little-state-machine';
@@ -126,126 +125,6 @@ export function useLogin() {
   });
 
   return { mutate, isLoading, serverError, setServerError };
-}
-
-export function useSocialLogin() {
-  const { t } = useTranslation();
-  const queryClient = useQueryClient();
-  const { setToken } = useToken();
-  const [_, setAuthorized] = useAtom(authorizationAtom);
-
-  return useMutation(client.users.socialLogin, {
-    onSuccess: (data) => {
-      if (data?.token && data?.permissions?.length) {
-        setToken(data?.token);
-        setAuthorized(true);
-        return;
-      }
-      if (!data.token) {
-        toast.error(t('error-credential-wrong'));
-      }
-    },
-    onSettled: () => {
-      queryClient.clear();
-    },
-  });
-}
-
-export function useSendOtpCode() {
-  let [serverError, setServerError] = useState<string | null>(null);
-  const [otpState, setOtpState] = useAtom(optAtom);
-
-  const { mutate, isLoading } = useMutation(client.users.sendOtpCode, {
-    onSuccess: (data) => {
-      if (!data.success) {
-        setServerError(data.message!);
-        return;
-      }
-      setOtpState({
-        ...otpState,
-        otpId: data?.id!,
-        isContactExist: data?.is_contact_exist!,
-        phoneNumber: data?.phone_number!,
-        step: data?.is_contact_exist! ? 'OtpForm' : 'RegisterForm',
-      });
-    },
-    onError: (error: Error) => {
-      console.log(error.message);
-    },
-  });
-
-  return { mutate, isLoading, serverError, setServerError };
-}
-
-export function useVerifyOtpCode({
-  onVerifySuccess,
-}: {
-  onVerifySuccess: Function;
-}) {
-  const [otpState, setOtpState] = useAtom(optAtom);
-  let [serverError, setServerError] = useState<string | null>(null);
-  const { mutate, isLoading } = useMutation(client.users.verifyOtpCode, {
-    onSuccess: (data) => {
-      if (!data.success) {
-        setServerError(data?.message!);
-        return;
-      }
-      if (onVerifySuccess) {
-        onVerifySuccess({
-          phone_number: otpState.phoneNumber,
-        });
-      }
-      setOtpState({
-        ...initialOtpState,
-      });
-    },
-    onError: (error: Error) => {
-      toast.error(error.message);
-    },
-  });
-
-  return { mutate, isLoading, serverError, setServerError };
-}
-
-export function useOtpLogin() {
-  const [otpState, setOtpState] = useAtom(optAtom);
-  const { t } = useTranslation('common');
-  const [_, setAuthorized] = useAtom(authorizationAtom);
-  const { closeModal } = useModalAction();
-  const { setToken } = useToken();
-  const queryClient = new QueryClient();
-  let [serverError, setServerError] = useState<string | null>(null);
-
-  const { mutate: otpLogin, isLoading } = useMutation(client.users.OtpLogin, {
-    onSuccess: (data) => {
-      if (!data.token) {
-        setServerError('text-otp-verify-failed');
-        return;
-      }
-      setToken(data.token!);
-      setAuthorized(true);
-      setOtpState({
-        ...initialOtpState,
-      });
-      closeModal();
-    },
-    onError: (error: Error) => {
-      console.log(error.message);
-    },
-    onSettled: () => {
-      queryClient.clear();
-    },
-  });
-
-  function handleSubmit(input: OtpLoginInputType) {
-    otpLogin({
-      ...input,
-      phone_number: otpState.phoneNumber,
-      otp_id: otpState.otpId!,
-    });
-  }
-
-  return { mutate: handleSubmit, isLoading, serverError, setServerError };
 }
 
 export function useRegister() {
@@ -374,31 +253,3 @@ export function useResetPassword() {
   });
 }
 
-export function useVerifyForgotPasswordToken() {
-  const { actions } = useStateMachine({ updateFormState });
-  const queryClient = useQueryClient();
-  let [formError, setFormError] = useState<any>(null);
-
-  const { mutate, isLoading } = useMutation(
-    client.users.verifyForgotPasswordToken,
-    {
-      onSuccess: (data, variables) => {
-        if (!data.success) {
-          setFormError({
-            token: data?.message ?? '',
-          });
-          return;
-        }
-        actions.updateFormState({
-          step: 'Password',
-          token: variables.token as string,
-        });
-      },
-      onSettled: () => {
-        queryClient.clear();
-      },
-    }
-  );
-
-  return { mutate, isLoading, formError, setFormError };
-}

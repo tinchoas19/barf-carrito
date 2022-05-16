@@ -85,24 +85,22 @@ const OrderDetails = ({ order }: Props) => {
     products,
     status,
     shipping_address,
-    billing_address,
-    tracking_number,
-    refund,
+    discount,
+    cash,
+    paid_order,
   } = order ?? {};
-  const { price: amount } = usePrice({
-    amount: order?.amount,
+  const { price: discount_parcial } = usePrice({
+    amount: ((order?.discount * order?.paid_order) / 100),
   });
-  const { price: discount } = usePrice({
-    amount: order?.discount,
-  });
+
   const { price: total } = usePrice({
     amount: order?.total,
   });
   const { price: delivery_fee } = usePrice({
     amount: order?.delivery_fee,
   });
-  const { price: sales_tax } = usePrice({
-    amount: order?.sales_tax,
+  const { price: paid_order_2 } = usePrice({
+    amount: order?.paid_order,
   });
 
   return (
@@ -129,12 +127,12 @@ const OrderDetails = ({ order }: Props) => {
             <div className="flex w-full flex-col px-5 py-4 md:w-2/5">
               <div className="mb-3 flex justify-between">
                 <span className="text-sm text-body">{t('text-sub-total')}</span>
-                <span className="text-sm text-heading">{amount}</span>
+                <span className="text-sm text-heading">{paid_order_2}</span>
               </div>
 
               <div className="mb-3 flex justify-between">
                 <span className="text-sm text-body">{t('text-discount')}</span>
-                <span className="text-sm text-heading">{discount}</span>
+                <span className="text-sm text-heading">{discount_parcial}</span>
               </div>
 
               <div className="mb-3 flex justify-between">
@@ -144,8 +142,8 @@ const OrderDetails = ({ order }: Props) => {
                 <span className="text-sm text-heading">{delivery_fee}</span>
               </div>
               <div className="mb-3 flex justify-between">
-                <span className="text-sm text-body">{t('text-tax')}</span>
-                <span className="text-sm text-heading">{sales_tax}</span>
+                <span className="text-sm text-body">{t('text-private-discount')}</span>
+                <span className="text-sm text-heading">{cash}</span>
               </div>
 
               <div className="flex justify-between">

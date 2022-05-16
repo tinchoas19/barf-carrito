@@ -1,10 +1,10 @@
 import { useModalAction } from '@/components/ui/modal/modal.context';
-import OtpForm from '@/components/otp/otp-form';
+
 import { customerContactAtom } from '@/store/checkout';
 import { useAtom } from 'jotai';
 import { useTranslation } from 'next-i18next';
 import { useSettings } from '@/framework/settings';
-import PhoneNumberForm from '@/components/otp/phone-number-form';
+
 
 export default function AddOrUpdateContact() {
   const { t } = useTranslation('common');
@@ -24,11 +24,7 @@ export default function AddOrUpdateContact() {
         {contactNumber ? t('text-update') : t('text-add-new')}{' '}
         {t('text-contact-number')}
       </h1>
-      {useOtp ? (
-        <OtpForm phoneNumber={contactNumber} onVerifySuccess={onSubmit} />
-      ) : (
-        <PhoneNumberForm onSubmit={onSubmit} phoneNumber={contactNumber} />
-      )}
+
     </div>
   );
 }

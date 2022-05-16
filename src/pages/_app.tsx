@@ -11,7 +11,6 @@ import DefaultSeo from '@/components/seo/default-seo';
 import { SearchProvider } from '@/components/ui/search/search.context';
 import PrivateRoute from '@/lib/private-route';
 import { CartProvider } from '@/store/quick-cart/cart.context';
-import SocialLogin from '@/components/auth/social-login';
 import { NextPageWithLayout } from '@/types';
 import QueryProvider from '@/framework/client/query-provider';
 
@@ -44,7 +43,7 @@ function CustomApp({
                 <ManagedModal />
                 <ManagedDrawer />
                 <ToastContainer autoClose={2000} theme="colored" />
-                <SocialLogin />
+
               </>
             </CartProvider>
           </ModalProvider>

@@ -21,12 +21,8 @@ const ProfileForm = ({ user }: { user: User }) => {
     updateProfile({
       id: user.id,
       name: values.name,
-      profile: {
-        id: user?.profile?.id,
-        bio: values?.profile?.bio ?? '',
-        //@ts-ignore
-        avatar: values?.profile?.avatar?.[0],
-      },
+      surname: values.surname,
+      contact: values.contact,
     });
   }
 
@@ -35,7 +31,7 @@ const ProfileForm = ({ user }: { user: User }) => {
       onSubmit={onSubmit}
       useFormProps={{
         ...(user && {
-          defaultValues: pick(user, ['name', 'profile.bio', 'profile.avatar']),
+          defaultValues: pick(user, ['name', 'surname', 'contact']),
         }),
       }}
     >
@@ -59,7 +55,7 @@ const ProfileForm = ({ user }: { user: User }) => {
                 <Input
                   className="flex-1"
                   label={t('text-surname')}
-                  {...register('name')}
+                  {...register('surname')}
                   variant="outline"
                 />
               </div>
@@ -67,7 +63,7 @@ const ProfileForm = ({ user }: { user: User }) => {
                 <Input
                   className="flex-1"
                   label={t('text-contact-number')}
-                  {...register('name')}
+                  {...register('contact')}
                   variant="outline"
                 />
               </div>

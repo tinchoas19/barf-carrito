@@ -30,8 +30,8 @@ const GroupsMenu: React.FC<GroupsMenuProps> = ({
   console.log("groups", groups);
   console.log("router", router);
 
-  const selectedMenu = groups?.find(type => router.asPath.toLowerCase().replace("/?category=", "") === type.slug.toLowerCase());
-  console.log("selectedmenu", selectedMenu?.name);
+  const selectedMenu = groups?.find(type => router.asPath.toLowerCase().replace("/?category=", "") === type.slug.toLowerCase()) ?? defaultGroup;
+
 
   return (
     <Menu

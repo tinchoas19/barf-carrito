@@ -136,7 +136,6 @@ export interface Product {
   sale_price: number;
   image: Attachment;
   gallery: Attachment[];
-  shop: Shop;
   created_at: string;
   updated_at: string;
 }
@@ -168,31 +167,6 @@ export interface Type {
   };
 }
 
-export interface Shop {
-  id: string;
-  name: string;
-  slug: string;
-  description: string;
-  image: Attachment;
-}
-
-export interface Author {
-  id: string;
-  name: string;
-  slug: string;
-}
-
-export interface Manufacturer {
-  id: string;
-  name: string;
-  slug: string;
-}
-
-export interface Coupon {
-  id: string;
-  name: string;
-  slug: string;
-}
 
 export interface Tag {
   id: string;
@@ -222,7 +196,6 @@ export interface Order {
   paid_total: number;
   payment_id?: string;
   payment_gateway?: string;
-  coupon?: Coupon;
   discount?: number;
   delivery_fee?: number;
   delivery_time: string;
@@ -233,35 +206,6 @@ export interface Order {
   shipping_address?: Address;
 }
 
-export interface VerifyCouponInputType {
-  code: string;
-}
-
-export interface VerifyCouponResponse {
-  is_valid: boolean;
-  coupon?: Coupon;
-}
-
-export interface CreateRefundInput {
-  order_id: string;
-  title: string;
-  description: string;
-  images: Attachment[];
-}
-
-export interface Refund {
-  id: string;
-  title: string;
-  description: string;
-  images: Attachment[];
-  amount: number;
-  // status: RefundStatus
-  shop: Shop;
-  order: Order;
-  customer: User;
-  created_at: string;
-  updated_at: string;
-}
 
 export interface Address {
   id: string;
@@ -280,13 +224,9 @@ export interface Address {
 export interface User {
   id: string;
   name: string;
+  surname: string;
   email: string;
-  profile: {
-    id?: string;
-    contact?: string;
-    bio?: string;
-    avatar?: Attachment;
-  };
+  contact?: string;
   address: Address[];
 }
 
@@ -299,13 +239,7 @@ export interface LoginUserInput {
   password: string;
 }
 
-export type SocialLoginInputType = {
-  provider: string;
-  access_token: string;
-};
-export type SendOtpCodeInputType = {
-  phone_number: string;
-};
+
 
 export interface RegisterUserInput {
   name: string;
@@ -323,10 +257,7 @@ export interface ResetPasswordUserInput {
   password: string;
 }
 
-export interface VerifyForgotPasswordUserInput {
-  token: string;
-  email: string;
-}
+
 
 export interface ChangePasswordUserInput {
   oldPassword: string;
@@ -343,33 +274,7 @@ export interface AuthResponse {
   permissions: string[];
 }
 
-export interface OTPResponse {
-  message: string;
-  success: boolean;
-  provider: string;
-  id: string;
-  phone_number: string;
-  is_contact_exist: boolean;
-}
 
-export interface VerifyOtpInputType {
-  phone_number: string;
-  code: string;
-  otp_id: string;
-}
-
-export interface OtpLoginInputType {
-  phone_number: string;
-  code: string;
-  otp_id: string;
-  name?: string;
-  email?: string;
-}
-
-export interface OTPVerifyResponse {
-  success: string;
-  message: string;
-}
 
 export interface DigitalFile {
   id: string;
@@ -463,25 +368,15 @@ export interface VerifiedCheckoutData {
   wallet_amount?: number;
 }
 
-export interface ProductPaginator extends PaginatorInfo<Product> {}
+export interface ProductPaginator extends PaginatorInfo<Product> { }
 
-export interface CategoryPaginator extends PaginatorInfo<Category> {}
+export interface CategoryPaginator extends PaginatorInfo<Category> { }
 
-export interface ShopPaginator extends PaginatorInfo<Shop> {}
+export interface TagPaginator extends PaginatorInfo<Tag> { }
 
-export interface AuthorPaginator extends PaginatorInfo<Author> {}
+export interface OrderPaginator extends PaginatorInfo<Order> { }
 
-export interface ManufacturerPaginator extends PaginatorInfo<Manufacturer> {}
-
-export interface CouponPaginator extends PaginatorInfo<Coupon> {}
-
-export interface TagPaginator extends PaginatorInfo<Tag> {}
-
-export interface OrderPaginator extends PaginatorInfo<Order> {}
-
-export interface OrderStatusPaginator extends PaginatorInfo<OrderStatus> {}
-
-export interface RefundPaginator extends PaginatorInfo<Refund> {}
+export interface OrderStatusPaginator extends PaginatorInfo<OrderStatus> { }
 
 export interface DownloadableFilePaginator
-  extends PaginatorInfo<DownloadableFile> {}
+  extends PaginatorInfo<DownloadableFile> { }

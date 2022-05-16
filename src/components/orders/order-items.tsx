@@ -59,16 +59,7 @@ export const OrderItems = ({ products }: { products: any }) => {
         ellipsis: true,
         render: OrderItemList,
       },
-      {
-        title: t('text-quantity'),
-        dataIndex: 'pivot',
-        key: 'pivot',
-        align: 'center',
-        width: 100,
-        render: function renderQuantity(pivot: any) {
-          return <p className="text-base">{pivot.order_quantity}</p>;
-        },
-      },
+
       // {
       //   title: t('text-price'),
       //   dataIndex: 'pivot',
@@ -92,9 +83,7 @@ export const OrderItems = ({ products }: { products: any }) => {
       columns={orderTableColumns}
       data={products}
       rowKey={(record: any) =>
-        record.pivot?.variation_option_id
-          ? record.pivot.variation_option_id
-          : record.created_at
+        record.created_at
       }
       className="orderDetailsTable w-full"
       scroll={{ x: 350, y: 500 }}
