@@ -67,28 +67,18 @@ const Neon: React.FC<NeonProps> = ({ product, className }) => {
       {/* End of product image */}
 
       <header className="p-3 md:p-6">
-        {product_type.toLowerCase() === 'variable' ? (
-          <div className="mb-2">
-            <span className="text-sm md:text-base text-heading font-semibold">
-              {minPrice}
-            </span>
-            <span> - </span>
-            <span className="text-sm md:text-base text-heading font-semibold">
-              {maxPrice}
-            </span>
-          </div>
-        ) : (
-          <div className="flex items-center mb-2">
-            <span className="text-sm md:text-base text-heading font-semibold">
-              {price}
-            </span>
-            {/* {basePrice && (
+
+        <div className="flex items-center mb-2">
+          <span className="text-sm md:text-base text-heading font-semibold">
+            {price}
+          </span>
+          {/* {basePrice && (
               <del className="text-xs md:text-sm text-muted ltr:ml-2 rtl:mr-2">
                 {basePrice}
               </del>
             )} */}
-          </div>
-        )}
+        </div>
+
         {/* End of product price */}
 
         <h3
@@ -99,27 +89,13 @@ const Neon: React.FC<NeonProps> = ({ product, className }) => {
         </h3>
         {/* End of product title */}
 
-        {product_type.toLowerCase() === 'variable' ? (
-          <>
-            {Number(quantity) > 0 && (
-              <button
-                onClick={handleProductQuickView}
-                className="group w-full h-7 md:h-9 flex items-center justify-between text-xs md:text-sm text-body-dark rounded bg-gray-100 transition-colors hover:bg-accent hover:border-accent hover:text-light focus:outline-none focus:bg-accent focus:border-accent focus:text-light"
-              >
-                <span className="flex-1">{t('text-add')}</span>
-                <span className="w-7 h-7 md:w-9 md:h-9 bg-gray-200 grid place-items-center ltr:rounded-tr rtl:rounded-tl ltr:rounded-br rtl:rounded-bl transition-colors duration-200 group-hover:bg-accent-600 group-focus:bg-accent-600">
-                  <PlusIcon className="w-4 h-4 stroke-2" />
-                </span>
-              </button>
-            )}
-          </>
-        ) : (
-          <>
-            {Number(quantity) > 0 && (
-              <AddToCart variant="neon" data={product} />
-            )}
-          </>
-        )}
+
+        <>
+          {Number(quantity) > 0 && (
+            <AddToCart variant="neon" data={product} />
+          )}
+        </>
+
 
         {Number(quantity) <= 0 && (
           <div className="bg-red-500 rounded text-xs text-center text-light px-2 py-1.5 sm:py-2.5">

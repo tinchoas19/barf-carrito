@@ -66,7 +66,7 @@ export const getStaticProps: GetStaticProps<
     ({ queryKey }) => client.types.get(queryKey[1])
   );
   const productVariables = {
-    type: pageType,
+    //type: pageType,
     limit: PRODUCTS_PER_PAGE,
   };
   await queryClient.prefetchInfiniteQuery(
@@ -80,14 +80,7 @@ export const getStaticProps: GetStaticProps<
     with: 'type;author',
   };
 
-  // Only prefetch popular products for `book` demo
-  if (pageType === 'book') {
-    await queryClient.prefetchQuery(
-      [API_ENDPOINTS.PRODUCTS_POPULAR, popularProductVariables],
-      ({ queryKey }) =>
-        client.products.popular(queryKey[1] as PopularProductQueryOptions)
-    );
-  }
+
 
   const categoryVariables = {
     type: pageType,

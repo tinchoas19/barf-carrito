@@ -41,7 +41,7 @@ export function Grid({
   const { t } = useTranslation('common');
 
   if (error) return <ErrorMessage message={error.message} />;
-
+  console.log("prods", products);
   if (!isLoading && !products?.length) {
     return (
       <div className="min-h-full w-full px-4 pt-6 pb-8 lg:p-8">
@@ -65,11 +65,11 @@ export function Grid({
       >
         {isLoading && !products?.length
           ? rangeMap(limit, (i) => (
-              <ProductLoader key={i} uniqueKey={`product-${i}`} />
-            ))
+            <ProductLoader key={i} uniqueKey={`product-${i}`} />
+          ))
           : products?.map((product) => (
-              <ProductCard product={product} key={product.id} />
-            ))}
+            <ProductCard product={product} key={product.id} />
+          ))}
       </div>
       {hasMore && (
         <div className="mt-8 flex justify-center lg:mt-12">
