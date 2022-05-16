@@ -40,34 +40,40 @@ export default function PromotionSlider() {
         >
           {/* {sliders?.map((d) => ( */}
           <SwiperSlide key={1}>
-            <Image
-              className="w-full h-auto"
-              src="https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/902/offer-5.png"
-              alt="1"
-              layout="responsive"
-              width="580"
-              height="270"
-            />
+            <a href="/help">
+              <Image
+                className="w-full h-auto"
+                src="https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/902/offer-5.png"
+                alt="1"
+                layout="responsive"
+                width="580"
+                height="270"
+              />
+            </a>
           </SwiperSlide>
           <SwiperSlide key={2}>
-            <Image
-              className="w-full h-auto"
-              src="https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/903/offer-4.png"
-              alt="1"
-              layout="responsive"
-              width="580"
-              height="270"
-            />
+            <a href="/help">
+              <Image
+                className="w-full h-auto"
+                src="https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/903/offer-4.png"
+                alt="1"
+                layout="responsive"
+                width="580"
+                height="270"
+              />
+            </a>
           </SwiperSlide>
           <SwiperSlide key={3}>
-            <Image
-              className="w-full h-auto"
-              src="https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/904/offer-3.png"
-              alt="1"
-              layout="responsive"
-              width="580"
-              height="270"
-            />
+            <a href="/help">
+              <Image
+                className="w-full h-auto"
+                src="https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/904/offer-3.png"
+                alt="1"
+                layout="responsive"
+                width="580"
+                height="270"
+              />
+            </a>
           </SwiperSlide>
           {/* ))} */}
         </Swiper>
