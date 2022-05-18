@@ -18,7 +18,7 @@ export default function ProductGridHome({
   const { products, loadMore, isLoadingMore, isLoading, hasMore, error } =
     useProducts({
       ...variables,
-      ...(query.category && { categories: query.category }),
+
       ...(query.text && { text: query.text }),
       // ...(query.type && { type: query.pages?.[0] }),
     });

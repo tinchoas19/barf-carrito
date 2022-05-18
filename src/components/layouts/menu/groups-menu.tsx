@@ -27,8 +27,6 @@ const GroupsMenu: React.FC<GroupsMenuProps> = ({
   variant = 'colored',
 }) => {
   const router = useRouter();
-  console.log("groups", groups);
-  console.log("router", router);
 
   const selectedMenu = groups?.find(type => router.asPath.toLowerCase().replace("/?category=", "") === type.slug.toLowerCase()) ?? defaultGroup;
 

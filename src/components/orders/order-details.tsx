@@ -23,7 +23,7 @@ const RenderStatusBadge: React.FC<{ status: string }> = ({ status }) => {
     case 'approved':
       return (
         <Badge
-          text={`${t('text-refund')} ${t('text-approved')}`}
+          text={`${t('text-approved')}`}
           color="bg-accent"
           className="ltr:mr-4 rtl:ml-4"
         />
@@ -32,7 +32,7 @@ const RenderStatusBadge: React.FC<{ status: string }> = ({ status }) => {
     case 'rejected':
       return (
         <Badge
-          text={`${t('text-refund')} ${t('text-rejected')}`}
+          text={` ${t('text-rejected')}`}
           color="bg-red-500"
           className="ltr:mr-4 rtl:ml-4"
         />
@@ -40,7 +40,7 @@ const RenderStatusBadge: React.FC<{ status: string }> = ({ status }) => {
     case 'processing':
       return (
         <Badge
-          text={`${t('text-refund')} ${t('text-processing')}`}
+          text={`${t('text-processing')}`}
           color="bg-yellow-500"
           className="ltr:mr-4 rtl:ml-4"
         />
@@ -49,34 +49,14 @@ const RenderStatusBadge: React.FC<{ status: string }> = ({ status }) => {
     default:
       return (
         <Badge
-          text={`${t('text-refund')} ${t('text-pending')}`}
+          text={`${t('text-pending')}`}
           color="bg-purple-500"
           className="ltr:mr-4 rtl:ml-4"
         />
       );
   }
 };
-function RefundView({ status, orderId }: { status: string; orderId: string }) {
-  const { t } = useTranslation('common');
-  const { openModal } = useModalAction();
 
-  return (
-    <>
-      {status ? (
-        <RenderStatusBadge status={status} />
-      ) : (
-        <button
-          className="flex items-center text-sm font-semibold text-body transition-colors hover:text-accent disabled:cursor-not-allowed disabled:text-gray-400 disabled:hover:text-gray-400 ltr:mr-4 rtl:ml-4"
-          onClick={() => openModal('REFUND_REQUEST', orderId)}
-          disabled={Boolean(status)}
-        >
-          <SadFaceIcon width={18} className="ltr:mr-2 rtl:ml-2" />
-          {t('text-ask-refund')}
-        </button>
-      )}
-    </>
-  );
-}
 
 const OrderDetails = ({ order }: Props) => {
   const { t } = useTranslation('common');

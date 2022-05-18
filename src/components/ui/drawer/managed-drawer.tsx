@@ -1,4 +1,4 @@
-import MobileCategoryMenu from '@/components/layouts/mobile-menu/mobile-category-menu';
+
 import { drawerAtom } from '@/store/drawer-atom';
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
@@ -12,9 +12,7 @@ const MobileAuthorizedMenu = dynamic(
 const MobileMainMenu = dynamic(
   () => import('@/components/layouts/mobile-menu/mobile-main-menu')
 );
-const SearchFilterView = dynamic(
-  () => import('@/components/search-view/sidebar-filter')
-);
+
 
 export default function ManagedDrawer() {
   const [{ display, view, data }, setDrawerState] = useAtom(drawerAtom);
@@ -34,15 +32,10 @@ export default function ManagedDrawer() {
       }
     >
       {view === 'cart' && <CartSidebarView />}
-      {view === 'FILTER_VIEW' && <MobileCategoryMenu variables={data} />}
+
       {view === 'MAIN_MENU_VIEW' && <MobileMainMenu />}
       {view === 'AUTH_MENU_VIEW' && <MobileAuthorizedMenu />}
-      {view === 'SEARCH_FILTER' && (
-        <SearchFilterView
-          type={data?.type}
-          showManufacturers={data?.showManufacturers}
-        />
-      )}
+
     </Drawer>
   );
 }

@@ -5,7 +5,7 @@ import { QueryClient } from 'react-query';
 import { API_ENDPOINTS } from '@/framework/client/api-endpoints';
 import { dehydrate } from 'react-query/hydration';
 import client from '@/framework/client';
-import { CategoryQueryOptions, TypeQueryOptions } from '@/types';
+import { TypeQueryOptions } from '@/types';
 import { TYPES_PER_PAGE } from '@/framework/client/variables';
 
 export const getServerSideProps: GetServerSideProps = async ({
@@ -25,16 +25,6 @@ export const getServerSideProps: GetServerSideProps = async ({
     ({ queryKey }) => client.types.all(queryKey[1] as TypeQueryOptions)
   );
 
-  const categoryVariable = {
-    type: searchType,
-    limit: 1000,
-    parent: 'null',
-  };
-
-  await queryClient.prefetchQuery(
-    [API_ENDPOINTS.CATEGORIES, categoryVariable],
-    ({ queryKey }) => client.categories.all(queryKey[1] as CategoryQueryOptions)
-  );
 
   return {
     props: {

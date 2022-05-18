@@ -1,7 +1,5 @@
 import type {
-  CategoryQueryOptions,
   HomePageProps,
-  PopularProductQueryOptions,
   TypeQueryOptions,
 } from '@/types';
 import type { GetStaticPaths, GetStaticProps } from 'next';
@@ -12,7 +10,6 @@ import invariant from 'tiny-invariant';
 import client from './client';
 import { API_ENDPOINTS } from './client/api-endpoints';
 import {
-  CATEGORIES_PER_PAGE,
   PRODUCTS_PER_PAGE,
   TYPES_PER_PAGE,
 } from './client/variables';
@@ -82,22 +79,14 @@ export const getStaticProps: GetStaticProps<
 
 
 
-  const categoryVariables = {
-    type: pageType,
-    limit: CATEGORIES_PER_PAGE,
-    parent: 'all'
-  };
-  await queryClient.prefetchInfiniteQuery(
-    [API_ENDPOINTS.CATEGORIES, categoryVariables],
-    ({ queryKey }) => client.categories.all(queryKey[1] as CategoryQueryOptions)
-  );
+
 
   return {
     props: {
       variables: {
         popularProducts: popularProductVariables,
         products: productVariables,
-        categories: categoryVariables,
+
         types: {
           type: pageType,
         },

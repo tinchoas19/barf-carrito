@@ -5,7 +5,7 @@ export const formatProductsArgs = (options?: Partial<ProductQueryOptions>) => {
   const {
     limit = 30,
     price,
-    category,
+
     text,
     searchType,
     searchQuery,
@@ -16,7 +16,7 @@ export const formatProductsArgs = (options?: Partial<ProductQueryOptions>) => {
     limit,
     ...(price && { min_price: price as string }),
     ...(text && { name: text.toString() }),
-    ...(category && { categories: category.toString() }),
+
     ...(searchType && { type: searchType.toString() }),
     ...(searchQuery && { name: searchQuery.toString() }),
     ...restOptions,

@@ -110,39 +110,7 @@ export function useOrderStatuses(options: Pick<QueryOptions, 'limit'>) {
   };
 }
 
-export function useRefunds(options: Pick<QueryOptions, 'limit'>) {
-  const {
-    data,
-    isLoading,
-    isFetchingNextPage,
-    fetchNextPage,
-    hasNextPage,
-    error,
-  } = useInfiniteQuery(
-    [API_ENDPOINTS.ORDERS_REFUNDS, options],
-    ({ queryKey, pageParam }) =>
-      client.orders.refunds(Object.assign({}, queryKey[1], pageParam)),
-    {
-      getNextPageParam: ({ current_page }) => ({ page: current_page + 1 }),
-    }
-  );
 
-  function handleLoadMore() {
-    fetchNextPage();
-  }
-
-  return {
-    refunds: data?.pages.flatMap((page) => page.data) ?? [],
-    paginatorInfo: Array.isArray(data?.pages)
-      ? mapPaginatorData(data?.pages[data.pages.length - 1])
-      : null,
-    isLoading,
-    isLoadingMore: isFetchingNextPage,
-    error,
-    loadMore: handleLoadMore,
-    hasMore: Boolean(hasNextPage),
-  };
-}
 
 export const useDownloadableProducts = (
   options: Pick<QueryOptions, 'limit'>
@@ -181,27 +149,6 @@ export const useDownloadableProducts = (
   };
 };
 
-export function useCreateRefund() {
-  const { t } = useTranslation();
-  const { closeModal } = useModalAction();
-  const queryClient = useQueryClient();
-  const { mutate: createRefundRequest, isLoading } = useMutation(
-    client.orders.createRefund,
-    {
-      onSuccess: () => {
-        toast.success(t('text-refund-request-submitted'));
-      },
-      onSettled: () => {
-        queryClient.invalidateQueries(API_ENDPOINTS.ORDERS);
-        closeModal();
-      },
-    }
-  );
-  return {
-    createRefundRequest,
-    isLoading,
-  };
-}
 
 export function useCreateOrder() {
   const router = useRouter();

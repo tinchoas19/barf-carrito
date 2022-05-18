@@ -13,7 +13,7 @@ const ProductDetailsModalView = dynamic(
   () => import('@/components/products/details/popup'),
   { ssr: false }
 );
-const ShopInfoCard = dynamic(() => import('@/components/shops/sidebar'));
+
 const CreateOrUpdateAddressForm = dynamic(
   () => import('@/components/address/address-form'),
   { ssr: false }
@@ -30,9 +30,7 @@ const AddOrUpdateCheckoutContact = dynamic(
 const ProfileAddOrUpdateContact = dynamic(
   () => import('@/components/profile/profile-add-or-update-contact')
 );
-const CreateRefundView = dynamic(
-  () => import('@/components/refunds/refund-form')
-);
+
 
 const ManagedModal = () => {
   const { isOpen, view, data } = useModalState();

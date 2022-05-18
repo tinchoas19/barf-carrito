@@ -13,8 +13,6 @@ export type LayoutProps = {
 export interface HomePageProps {
   variables: {
     products: any;
-    popularProducts?: any;
-    categories: any;
     types: any;
   };
   layout: string;
@@ -23,16 +21,14 @@ export interface HomePageProps {
 export interface SearchParamOptions {
   type: string;
   name: string;
-  categories: string;
-  tags: string;
-  author: string;
+
+
   price: string;
-  manufacturer: string;
+
   status: string;
   is_active: string;
-  shop_id: string;
-  min_price: string;
-  max_price: string;
+
+
 }
 
 export interface QueryOptions {
@@ -63,61 +59,17 @@ export interface Attachment {
 }
 
 export interface ProductQueryOptions extends QueryOptions {
-  shop_id: string;
   sortedBy: string;
   orderBy: string;
   name: string;
-  categories: string;
-  category: string;
-  tags: string;
   type: string;
-  manufacturer: string;
-  author: string;
   price: string;
-  min_price: string;
-  max_price: string;
   text: string;
   searchType: string;
   searchQuery: string;
 }
 
-export interface PopularProductQueryOptions extends QueryOptions {
-  type_slug: string;
-  with: string;
-  range: number;
-}
-
-export interface CategoryQueryOptions extends QueryOptions {
-  parent: string | null;
-  type: string;
-}
-
-export interface TagQueryOptions extends QueryOptions {
-  parent: string | null;
-  type: string;
-}
-
 export interface TypeQueryOptions extends QueryOptions {
-  name: string;
-  orderBy: string;
-}
-
-export interface ShopQueryOptions extends QueryOptions {
-  name: string;
-  is_active: number;
-}
-
-export interface AuthorQueryOptions extends QueryOptions {
-  name: string;
-  orderBy: string;
-}
-
-export interface ManufacturerQueryOptions extends QueryOptions {
-  name: string;
-  orderBy: string;
-}
-
-export interface CouponQueryOptions extends QueryOptions {
   name: string;
   orderBy: string;
 }
@@ -140,13 +92,7 @@ export interface Product {
   updated_at: string;
 }
 
-export interface Category {
-  id: string;
-  name: string;
-  slug: string;
-  description: string;
-  image: Attachment;
-}
+
 
 interface Banner {
   id: string;
@@ -369,8 +315,6 @@ export interface VerifiedCheckoutData {
 }
 
 export interface ProductPaginator extends PaginatorInfo<Product> { }
-
-export interface CategoryPaginator extends PaginatorInfo<Category> { }
 
 export interface TagPaginator extends PaginatorInfo<Tag> { }
 
