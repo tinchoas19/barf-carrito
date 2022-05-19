@@ -12,9 +12,7 @@ export type LayoutProps = {
 
 export interface HomePageProps {
   variables: {
-    products: any;
     popularProducts?: any;
-    categories: any;
     types: any;
   };
   layout: string;
