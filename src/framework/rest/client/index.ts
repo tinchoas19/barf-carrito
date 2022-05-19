@@ -1,61 +1,40 @@
 import type {
   Attachment,
-  Author,
-  AuthorPaginator,
-  AuthorQueryOptions,
+
   AuthResponse,
   CategoryPaginator,
   CategoryQueryOptions,
   ChangePasswordUserInput,
   CheckoutVerificationInput,
-  CouponPaginator,
-  CouponQueryOptions,
+
   CreateContactUsInput,
   CreateOrderInput,
-  CreateRefundInput,
+
   DownloadableFilePaginator,
   ForgotPasswordUserInput,
   LoginUserInput,
-  Manufacturer,
-  ManufacturerPaginator,
-  ManufacturerQueryOptions,
   Order,
   OrderPaginator,
   OrderQueryOptions,
   OrderStatusPaginator,
-  OtpLoginInputType,
-  OTPResponse,
   PasswordChangeResponse,
   PopularProductQueryOptions,
   Product,
   ProductPaginator,
   ProductQueryOptions,
   QueryOptions,
-  Refund,
-  RefundPaginator,
   RegisterUserInput,
   ResetPasswordUserInput,
-  SendOtpCodeInputType,
   Settings,
-  Shop,
-  ShopPaginator,
-  ShopQueryOptions,
-  SocialLoginInputType,
-  TagPaginator,
-  TagQueryOptions,
   Type,
   TypeQueryOptions,
   UpdateUserInput,
   User,
   VerifiedCheckoutData,
-  VerifyCouponInputType,
-  VerifyCouponResponse,
-  VerifyForgotPasswordUserInput,
-  VerifyOtpInputType,
 } from '@/types';
 import { API_ENDPOINTS } from './api-endpoints';
 import { HttpClient } from './http-client';
-import { OTPVerifyResponse } from '@/types';
+
 
 class Client {
   products = {
@@ -63,12 +42,6 @@ class Client {
       type,
       categories,
       name,
-      shop_id,
-      author,
-      manufacturer,
-      min_price,
-      max_price,
-      tags,
       ...params
     }: Partial<ProductQueryOptions>) =>
       HttpClient.get<ProductPaginator>(API_ENDPOINTS.PRODUCTS, {
@@ -79,12 +52,7 @@ class Client {
           type,
           categories,
           name,
-          shop_id,
-          author,
-          manufacturer,
-          min_price,
-          max_price,
-          tags,
+
         }),
       }),
     popular: (params: Partial<PopularProductQueryOptions>) =>
@@ -100,50 +68,14 @@ class Client {
         ...(type && { search: HttpClient.formatSearchParams({ type }) }),
       }),
   };
-  tags = {
-    all: (params: Partial<TagQueryOptions>) =>
-      HttpClient.get<TagPaginator>(API_ENDPOINTS.TAGS, params),
-  };
+
   types = {
     all: (params?: Partial<TypeQueryOptions>) =>
       HttpClient.get<Type[]>(API_ENDPOINTS.TYPES, params),
     get: (slug: string) =>
       HttpClient.get<Type>(`${API_ENDPOINTS.TYPES}/${slug}`),
   };
-  shops = {
-    all: (params: Partial<ShopQueryOptions>) =>
-      HttpClient.get<ShopPaginator>(API_ENDPOINTS.SHOPS, params),
-    get: (slug: string) =>
-      HttpClient.get<Shop>(`${API_ENDPOINTS.SHOPS}/${slug}`),
-  };
-  authors = {
-    all: (params: Partial<AuthorQueryOptions>) =>
-      HttpClient.get<AuthorPaginator>(API_ENDPOINTS.AUTHORS, params),
-    top: (params: Pick<QueryOptions, 'limit'>) =>
-      HttpClient.get<Author[]>(API_ENDPOINTS.AUTHORS_TOP, params),
-    get: (slug: string) =>
-      HttpClient.get<Author>(`${API_ENDPOINTS.AUTHORS}/${slug}`),
-  };
-  manufacturers = {
-    all: (params: Partial<ManufacturerQueryOptions>) =>
-      HttpClient.get<ManufacturerPaginator>(
-        API_ENDPOINTS.MANUFACTURERS,
-        params
-      ),
-    top: (params: Pick<QueryOptions, 'limit'>) =>
-      HttpClient.get<Manufacturer[]>(API_ENDPOINTS.MANUFACTURERS_TOP, params),
-    get: (slug: string) =>
-      HttpClient.get<Manufacturer>(`${API_ENDPOINTS.MANUFACTURERS}/${slug}`),
-  };
-  coupons = {
-    all: (params: Partial<CouponQueryOptions>) =>
-      HttpClient.get<CouponPaginator>(API_ENDPOINTS.COUPONS, params),
-    verify: (input: VerifyCouponInputType) =>
-      HttpClient.post<VerifyCouponResponse>(
-        API_ENDPOINTS.COUPONS_VERIFY,
-        input
-      ),
-  };
+
   orders = {
     all: (params: Partial<OrderQueryOptions>) =>
       HttpClient.get<OrderPaginator>(API_ENDPOINTS.ORDERS, params),
@@ -180,14 +112,7 @@ class Client {
       HttpClient.put<User>(`${API_ENDPOINTS.USERS}/${user.id}`, user),
     login: (input: LoginUserInput) =>
       HttpClient.post<AuthResponse>(API_ENDPOINTS.USERS_LOGIN, input),
-    socialLogin: (input: SocialLoginInputType) =>
-      HttpClient.post<AuthResponse>(API_ENDPOINTS.SOCIAL_LOGIN, input),
-    sendOtpCode: (input: SendOtpCodeInputType) =>
-      HttpClient.post<OTPResponse>(API_ENDPOINTS.SEND_OTP_CODE, input),
-    verifyOtpCode: (input: VerifyOtpInputType) =>
-      HttpClient.post<OTPVerifyResponse>(API_ENDPOINTS.VERIFY_OTP_CODE, input),
-    OtpLogin: (input: OtpLoginInputType) =>
-      HttpClient.post<AuthResponse>(API_ENDPOINTS.OTP_LOGIN, input),
+
     register: (input: RegisterUserInput) =>
       HttpClient.post<AuthResponse>(API_ENDPOINTS.USERS_REGISTER, input),
     forgotPassword: (input: ForgotPasswordUserInput) =>
