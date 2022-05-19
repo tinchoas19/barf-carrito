@@ -151,6 +151,7 @@ const GroupsDropdownMenu: React.FC<GroupsDropdownMenuProps> = ({ variant }) => {
   const { homePage } = useHomepage();
   return (
     <GroupsMenu groups={types} defaultGroup={homePage} variant={variant} />
+
   );
 };
 
