@@ -85,10 +85,7 @@ class Client {
       HttpClient.post<Order>(API_ENDPOINTS.ORDERS, input),
     statuses: (params: Pick<QueryOptions, 'limit'>) =>
       HttpClient.get<OrderStatusPaginator>(API_ENDPOINTS.ORDERS_STATUS, params),
-    refunds: (params: Pick<QueryOptions, 'limit'>) =>
-      HttpClient.get<RefundPaginator>(API_ENDPOINTS.ORDERS_REFUNDS, params),
-    createRefund: (input: CreateRefundInput) =>
-      HttpClient.post<Refund>(API_ENDPOINTS.ORDERS_REFUNDS, input),
+
 
     downloadable: (query?: OrderQueryOptions) =>
       HttpClient.get<DownloadableFilePaginator>(
@@ -120,11 +117,7 @@ class Client {
         API_ENDPOINTS.USERS_FORGOT_PASSWORD,
         input
       ),
-    verifyForgotPasswordToken: (input: VerifyForgotPasswordUserInput) =>
-      HttpClient.post<PasswordChangeResponse>(
-        API_ENDPOINTS.USERS_VERIFY_FORGOT_PASSWORD_TOKEN,
-        input
-      ),
+
     resetPassword: (input: ResetPasswordUserInput) =>
       HttpClient.post<PasswordChangeResponse>(
         API_ENDPOINTS.USERS_RESET_PASSWORD,
