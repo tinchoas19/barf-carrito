@@ -74,30 +74,15 @@ export const getStaticProps: GetStaticProps<
     ({ queryKey }) => client.products.all(queryKey[1] as any)
   );
 
-  const popularProductVariables = {
-    type_slug: pageType,
-    limit: 10,
-    with: 'type;author',
-  };
 
 
-
-  const categoryVariables = {
-    type: pageType,
-    limit: CATEGORIES_PER_PAGE,
-    parent: 'all'
-  };
-  await queryClient.prefetchInfiniteQuery(
-    [API_ENDPOINTS.CATEGORIES, categoryVariables],
-    ({ queryKey }) => client.categories.all(queryKey[1] as CategoryQueryOptions)
-  );
 
   return {
     props: {
       variables: {
-        popularProducts: popularProductVariables,
+
         products: productVariables,
-        categories: categoryVariables,
+
         types: {
           type: pageType,
         },

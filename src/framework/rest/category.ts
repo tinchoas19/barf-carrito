@@ -16,7 +16,7 @@ export function useCategories(options?: Partial<CategoryQueryOptions>) {
   } = useInfiniteQuery<CategoryPaginator, Error>(
     [API_ENDPOINTS.CATEGORIES, options],
     ({ queryKey, pageParam }) =>
-      client.categories.all(Object.assign({}, queryKey[1], pageParam)),
+      client.products.all(Object.assign({}, queryKey[1], pageParam)),
     {
       getNextPageParam: ({ current_page }) => ({ page: current_page + 1 }),
     }

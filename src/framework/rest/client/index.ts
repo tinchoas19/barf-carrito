@@ -60,14 +60,7 @@ class Client {
     get: (slug: string) =>
       HttpClient.get<Product>(`${API_ENDPOINTS.PRODUCTS}/${slug}`),
   };
-  categories = {
-    all: ({ type, ...params }: Partial<CategoryQueryOptions>) =>
-      HttpClient.get<CategoryPaginator>(API_ENDPOINTS.CATEGORIES, {
-        searchJoin: 'and',
-        ...params,
-        ...(type && { search: HttpClient.formatSearchParams({ type }) }),
-      }),
-  };
+
 
   types = {
     all: (params?: Partial<TypeQueryOptions>) =>
