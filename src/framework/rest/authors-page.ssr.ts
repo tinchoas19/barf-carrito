@@ -17,10 +17,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     [API_ENDPOINTS.TYPES, { limit: TYPES_PER_PAGE }],
     ({ queryKey }) => client.types.all(queryKey[1] as TypeQueryOptions)
   );
-  await queryClient.prefetchInfiniteQuery(
-    [API_ENDPOINTS.AUTHORS, { limit: 30 }],
-    ({ queryKey }) => client.authors.all(queryKey[1] as any)
-  );
   return {
     props: {
       ...(await serverSideTranslations(locale!, ['common', 'banner'])),
