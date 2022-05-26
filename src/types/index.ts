@@ -102,6 +102,10 @@ export interface TypeQueryOptions extends QueryOptions {
   orderBy: string;
 }
 
+export interface ForgotPasswordUserInput {
+  email: string;
+}
+
 export interface ShopQueryOptions extends QueryOptions {
   name: string;
   is_active: number;

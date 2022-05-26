@@ -1,6 +1,6 @@
 import { useTranslation } from 'next-i18next';
 import { useModalState } from '@/components/ui/modal/modal.context';
-import OtpForm from '@/components/otp/otp-form';
+
 import { useUpdateUser } from '@/framework/user';
 
 const ProfileAddOrUpdateContact = () => {
@@ -16,10 +16,10 @@ const ProfileAddOrUpdateContact = () => {
     }
     updateProfile({
       id: customerId,
-      profile: {
-        id: profileId,
-        contact: phone_number,
-      },
+      // profile: {
+      //   id: profileId,
+      //   contact: phone_number,
+      // },
     });
   }
 
@@ -36,7 +36,7 @@ const ProfileAddOrUpdateContact = () => {
         {contact ? t('text-update') : t('text-add-new')}{' '}
         {t('text-contact-number')}
       </h1>
-      <OtpForm phoneNumber={contact} onVerifySuccess={onContactUpdate} />
+
     </div>
   );
 };

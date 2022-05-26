@@ -30,9 +30,7 @@ const AddOrUpdateCheckoutContact = dynamic(
 const ProfileAddOrUpdateContact = dynamic(
   () => import('@/components/profile/profile-add-or-update-contact')
 );
-const CreateRefundView = dynamic(
-  () => import('@/components/refunds/refund-form')
-);
+
 
 const ManagedModal = () => {
   const { isOpen, view, data } = useModalState();
