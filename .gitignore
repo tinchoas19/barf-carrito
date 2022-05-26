@@ -12,6 +12,7 @@
 /.next/
 /out/
 Archive.zip
+package-lock.json
 
 # production
 /build
