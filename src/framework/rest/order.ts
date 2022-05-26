@@ -24,7 +24,7 @@ import { ROUTES } from '@/lib/routes';
 import { mapPaginatorData } from '@/framework/utils/data-mappers';
 
 export function useOrders(options?: Partial<OrderQueryOptions>) {
-  console.log("options", options);
+
 
   const {
     data,

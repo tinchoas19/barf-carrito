@@ -10,10 +10,10 @@ import { useOrders } from '@/framework/order';
 export default function Orders() {
   const { orders, isLoading, error, hasMore, loadMore, isLoadingMore } =
     useOrders();
-  console.log("orders", orders);
+
   const [order, setOrder] = useState<any>({});
   useEffect(() => {
-    console.log("orders");
+
     if (orders.length) {
       setOrder(orders[0]);
     }
