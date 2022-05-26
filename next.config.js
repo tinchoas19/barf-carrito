@@ -19,23 +19,6 @@ const nextConfig = {
       'i.pravatar.cc',
     ],
   },
-  ...(process.env.FRAMEWORK_PROVIDER === 'graphql' && {
-    webpack(config, options) {
-      config.module.rules.push({
-        test: /\.graphql$/,
-        exclude: /node_modules/,
-        use: [options.defaultLoaders.babel, { loader: 'graphql-let/loader' }],
-      });
-
-      config.module.rules.push({
-        test: /\.ya?ml$/,
-        type: 'json',
-        use: 'yaml-loader',
-      });
-
-      return config;
-    },
-  }),
   ...(process.env.NODE_ENV === 'production' && {
     typescript: {
       ignoreBuildErrors: true,
@@ -45,5 +28,6 @@ const nextConfig = {
     },
   }),
 };
+
 
 module.exports = withPWA(nextConfig);
