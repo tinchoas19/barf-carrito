@@ -5,8 +5,9 @@ import Cookies from 'js-cookie';
 import Router from "next/router";
 
 const Axios = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_CRM_API_ENDPOINT,
-  timeout: 5000,
+  baseURL: process.env.NEXT_PUBLIC_REST_API_ENDPOINT,
+  //baseURL: process.env.NEXT_PUBLIC_CRM_API_ENDPOINT,
+  timeout: 500000,
   headers: {
     'Content-Type': 'application/json',
   },

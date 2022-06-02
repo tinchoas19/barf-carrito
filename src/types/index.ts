@@ -210,17 +210,14 @@ export interface Order {
 
 
 export interface Address {
-  id: string;
-  title: string;
-  type: any;
-  address: {
-    __typename?: string;
-    country: string;
-    city: string;
-    state: string;
-    zip: string;
-    street_address: string;
-  };
+  id?: string;
+  street_address: string;
+  street_number: number;
+  cityid: number;
+  bell: string;
+  note: string;
+  wtd: number;
+  wtd_note: string;
 }
 
 export interface User {
@@ -262,6 +259,7 @@ export interface ResetPasswordUserInput {
 
 
 export interface ChangePasswordUserInput {
+  userId: string;
   oldPassword: string;
   newPassword: string;
 }

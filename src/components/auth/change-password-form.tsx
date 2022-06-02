@@ -23,10 +23,11 @@ export default function ChangePasswordForm() {
     formError,
   } = useChangePassword();
 
-  function onSubmit({ newPassword, oldPassword }: ChangePasswordUserInput) {
+  function onSubmit({ newPassword, oldPassword, userId }: ChangePasswordUserInput) {
     changePassword({
       oldPassword,
       newPassword,
+      userId
     });
   }
 
