@@ -5,12 +5,14 @@ interface AddressHeaderProps {
   count: number | boolean;
   label: string;
   onAdd: () => void;
+  isContact?: boolean | null;
 }
 
 export const AddressHeader: React.FC<AddressHeaderProps> = ({
   onAdd,
   count,
   label,
+  isContact
 }) => {
   const { t } = useTranslation('common');
   return (
@@ -29,7 +31,8 @@ export const AddressHeader: React.FC<AddressHeaderProps> = ({
           onClick={onAdd}
         >
           <PlusIcon className="w-4 h-4 stroke-2 ltr:mr-0.5 rtl:ml-0.5" />
-          {t('text-add')}
+          {/* TODO crear texto "MODIFICAR" */}
+          {!isContact ? t('text-add') : 'Modificar'}
         </button>
       )}
     </div>

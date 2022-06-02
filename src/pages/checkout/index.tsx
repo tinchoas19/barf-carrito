@@ -14,9 +14,9 @@ const AddressGrid = dynamic(
   () => import('@/components/checkout/address-grid'),
   { ssr: false }
 );
-const ContactGrid = dynamic(
+/*  const ContactGrid = dynamic(
   () => import('@/components/checkout/contact/contact-grid')
-);
+);  */
 const InputGrid = dynamic(
   () => import('@/components/checkout/contact/input-grid')
 );
@@ -28,7 +28,7 @@ const RightSideView = dynamic(
 export default function CheckoutPage() {
   const { t } = useTranslation();
   const { me } = useUser();
-  const { id, address, profile } = me ?? {};
+  const { id, address, contact, email } = me ?? {};
   return (
     <>
       <Seo noindex={true} nofollow={true} />
@@ -37,7 +37,7 @@ export default function CheckoutPage() {
           <div className="w-full space-y-6 lg:max-w-2xl">
             <InputGrid
               className="p-5 bg-light shadow-700 md:p-8"
-              contact={profile?.contact}
+              contact={contact}
               label={t('text-contact-number')}
               count={1}
             />
