@@ -111,7 +111,8 @@ export function useLogin() {
 
   const { mutate, isLoading } = useMutation(client.users.login, {
     onSuccess: (data) => {
-      if (data.token) {
+      // data.token
+      if (false) {
         setServerError('error-credential-wrong');
         return;
       }
