@@ -81,19 +81,15 @@ export default function CheckoutPage() {
                 />
             }
             {data.withdral?.title === 'Retiro' &&
-            <AddressGrid
-            userId={me?.id!}
-              className="p-5 bg-light shadow-700 md:p-8"
-              label={t('Direccion de retiro')}
-              count={3}
-              //@ts-ignore
-              addresses={address?.filter(
-                (item) => item?.type === AddressType.Shipping
-              )}
-              atom={shippingAddressAtom}
-              type={AddressType.Shipping}
-            />
+            <InputGrid
+            className="p-5 bg-light shadow-700 md:p-8"
+            contact={'INFO DE ADDRESS'}
+            label={t('text-retirement-address')}
+            count={3}
+            type='data'
+          />
             }
+            
             {
               data.withdral?.title && (<ScheduleGrid
                 className="p-5 bg-light shadow-700 md:p-8"

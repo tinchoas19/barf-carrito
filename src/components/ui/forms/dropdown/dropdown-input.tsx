@@ -1,6 +1,5 @@
 import cn from 'classnames';
 import React, { InputHTMLAttributes } from 'react';
-import styles from './dropdown-input.module.css';
 
 export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
@@ -13,6 +12,7 @@ export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   variant?: 'normal' | 'solid' | 'outline' | 'line';
   dimension?: 'small' | 'medium' | 'big';
   options: string[];
+  onChange?: Function;
 }
 
 const variantClasses = {
@@ -45,6 +45,7 @@ const DropDownInput = React.forwardRef<HTMLInputElement, Props>(
       type = 'text',
       inputClassName,
       options,
+      onChange,
       ...rest
     }
   ) => {
@@ -63,13 +64,14 @@ const DropDownInput = React.forwardRef<HTMLInputElement, Props>(
           id={name}
           name={name}
           className={cn(
-            'flex w-full appearance-none items-center px-4 text-sm text-heading transition duration-300 ease-in-out focus:outline-none focus:ring-0' + ' ' + styles.selectInput,
+            'flex w-full appearance-none items-center px-4 text-sm text-heading transition duration-300 ease-in-out focus:outline-none focus:ring-0',
             shadow && 'focus:shadow',
             variantClasses[variant],
             sizeClasses[dimension],
             disabled && 'cursor-not-allowed bg-gray-100',
             inputClassName
           )}
+          onChange={(e) => { onChange && onChange(e.target.value)}}
           disabled={disabled}
           autoComplete="off"
           autoCorrect="off"

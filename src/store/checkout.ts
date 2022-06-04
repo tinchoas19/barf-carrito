@@ -30,14 +30,14 @@ export const defaultCheckout: CheckoutState = {
   billing_address: null,
   shipping_address: null,
   delivery_time: null,
-  payment_gateway: 'STRIPE',
+  payment_gateway: '',
   customer_contact: '',
   verified_response: null,
   coupon: null,
   payable_amount: 0,
   use_wallet: false,
 };
-export type PaymentMethodName = 'CASH_ON_DELIVERY' | 'STRIPE';
+export type PaymentMethodName = 'CASH_ON_DELIVERY' | 'STRIPE' | '' ;
 
 // Original atom.
 export const checkoutAtom = atomWithStorage(CHECKOUT, defaultCheckout);

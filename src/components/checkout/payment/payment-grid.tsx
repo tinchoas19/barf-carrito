@@ -1,6 +1,6 @@
 import { RadioGroup } from '@headlessui/react';
 import { useTranslation } from 'next-i18next';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Alert from '@/components/ui/alert';
 //import StripePayment from '@/components/checkout/payment/stripe';
 //import CashOnDelivery from '@/components/checkout/payment/cash-on-delivery';
@@ -21,6 +21,12 @@ const AVAILABLE_PAYMENT_METHODS_MAP: Record<
   PaymentMethodName,
   PaymentMethodInformation
 > = {
+  ['']: {
+    name: '',
+    value: '',
+    icon: '',
+    //component: CashOnDelivery,
+  },
   STRIPE: {
     name: 'Transferencia',
     value: 'STRIPE',
@@ -33,6 +39,8 @@ const AVAILABLE_PAYMENT_METHODS_MAP: Record<
     icon: '',
     //component: CashOnDelivery,
   },
+  
+  
 };
 
 const PaymentGrid: React.FC<{ className?: string; theme?: 'bw' }> = ({
@@ -44,6 +52,10 @@ const PaymentGrid: React.FC<{ className?: string; theme?: 'bw' }> = ({
   const { t } = useTranslation('common');
   //const PaymentMethod = AVAILABLE_PAYMENT_METHODS_MAP[gateway];
   //const Component = PaymentMethod?.component ?? StripePayment;
+  useEffect(() => {
+
+  },[])
+  
   return (
     <div className={className}>
       {errorMessage ? (
@@ -64,7 +76,7 @@ const PaymentGrid: React.FC<{ className?: string; theme?: 'bw' }> = ({
         <div className="grid gap-4 grid-cols-2 md:grid-cols-3 mb-8">
           {Object.values(AVAILABLE_PAYMENT_METHODS_MAP).map(
             ({ name, icon, value }) => (
-              <RadioGroup.Option value={value} key={value}>
+              value.length > 0 && <RadioGroup.Option value={value} key={value}>
                 {({ checked }) => (
                   <div
                     className={cn(
