@@ -142,6 +142,15 @@ export const AddressForm: React.FC<any> = ({
             className="col-span-2"
           />
 
+          <DropDownInput
+            label={t('text-address-wtd')}
+            {...register('title')}
+            error={t(errors.title?.message!)}
+            variant="outline"
+            className="col-span-2"
+            options={['1','2']}
+          />
+
           <TextArea
             label={t('text-address-wtd')}
             {...register('address.street_address')}
