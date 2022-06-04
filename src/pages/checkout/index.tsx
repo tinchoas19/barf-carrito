@@ -60,7 +60,7 @@ export default function CheckoutPage() {
             />
             <CheckboxGrid
             className="p-5 bg-light shadow-700 md:p-8"
-            label={t('Metodo de entrega')}
+            label={t('text-delivery-method')}
             data={withdrawals}
             count={2}
             callback={handleData}

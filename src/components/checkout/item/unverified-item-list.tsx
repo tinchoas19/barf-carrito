@@ -64,7 +64,7 @@ const UnverifiedItemList = ({ hideTitle = false }: { hideTitle?: boolean }) => {
               count={null}
               data={bankData}
             />
-      <SendButton label='Enviar Pedido' callback={handleSubmit} />
+      <SendButton label={t('text-send-button')} callback={handleSubmit} />
     </div>
   );
 };
