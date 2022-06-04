@@ -7,6 +7,7 @@ import { ItemInfoRow } from './item-info-row';
 import { CheckAvailabilityAction } from '@/components/checkout/check-availability-action';
 import PaymentGrid from '../payment/payment-grid';
 import InputGrid from '../contact/input-grid';
+import { SendButton } from '../send-button';
 
 const UnverifiedItemList = ({ hideTitle = false }: { hideTitle?: boolean }) => {
   const { t } = useTranslation('common');
@@ -18,6 +19,11 @@ const UnverifiedItemList = ({ hideTitle = false }: { hideTitle?: boolean }) => {
     }
   );
   const bankData : string[] = ['nombre', 'BANCO BLA BLA BAL', '712983192971283'];
+
+  function handleSubmit() {
+
+  }
+
   return (
     <div className="w-full">
       {!hideTitle && (
@@ -58,9 +64,7 @@ const UnverifiedItemList = ({ hideTitle = false }: { hideTitle?: boolean }) => {
               count={null}
               data={bankData}
             />
-      <CheckAvailabilityAction>
-        {t('text-check-availability')}
-      </CheckAvailabilityAction>
+      <SendButton label='Enviar Pedido' callback={handleSubmit} />
     </div>
   );
 };
