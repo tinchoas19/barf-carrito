@@ -44,7 +44,6 @@ export default function CheckoutPage() {
 
   function handleData(newData:{}) {
     setData({...data, ...newData})
-    console.log(data)
   }
   return (
     <>
@@ -57,6 +56,7 @@ export default function CheckoutPage() {
               contact={contact}
               label={t('text-contact-number')}
               count={1}
+              type='contact'
             />
             <CheckboxGrid
             className="p-5 bg-light shadow-700 md:p-8"

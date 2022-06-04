@@ -5,6 +5,8 @@ import EmptyCartIcon from '@/components/icons/empty-cart';
 import usePrice from '@/lib/use-price';
 import { ItemInfoRow } from './item-info-row';
 import { CheckAvailabilityAction } from '@/components/checkout/check-availability-action';
+import PaymentGrid from '../payment/payment-grid';
+import InputGrid from '../contact/input-grid';
 
 const UnverifiedItemList = ({ hideTitle = false }: { hideTitle?: boolean }) => {
   const { t } = useTranslation('common');
@@ -15,6 +17,7 @@ const UnverifiedItemList = ({ hideTitle = false }: { hideTitle?: boolean }) => {
       amount: total,
     }
   );
+  const bankData : string[] = ['nombre', 'BANCO BLA BLA BAL', '712983192971283'];
   return (
     <div className="w-full">
       {!hideTitle && (
@@ -46,7 +49,15 @@ const UnverifiedItemList = ({ hideTitle = false }: { hideTitle?: boolean }) => {
           title={t('text-estimated-shipping')}
           value={t('text-calculated-checkout')}
         />
+        <PaymentGrid/>
       </div>
+      <InputGrid
+              className="p-5 bg-light shadow-700 md:p-8"
+              label={'Datos Bancarios'}
+              type='data'
+              count={null}
+              data={bankData}
+            />
       <CheckAvailabilityAction>
         {t('text-check-availability')}
       </CheckAvailabilityAction>

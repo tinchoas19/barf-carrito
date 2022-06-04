@@ -2,17 +2,19 @@ import { PlusIcon } from '@/components/icons/plus-icon';
 import { useTranslation } from 'next-i18next';
 
 interface AddressHeaderProps {
-  count: number | boolean;
+  count: number | boolean | null;
   label: string;
-  onAdd: () => void;
+  onAdd?: () => void;
   isContact?: boolean | null;
+  type?: string;
 }
 
 export const AddressHeader: React.FC<AddressHeaderProps> = ({
   onAdd,
   count,
   label,
-  isContact
+  isContact,
+  type
 }) => {
   const { t } = useTranslation('common');
   return (
@@ -32,7 +34,8 @@ export const AddressHeader: React.FC<AddressHeaderProps> = ({
         >
           <PlusIcon className="w-4 h-4 stroke-2 ltr:mr-0.5 rtl:ml-0.5" />
           {/* TODO crear texto "MODIFICAR" */}
-          {!isContact ? t('text-add') : 'Modificar'}
+          {!type && t('text-add')}
+          {type === 'contact' && 'Modificar'}
         </button>
       )}
     </div>
