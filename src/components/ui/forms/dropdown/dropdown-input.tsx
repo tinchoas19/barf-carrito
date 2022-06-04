@@ -1,5 +1,6 @@
 import cn from 'classnames';
 import React, { InputHTMLAttributes } from 'react';
+import styles from './dropdown-input.module.css';
 
 export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
@@ -49,7 +50,7 @@ const DropDownInput = React.forwardRef<HTMLInputElement, Props>(
   ) => {
 
     return (
-      <div className={className}>
+      <div className={className} >
         {label && (
           <label
             htmlFor={name}
@@ -62,7 +63,7 @@ const DropDownInput = React.forwardRef<HTMLInputElement, Props>(
           id={name}
           name={name}
           className={cn(
-            'flex w-full appearance-none items-center px-4 text-sm text-heading transition duration-300 ease-in-out focus:outline-none focus:ring-0',
+            'flex w-full appearance-none items-center px-4 text-sm text-heading transition duration-300 ease-in-out focus:outline-none focus:ring-0' + ' ' + styles.selectInput,
             shadow && 'focus:shadow',
             variantClasses[variant],
             sizeClasses[dimension],
@@ -77,7 +78,7 @@ const DropDownInput = React.forwardRef<HTMLInputElement, Props>(
           aria-invalid={error ? 'true' : 'false'}
           {...rest}
         >
-          <option value=''> </option>
+          <option value='' ></option>
           {options && options.map(option => {
             return (
               <option key={option} value={option}>{option}</option>
