@@ -5,6 +5,7 @@ import { getLayout } from '@/components/layouts/layout';
 import { AddressType } from '@/framework/utils/constants';
 import Seo from '@/components/seo/seo';
 import { useUser } from '@/framework/user';
+import { useState } from 'react';
 export { getStaticProps } from '@/framework/general.ssr';
 
 const ScheduleGrid = dynamic(
@@ -24,11 +25,27 @@ const RightSideView = dynamic(
   () => import('@/components/checkout/right-side-view'),
   { ssr: false }
 );
+const CheckboxGrid = dynamic(
+  () => import('@/components/checkout/checkbox/checkbox-grid')
+)
 
 export default function CheckoutPage() {
   const { t } = useTranslation();
   const { me } = useUser();
   const { id, address, contact, email } = me ?? {};
+
+  const withdrawals = [
+    {title: 'Retiro', description: 'Description'},
+    {title: 'Envio', description: 'Description'},
+  ];
+  const [data, setData] = useState({
+    withdral: {}
+  })
+
+  function handleData(newData:{}) {
+    setData({...data, ...newData})
+    console.log(data)
+  }
   return (
     <>
       <Seo noindex={true} nofollow={true} />
@@ -41,23 +58,33 @@ export default function CheckoutPage() {
               label={t('text-contact-number')}
               count={1}
             />
-
-            <AddressGrid
+            <CheckboxGrid
+            className="p-5 bg-light shadow-700 md:p-8"
+            label={t('Metodo de entrega')}
+            data={withdrawals}
+            count={2}
+            callback={handleData}
+            type='withdral'
+            />
+            {data.withdral?.title === 'Envio' && 
+              <AddressGrid
               userId={id!}
               className="p-5 bg-light shadow-700 md:p-8"
-              label={t('text-billing-address')}
-              count={2}
+              label={t('text-shipping-address')}
+              count={3}
               //@ts-ignore
               addresses={address?.filter(
                 (item) => item?.type === AddressType.Billing
-              )}
-              atom={billingAddressAtom}
-              type={AddressType.Billing}
-            />
+                )}
+                atom={billingAddressAtom}
+                type={AddressType.Billing}
+                />
+            }
+            {data.withdral?.title === 'Retiro' &&
             <AddressGrid
-              userId={me?.id!}
+            userId={me?.id!}
               className="p-5 bg-light shadow-700 md:p-8"
-              label={t('text-shipping-address')}
+              label={t('Direccion de retiro')}
               count={3}
               //@ts-ignore
               addresses={address?.filter(
@@ -66,11 +93,14 @@ export default function CheckoutPage() {
               atom={shippingAddressAtom}
               type={AddressType.Shipping}
             />
-            <ScheduleGrid
-              className="p-5 bg-light shadow-700 md:p-8"
-              label={t('text-delivery-schedule')}
-              count={4}
-            />
+            }
+            {
+              data.withdral?.title && (<ScheduleGrid
+                className="p-5 bg-light shadow-700 md:p-8"
+                label={t('text-delivery-schedule')}
+                count={4}
+                />)
+            }
           </div>
           <div className="w-full mt-10 mb-10 sm:mb-12 lg:mb-0 lg:w-96">
             <RightSideView />
