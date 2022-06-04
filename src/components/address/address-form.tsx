@@ -9,6 +9,8 @@ import { useModalState } from '@/components/ui/modal/modal.context';
 import { Form } from '@/components/ui/forms/form';
 import { AddressType } from '@/framework/utils/constants';
 import { useUpdateUser } from '@/framework/user';
+import DropDownInput from '../ui/forms/dropdown/dropdown-input';
+import { useEffect, useState } from 'react';
 
 
 type FormValues = {
@@ -78,8 +80,6 @@ export const AddressForm: React.FC<any> = ({
               />
             </div>
           </div> */}
-
-
           <Input
             label={t('text-address')}
             {...register('address.country')}
@@ -94,20 +94,36 @@ export const AddressForm: React.FC<any> = ({
             variant="outline"
           />
 
-          <Input
+          {/* <Input
             label={t('text-address-zone')}
             {...register('title')}
             error={t(errors.title?.message!)}
             variant="outline"
             className="col-span-2"
-          />
-
+          /> 
 
           <Input
             label={t('text-address-location')}
             {...register('address.state')}
             error={t(errors.address?.state?.message!)}
             variant="outline"
+          /> */}
+
+          <DropDownInput
+            label={t('text-address-zone')}
+            {...register('title')}
+            error={t(errors.title?.message!)}
+            variant="outline"
+            className="col-span-2"
+            options={['1','2']}
+          />
+
+          <DropDownInput
+            label={t('text-address-location')}
+            {...register('address.state')}
+            error={t(errors.address?.state?.message!)}
+            variant="outline"
+            options={['1','2']}
           />
 
           <Input
