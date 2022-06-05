@@ -6,6 +6,7 @@ import { AddressType } from '@/framework/utils/constants';
 import Seo from '@/components/seo/seo';
 import { useUser } from '@/framework/user';
 import { useState } from 'react';
+import { useSettings } from '@/framework/settings';
 export { getStaticProps } from '@/framework/general.ssr';
 
 const ScheduleGrid = dynamic(
@@ -33,18 +34,16 @@ export default function CheckoutPage() {
   const { t } = useTranslation();
   const { me } = useUser();
   const { id, address, contact, email } = me ?? {};
+  const {settings: { pickupAddress}} = useSettings()
 
-  const withdrawals = [
-    {title: 'Retiro', description: 'Description'},
-    {title: 'Envio', description: 'Description'},
-  ];
-  const [data, setData] = useState({
+ 
+   const [data, setData] = useState({
     withdral: {title:''}
   })
 
   function handleData(newData:{}) {
     setData({...data, ...newData})
-  }
+  } 
   return (
     <>
       <Seo noindex={true} nofollow={true} />
@@ -61,7 +60,8 @@ export default function CheckoutPage() {
             <CheckboxGrid
             className="p-5 bg-light shadow-700 md:p-8"
             label={t('text-delivery-method')}
-            data={withdrawals}
+            isWithdrawal={true}
+            data={[]}
             count={2}
             callback={handleData}
             type='withdral'
@@ -83,7 +83,7 @@ export default function CheckoutPage() {
             {data.withdral?.title === 'Retiro' &&
             <InputGrid
             className="p-5 bg-light shadow-700 md:p-8"
-            contact={'INFO DE ADDRESS'}
+            data={pickupAddress}
             label={t('text-retirement-address')}
             count={3}
             type='data'

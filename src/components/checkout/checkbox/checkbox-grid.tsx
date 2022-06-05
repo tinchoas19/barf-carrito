@@ -11,9 +11,10 @@ interface ScheduleProps {
   label: string;
   className?: string;
   count?: number;
-  callback: Function;
+  callback?: Function;
   data: any[]
   type: string
+  isWithdrawal?:boolean;
 }
 
 export const CheckboxGrid: React.FC<ScheduleProps> = ({
@@ -21,19 +22,21 @@ export const CheckboxGrid: React.FC<ScheduleProps> = ({
   className,
   count,
   callback,
-  data,
-  type
+  data : dataProps,
+  type,
+  isWithdrawal
 }) => {
-  const { t } = useTranslation('common');
   /* const {
     settings: { deliveryTime: schedules },
   } = useSettings(); */
-  // TODO conectar con la api 
-
+  const { t } = useTranslation('common');
+  const {settings : {withdrawals}} = useSettings()
+  const data  = isWithdrawal ? withdrawals:dataProps
   const [selectedData, setSelectedData] = useState({title: '', description: ''});
 
+
   useEffect(() => {
-    callback({[type]: selectedData})
+    if (callback) callback({[type]: selectedData})
   },[selectedData])
   
   return (

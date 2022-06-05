@@ -8,18 +8,19 @@ import { CheckAvailabilityAction } from '@/components/checkout/check-availabilit
 import PaymentGrid from '../payment/payment-grid';
 import InputGrid from '../contact/input-grid';
 import { SendButton } from '../send-button';
+import { useSettings } from '@/framework/settings';
 
 const UnverifiedItemList = ({ hideTitle = false }: { hideTitle?: boolean }) => {
   const { t } = useTranslation('common');
   const { items, total, isEmpty } = useCart();
+  const { settings: {bankData}}  = useSettings()
   console.log('isEmpty:', isEmpty);
   const { price: subtotal } = usePrice(
     items && {
       amount: total,
     }
   );
-  const bankData : string[] = ['nombre', 'BANCO BLA BLA BAL', '712983192971283'];
-
+  
   function handleSubmit() {
 
   }

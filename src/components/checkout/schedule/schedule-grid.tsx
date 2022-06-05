@@ -26,10 +26,7 @@ export const ScheduleGrid: React.FC<ScheduleProps> = ({
   const schedules = isPickup ? pickup : deliveryTime
 
   const [selectedSchedule, setSchedule] = useAtom(deliveryTimeAtom);
-  useEffect(() => {
-    // if (isPickup) setSchedules(pickup)
-    setSchedule(schedules[0]);
-  }, []);
+
   return (
     <div className={className}>
       <div className="mb-5 flex items-center justify-between md:mb-8">
