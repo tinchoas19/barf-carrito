@@ -2,7 +2,7 @@ import { RadioGroup } from '@headlessui/react';
 import { useAtom } from 'jotai';
 import ScheduleCard from './schedule-card';
 import { deliveryTimeAtom } from '@/store/checkout';
-import { useEffect } from 'react';
+import { useEffect} from 'react';
 import { useTranslation } from 'next-i18next';
 import { useSettings } from '@/framework/settings';
 
@@ -10,20 +10,24 @@ interface ScheduleProps {
   label: string;
   className?: string;
   count?: number;
+  isPickup?: boolean;
 }
 
 export const ScheduleGrid: React.FC<ScheduleProps> = ({
   label,
   className,
   count,
+  isPickup
 }) => {
   const { t } = useTranslation('common');
   const {
-    settings: { deliveryTime: schedules },
+    settings: { deliveryTime: deliveryTime, pickupTime: pickup },
   } = useSettings();
+  const schedules = isPickup ? pickup : deliveryTime
 
   const [selectedSchedule, setSchedule] = useAtom(deliveryTimeAtom);
   useEffect(() => {
+    // if (isPickup) setSchedules(pickup)
     setSchedule(schedules[0]);
   }, []);
   return (

@@ -59,7 +59,7 @@ export const AddressForm: React.FC<any> = ({
 }) => {
   const { t } = useTranslation('common');
 
-  const {settings: { zones, cities }} = useSettings()
+  const {settings: { zones, cities, wtd }} = useSettings()
 
   const [selectedZone, setSelectedZone] = useState('')
   const [citiesToShow, setCitiesToShow] = useState([])
@@ -178,7 +178,7 @@ export const AddressForm: React.FC<any> = ({
             error={t(errors.address?.wtd?.message!)}
             variant="outline"
             className="col-span-2"
-            options={['1','2']}
+            options={wtd}
           />
 
           <TextArea

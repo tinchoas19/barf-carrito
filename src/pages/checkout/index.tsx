@@ -39,7 +39,7 @@ export default function CheckoutPage() {
     {title: 'Envio', description: 'Description'},
   ];
   const [data, setData] = useState({
-    withdral: {}
+    withdral: {title:''}
   })
 
   function handleData(newData:{}) {
@@ -90,12 +90,20 @@ export default function CheckoutPage() {
           />
             }
             
-            {
-              data.withdral?.title && (<ScheduleGrid
-                className="p-5 bg-light shadow-700 md:p-8"
-                label={t('text-delivery-schedule')}
-                count={4}
-                />)
+            {data.withdral?.title === 'Retiro' 
+              && <ScheduleGrid
+              className="p-5 bg-light shadow-700 md:p-8"
+              label={t('text-delivery-schedule')}
+              count={4}
+              isPickup={true}
+              /> }
+              
+            {data.withdral?.title === 'Envio' 
+            && <ScheduleGrid
+              className="p-5 bg-light shadow-700 md:p-8"
+              label={t('text-delivery-schedule')}
+              count={4}
+              />
             }
           </div>
           <div className="w-full mt-10 mb-10 sm:mb-12 lg:mb-0 lg:w-96">

@@ -21,12 +21,6 @@ const AVAILABLE_PAYMENT_METHODS_MAP: Record<
   PaymentMethodName,
   PaymentMethodInformation
 > = {
-  ['']: {
-    name: '',
-    value: '',
-    icon: '',
-    //component: CashOnDelivery,
-  },
   STRIPE: {
     name: 'Transferencia',
     value: 'STRIPE',
