@@ -9,6 +9,7 @@ import PaymentGrid from '../payment/payment-grid';
 import InputGrid from '../contact/input-grid';
 import { SendButton } from '../send-button';
 import { useSettings } from '@/framework/settings';
+import { useState } from 'react';
 
 const UnverifiedItemList = ({ hideTitle = false }: { hideTitle?: boolean }) => {
   const { t } = useTranslation('common');
@@ -23,6 +24,11 @@ const UnverifiedItemList = ({ hideTitle = false }: { hideTitle?: boolean }) => {
   
   function handleSubmit() {
 
+  }
+
+  const [selectedPayment, setSelectedPayment] = useState('')
+  function getPaymentValue(value:string) {
+    setSelectedPayment(value)
   }
 
   return (
@@ -56,15 +62,17 @@ const UnverifiedItemList = ({ hideTitle = false }: { hideTitle?: boolean }) => {
           title={t('text-estimated-shipping')}
           value={t('text-calculated-checkout')}
         />
-        <PaymentGrid/>
+        <PaymentGrid getValue={getPaymentValue}/>
       </div>
-      <InputGrid
-              className="p-5 bg-light shadow-700 md:p-8"
-              label={'Datos Bancarios'}
-              type='data'
-              count={null}
-              data={bankData}
-            />
+      {selectedPayment === 'STRIPE' && 
+        <InputGrid
+        className="p-5 bg-light shadow-700 md:p-8"
+        label={'Datos Bancarios'}
+        type='data'
+        count={null}
+        data={bankData}
+        />
+      }
       <SendButton label={t('text-send-button')} callback={handleSubmit} />
     </div>
   );

@@ -66,7 +66,28 @@ export default function CheckoutPage() {
             callback={handleData}
             type='withdral'
             />
+            {data.withdral?.title === '' &&
+            <>
+            <InputGrid
+            className="p-5 bg-light shadow-700 md:p-8"
+            data={[t('text-select-withdrawal-option')]}
+            label={t('text-address')}
+            count={3}
+            type='data'
+            isDisabled={true}
+          />
+          <InputGrid
+            className="p-5 bg-light shadow-700 md:p-8"
+            data={[t('text-select-withdrawal-option')]}
+            label={t('text-schedule')}
+            count={4}
+            type='data'
+            isDisabled={true}
+          />
+            </>
+            }
             {data.withdral?.title === 'Envio' && 
+            <>
               <AddressGrid
               userId={id!}
               className="p-5 bg-light shadow-700 md:p-8"
@@ -79,8 +100,15 @@ export default function CheckoutPage() {
                 atom={billingAddressAtom}
                 type={AddressType.Billing}
                 />
+                <ScheduleGrid
+              className="p-5 bg-light shadow-700 md:p-8"
+              label={t('text-delivery-schedule')}
+              count={4}
+              />
+            </>
             }
             {data.withdral?.title === 'Retiro' &&
+            <>
             <InputGrid
             className="p-5 bg-light shadow-700 md:p-8"
             data={pickupAddress}
@@ -88,23 +116,15 @@ export default function CheckoutPage() {
             count={3}
             type='data'
           />
-            }
-            
-            {data.withdral?.title === 'Retiro' 
-              && <ScheduleGrid
+          <ScheduleGrid
               className="p-5 bg-light shadow-700 md:p-8"
-              label={t('text-delivery-schedule')}
+              label={t('text-pickup-schedule')}
               count={4}
               isPickup={true}
-              /> }
-              
-            {data.withdral?.title === 'Envio' 
-            && <ScheduleGrid
-              className="p-5 bg-light shadow-700 md:p-8"
-              label={t('text-delivery-schedule')}
-              count={4}
               />
+            </>
             }
+
           </div>
           <div className="w-full mt-10 mb-10 sm:mb-12 lg:mb-0 lg:w-96">
             <RightSideView />

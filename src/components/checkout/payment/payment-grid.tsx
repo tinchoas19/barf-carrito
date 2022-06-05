@@ -37,9 +37,10 @@ const AVAILABLE_PAYMENT_METHODS_MAP: Record<
   
 };
 
-const PaymentGrid: React.FC<{ className?: string; theme?: 'bw' }> = ({
+const PaymentGrid: React.FC<{ className?: string; theme?: 'bw'; getValue?:Function; }> = ({
   className,
   theme,
+  getValue
 }) => {
   const [gateway, setGateway] = useAtom<PaymentMethodName>(paymentGatewayAtom);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -47,8 +48,12 @@ const PaymentGrid: React.FC<{ className?: string; theme?: 'bw' }> = ({
   //const PaymentMethod = AVAILABLE_PAYMENT_METHODS_MAP[gateway];
   //const Component = PaymentMethod?.component ?? StripePayment;
   useEffect(() => {
-
+    setGateway('')
   },[])
+
+  useEffect(() => {
+    getValue && getValue(gateway)
+  },[gateway])
   
   return (
     <div className={className}>
