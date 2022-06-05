@@ -36,24 +36,22 @@ type FormValues = {
 };
 
 const addressSchema = yup.object().shape({
-  type: yup
-    .string()
-    .oneOf([AddressType.Billing, AddressType.Shipping])
-    .required('error-type-required'),
-  title: yup.string().required('error-title-required'),
+  //type: yup
+  //  .string()
+  //  .oneOf([AddressType.Billing, AddressType.Shipping])
+ //  .required('error-type-required'),
+  //title: yup.string().required('error-title-required'),
   address: yup.object().shape({
-    country: yup.string().required('error-country-required'),
-    //city: yup.string().required('error-city-required'),
-    state: yup.string().required('error-state-required'),
-    zip: yup.string().required('error-zip-required'),
-    //zone: yup.string().required('error-zone-required'),
+    //country: yup.string().required('error-country-required'),
+    city: yup.string().required('error-city-required'),
+    //state: yup.string().required('error-state-required'),
+    //zip: yup.string().required('error-zip-required'),
+    zone: yup.string().required('error-zone-required'),
     street_address: yup.string().required('error-street-required'),
     street_number: yup.string().required('error-number-required'),
-    street_bell: yup.string().required('error-bell-required'),
-    note: yup.string().required('error-note-required'),
-    //wtd: yup.string().required('error-wtd-required'),
+    wtd: yup.string().required('error-wtd-required'),
     wtd_extra: yup.string().required('error-wtd-extra-required'),
-  }),
+  }), 
 });
 
 export const AddressForm: React.FC<any> = ({
@@ -115,7 +113,6 @@ export const AddressForm: React.FC<any> = ({
             error={t(errors.address?.street_address?.message!)}
             variant="outline"
           />
-
           <Input
             label={t('text-address-number')}
             {...register('address.street_number')}
@@ -146,6 +143,7 @@ export const AddressForm: React.FC<any> = ({
             variant="outline"
             className="col-span-2"
             options={(zones.map((zone) => {return zone.name}))}
+            isParent={true}
             onChange={setSelectedZone}
           />
 
@@ -213,14 +211,14 @@ export default function CreateOrUpdateAddressForm() {
   const { mutate: updateProfile } = useUpdateUser();
 
   function onSubmit(values: FormValues) {
-    console.log(values, 'values');
+    console.log(values);
     const formattedInput = {
       //id: address?.id,
       // customer_id: customerId,
       //title: values.title,
       //type: values.type,
       address: {
-        ...values.address,
+        ...values.address
       },
     };
     updateProfile({
@@ -236,8 +234,6 @@ export default function CreateOrUpdateAddressForm() {
       <AddressForm
         onSubmit={onSubmit}
         defaultValues={{
-          title: address?.title ?? '',
-          type: address?.type ?? type,
           address: {
             ...address?.address,
           },

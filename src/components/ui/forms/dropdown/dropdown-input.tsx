@@ -13,6 +13,7 @@ export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   dimension?: 'small' | 'medium' | 'big';
   options: string[];
   onChange?: Function;
+  isParent?: boolean;
 }
 
 const variantClasses = {
@@ -46,8 +47,9 @@ const DropDownInput = React.forwardRef<HTMLInputElement, Props>(
       inputClassName,
       options,
       onChange,
+      isParent,
       ...rest
-    }
+    }, ref
   ) => {
 
     return (
@@ -62,6 +64,7 @@ const DropDownInput = React.forwardRef<HTMLInputElement, Props>(
         )}
         <select
           id={name}
+          ref={ref}
           name={name}
           className={cn(
             'flex w-full appearance-none items-center px-4 text-sm text-heading transition duration-300 ease-in-out focus:outline-none focus:ring-0',
@@ -71,7 +74,12 @@ const DropDownInput = React.forwardRef<HTMLInputElement, Props>(
             disabled && 'cursor-not-allowed bg-gray-100',
             inputClassName
           )}
-          onChange={(e) => { onChange && onChange(e.target.value)}}
+          onChange={(e) => { if (onChange){
+            if (isParent) {
+              onChange(e.target.value)
+            }
+          } 
+        }}
           disabled={disabled}
           autoComplete="off"
           autoCorrect="off"
@@ -92,5 +100,5 @@ const DropDownInput = React.forwardRef<HTMLInputElement, Props>(
     );
   }
 );
-DropDownInput.displayName = 'Input';
+DropDownInput.displayName = 'DropDownInput';
 export default DropDownInput;
