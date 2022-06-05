@@ -12,10 +12,8 @@ import { useUpdateUser } from '@/framework/user';
 import DropDownInput from '../ui/forms/dropdown/dropdown-input';
 import { useEffect, useState } from 'react';
 import { string } from 'yup/lib/locale';
+import { useSettings } from '@/framework/settings';
 
-// HARDCODEADISIMO JAJA
-import zones from '../../../../barf-carrito-rest/src/db/pickbazar/zones.json'
-import cities from '../../../../barf-carrito-rest/src/db/pickbazar/cities.json'
 
 type FormValues = {
   //title: string;
@@ -60,6 +58,8 @@ export const AddressForm: React.FC<any> = ({
   isLoading,
 }) => {
   const { t } = useTranslation('common');
+
+  const {settings: { zones, cities }} = useSettings()
 
   const [selectedZone, setSelectedZone] = useState('')
   const [citiesToShow, setCitiesToShow] = useState([])
