@@ -5,10 +5,11 @@ import Alert from '@/components/ui/alert';
 //import StripePayment from '@/components/checkout/payment/stripe';
 //import CashOnDelivery from '@/components/checkout/payment/cash-on-delivery';
 import { useAtom } from 'jotai';
-import { paymentGatewayAtom, PaymentMethodName } from '@/store/checkout';
+import { paymentMethodAtom } from '@/store/checkout';
 import cn from 'classnames';
+import { useSettings } from '@/framework/settings';
 
-interface PaymentMethodInformation {
+/* interface PaymentMethodInformation {
   name: string;
   value: PaymentMethodName;
   icon: string;
@@ -33,26 +34,29 @@ const AVAILABLE_PAYMENT_METHODS_MAP: Record<
     icon: '',
     //component: CashOnDelivery,
   },
-  
-  
 };
+   */
+  
+  
 
 const PaymentGrid: React.FC<{ className?: string; theme?: 'bw'; getValue?:Function; }> = ({
   className,
   theme,
   getValue
 }) => {
-  const [gateway, setGateway] = useAtom<PaymentMethodName>(paymentGatewayAtom);
+  const { settings : {paymentMethods:AVAILABLE_PAYMENT_METHODS_MAP }} = useSettings()
+
+  const [gateway, setGateway] = useAtom(paymentMethodAtom);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { t } = useTranslation('common');
   //const PaymentMethod = AVAILABLE_PAYMENT_METHODS_MAP[gateway];
   //const Component = PaymentMethod?.component ?? StripePayment;
   useEffect(() => {
-    setGateway('')
+    setGateway(null)
   },[])
 
   useEffect(() => {
-    getValue && getValue(gateway)
+    getValue && getValue(gateway ? gateway.value : '')
   },[gateway])
   
   return (
@@ -73,9 +77,9 @@ const PaymentGrid: React.FC<{ className?: string; theme?: 'bw'; getValue?:Functi
         </RadioGroup.Label>
 
         <div className="grid gap-4 grid-cols-2 md:grid-cols-3 mb-8">
-          {Object.values(AVAILABLE_PAYMENT_METHODS_MAP).map(
-            ({ name, icon, value }) => (
-              value.length > 0 && <RadioGroup.Option value={value} key={value}>
+          {AVAILABLE_PAYMENT_METHODS_MAP.map(
+            (method) => (
+              method.value.length > 0 && <RadioGroup.Option value={method} key={method.id}>
                 {({ checked }) => (
                   <div
                     className={cn(
@@ -87,14 +91,14 @@ const PaymentGrid: React.FC<{ className?: string; theme?: 'bw'; getValue?:Functi
                       }
                     )}
                   >
-                    {icon ? (
+                    {method.icon ? (
                       <>
                         {/* eslint-disable */}
-                        <img src={icon} alt={name} className="h-[30px]" />
+                        <img src={method.icon} alt={method.name} className="h-[30px]" />
                       </>
                     ) : (
                       <span className="text-xs text-heading font-semibold">
-                        {name}
+                        {method.name}
                       </span>
                     )}
                   </div>

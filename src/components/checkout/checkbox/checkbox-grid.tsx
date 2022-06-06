@@ -32,11 +32,11 @@ export const CheckboxGrid: React.FC<ScheduleProps> = ({
   const { t } = useTranslation('common');
   const {settings : {withdrawals}} = useSettings()
   const data  = isWithdrawal ? withdrawals:dataProps
-  const [selectedData, setSelectedData] = useState({title: '', description: ''});
+  const [selectedData, setSelectedData] = useState({id: 0, title: '', description: ''});
 
 
   useEffect(() => {
-    if (callback) callback({[type]: selectedData})
+    if (callback) callback(selectedData)
   },[selectedData])
   
   return (

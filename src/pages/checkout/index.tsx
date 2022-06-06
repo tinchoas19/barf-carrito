@@ -1,5 +1,5 @@
 import { useTranslation } from 'next-i18next';
-import { billingAddressAtom, shippingAddressAtom } from '@/store/checkout';
+import { shippingAddressAtom, deliveryTypeAtom } from '@/store/checkout';
 import dynamic from 'next/dynamic';
 import { getLayout } from '@/components/layouts/layout';
 import { AddressType } from '@/framework/utils/constants';
@@ -7,6 +7,7 @@ import Seo from '@/components/seo/seo';
 import { useUser } from '@/framework/user';
 import { useState } from 'react';
 import { useSettings } from '@/framework/settings';
+import { useAtom } from 'jotai';
 export { getStaticProps } from '@/framework/general.ssr';
 
 const ScheduleGrid = dynamic(
@@ -33,16 +34,14 @@ const CheckboxGrid = dynamic(
 export default function CheckoutPage() {
   const { t } = useTranslation();
   const { me } = useUser();
-  const { id, address, contact, email } = me ?? {};
+  const { id, address, contact} = me ?? {};
   const {settings: { pickupAddress}} = useSettings()
 
  
-   const [data, setData] = useState({
-    withdral: {title:''}
-  })
+  const [delivery_type, set_delivery_type] = useAtom(deliveryTypeAtom)
 
-  function handleData(newData:{}) {
-    setData({...data, ...newData})
+  function handleDeliveryType(data:any) {
+    set_delivery_type(data)
   } 
   return (
     <>
@@ -63,10 +62,10 @@ export default function CheckoutPage() {
             isWithdrawal={true}
             data={[]}
             count={2}
-            callback={handleData}
+            callback={handleDeliveryType}
             type='withdral'
             />
-            {data.withdral?.title === '' &&
+            {delivery_type?.title === '' &&
             <>
             <InputGrid
             className="p-5 bg-light shadow-700 md:p-8"
@@ -86,7 +85,7 @@ export default function CheckoutPage() {
           />
             </>
             }
-            {data.withdral?.title === 'Envio' && 
+            {delivery_type?.title === 'Envio' && 
             <>
               <AddressGrid
               userId={id!}
@@ -94,11 +93,9 @@ export default function CheckoutPage() {
               label={t('text-shipping-address')}
               count={3}
               //@ts-ignore
-              addresses={address?.filter(
-                (item) => item?.type === AddressType.Billing
-                )}
-                atom={billingAddressAtom}
-                type={AddressType.Billing}
+              addresses={address}
+              atom={shippingAddressAtom}
+              type={AddressType.Billing}
                 />
                 <ScheduleGrid
               className="p-5 bg-light shadow-700 md:p-8"
@@ -107,7 +104,7 @@ export default function CheckoutPage() {
               />
             </>
             }
-            {data.withdral?.title === 'Retiro' &&
+            {delivery_type?.title === 'Retiro' &&
             <>
             <InputGrid
             className="p-5 bg-light shadow-700 md:p-8"

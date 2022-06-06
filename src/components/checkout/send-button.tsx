@@ -1,7 +1,7 @@
 import Button from '@/components/ui/button';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
-import { billingAddressAtom, shippingAddressAtom } from '@/store/checkout';
+import { checkoutAtom, checkoutNoteAtom } from '@/store/checkout';
 import { formatOrderedProduct } from '@/lib/format-ordered-product';
 import { useVerifyOrder } from '@/framework/order';
 import omit from 'lodash/omit';
@@ -10,14 +10,16 @@ import { useCart } from '@/store/quick-cart/cart.context';
 export const SendButton: React.FC<{callback:Function, disabled?:boolean, label:string, className?: string}> = (
   {callback, disabled, label}, rest) => {
 
-    const [billing_address] = useAtom(billingAddressAtom);
-    const [shipping_address] = useAtom(shippingAddressAtom);
+    const [checkout] = useAtom(checkoutAtom);
+    const [checkoutNote] = useAtom(checkoutNoteAtom);
     const { items, total, isEmpty } = useCart();
+
 
     const { mutate: verifyCheckout, isLoading: loading } = useVerifyOrder();
 
     function handleVerifyCheckout() {
-      verifyCheckout({
+      console.log(checkout)
+/*       verifyCheckout({
         amount: total,
         products: items?.map((item:any) => formatOrderedProduct(item)),
         billing_address: {
@@ -28,7 +30,7 @@ export const SendButton: React.FC<{callback:Function, disabled?:boolean, label:s
           ...(shipping_address?.address &&
             omit(shipping_address.address, ['__typename'])),
         },
-      });
+      }); */
     }
 
   return (

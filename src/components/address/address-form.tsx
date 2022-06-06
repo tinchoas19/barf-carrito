@@ -26,10 +26,10 @@ type FormValues = {
     zone: string;
     street_address: string;
     street_number: number;
-    street_bell?: string;
+    bell?: string;
     note: string;
     wtd: string;
-    wtd_extra: string;
+    wtd_note: string;
   };
 };
 
@@ -48,7 +48,7 @@ const addressSchema = yup.object().shape({
     street_address: yup.string().required('error-street-required'),
     street_number: yup.string().required('error-number-required'),
     wtd: yup.string().required('error-wtd-required'),
-    wtd_extra: yup.string().required('error-wtd-extra-required'),
+    wtd_note: yup.string().required('error-wtd-extra-required'),
   }), 
 });
 
@@ -158,8 +158,8 @@ export const AddressForm: React.FC<any> = ({
 
           <Input
             label={t('text-address-bell')}
-            {...register('address.street_bell')}
-            error={t(errors.address?.street_bell?.message!)}
+            {...register('address.bell')}
+            error={t(errors.address?.bell?.message!)}
             variant="outline"
           />
 
@@ -183,8 +183,8 @@ export const AddressForm: React.FC<any> = ({
 
           <TextArea
             label={t('text-address-wtd-extra')}
-            {...register('address.wtd_extra')}
-            error={t(errors.address?.wtd_extra?.message!)}
+            {...register('address.wtd_note')}
+            error={t(errors.address?.wtd_note?.message!)}
             variant="outline"
             className="col-span-2"
           />

@@ -27,7 +27,7 @@ const UnverifiedItemList = ({ hideTitle = false }: { hideTitle?: boolean }) => {
   }
 
   const [selectedPayment, setSelectedPayment] = useState('')
-  function getPaymentValue(value:string) {
+  function getPaymentValue(value:any) {
     setSelectedPayment(value)
   }
 
