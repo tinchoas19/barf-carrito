@@ -30,8 +30,8 @@ export const CheckboxGrid: React.FC<ScheduleProps> = ({
     settings: { deliveryTime: schedules },
   } = useSettings(); */
   const { t } = useTranslation('common');
-  const {settings : {withdrawals}} = useSettings()
-  const data  = isWithdrawal ? withdrawals:dataProps
+  const {settings : {delivery_type}} = useSettings()
+  const data  = isWithdrawal ? delivery_type:dataProps
   const [selectedData, setSelectedData] = useState({id: 0, title: '', description: ''});
 
 

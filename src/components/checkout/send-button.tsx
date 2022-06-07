@@ -1,22 +1,18 @@
 import Button from '@/components/ui/button';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
-import { checkoutAtom, checkoutNoteAtom } from '@/store/checkout';
+import { checkoutAtom } from '@/store/checkout';
 import { formatOrderedProduct } from '@/lib/format-ordered-product';
-import { useVerifyOrder } from '@/framework/order';
-import omit from 'lodash/omit';
 import { useCart } from '@/store/quick-cart/cart.context';
 import {CreateOrderInput} from './../../types/index'
+import { toast } from 'react-toastify';
+import { useTranslation } from 'next-i18next';
 
 export const SendButton: React.FC<{disabled?:boolean, label:string, className?: string}> = (
   {disabled, label}, rest) => {
-
+    const { t } = useTranslation('common');
     const [checkout] = useAtom(checkoutAtom);
-    const [checkoutNote] = useAtom(checkoutNoteAtom);
     const { items, total, isEmpty } = useCart();
-
-
-    const { mutate: verifyCheckout, isLoading: loading } = useVerifyOrder();
 
     function formatOrder(checkout:any) {
       const {
@@ -29,31 +25,56 @@ export const SendButton: React.FC<{disabled?:boolean, label:string, className?: 
         note
        } = checkout
       const order : CreateOrderInput = {
-        customer_id : customer.id,
-        delivery_type_id: delivery_type.id,
-        shipping_address_id: shipping_address.id,
-        delivery_day: {delivery_time: delivery_time, pickup_time: pickup_time},
-        payment_id: payment_method.id,
-        note: note,
-        products : items?.map((item:any) => formatOrderedProduct(item))
+        customer_id : customer?.id || null,
+        delivery_type_id: delivery_type.id || null,
+        shipping_address_id: shipping_address?.id || null,
+        delivery_day: {delivery_time: delivery_time || null, pickup_time: pickup_time || null}  || null,
+        payment_id: payment_method?.id  || null,
+        note: note || null,
+        products : items?.map((item:any) => formatOrderedProduct(item))  || null
       } 
       return order
     }
 
+    function validateOrder(order:CreateOrderInput) {
+      const {
+        customer_id, 
+        delivery_type_id, 
+        shipping_address_id,
+        delivery_day,
+        payment_id,
+        note,
+        products
+       } = order
+       // campos obligatorios
+      if (
+        !customer_id || 
+        !delivery_type_id ||
+        !payment_id ||
+        products.length === 0 ||
+        isEmpty
+        ) return false
+        // retiro
+      if (delivery_type_id === 1) {
+        if (!delivery_day.pickup_time) return false
+      } 
+      // envio
+      else if (delivery_type_id === 2) {
+        if (!shipping_address_id) return false
+        if (!delivery_day.delivery_time) return false
+      }
+      return true
+    }
+
     function handleVerifyCheckout() {
-      console.log(formatOrder(checkout))
-/*       verifyCheckout({
-        amount: total,
-        products: items?.map((item:any) => formatOrderedProduct(item)),
-        billing_address: {
-          ...(billing_address?.address &&
-            omit(billing_address.address, ['__typename'])),
-        },
-        shipping_address: {
-          ...(shipping_address?.address &&
-            omit(shipping_address.address, ['__typename'])),
-        },
-      }); */
+     const order:CreateOrderInput = formatOrder(checkout)
+     const result:boolean = validateOrder(order)
+     if (result) {
+       //mandar al back
+       toast.success(t('send-order-successful'));
+     } else {
+       toast.error(t('send-order-error-uncomplete'));
+     }
     }
 
   return (
