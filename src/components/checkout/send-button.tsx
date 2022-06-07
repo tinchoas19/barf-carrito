@@ -6,9 +6,10 @@ import { formatOrderedProduct } from '@/lib/format-ordered-product';
 import { useVerifyOrder } from '@/framework/order';
 import omit from 'lodash/omit';
 import { useCart } from '@/store/quick-cart/cart.context';
+import {CreateOrderInput} from './../../types/index'
 
-export const SendButton: React.FC<{callback:Function, disabled?:boolean, label:string, className?: string}> = (
-  {callback, disabled, label}, rest) => {
+export const SendButton: React.FC<{disabled?:boolean, label:string, className?: string}> = (
+  {disabled, label}, rest) => {
 
     const [checkout] = useAtom(checkoutAtom);
     const [checkoutNote] = useAtom(checkoutNoteAtom);
@@ -17,8 +18,30 @@ export const SendButton: React.FC<{callback:Function, disabled?:boolean, label:s
 
     const { mutate: verifyCheckout, isLoading: loading } = useVerifyOrder();
 
+    function formatOrder(checkout:any) {
+      const {
+        customer, 
+        delivery_type, 
+        delivery_time,
+        pickup_time,
+        payment_method,
+        shipping_address,
+        note
+       } = checkout
+      const order : CreateOrderInput = {
+        customer_id : customer.id,
+        delivery_type_id: delivery_type.id,
+        shipping_address_id: shipping_address.id,
+        delivery_day: {delivery_time: delivery_time, pickup_time: pickup_time},
+        payment_id: payment_method.id,
+        note: note,
+        products : items?.map((item:any) => formatOrderedProduct(item))
+      } 
+      return order
+    }
+
     function handleVerifyCheckout() {
-      console.log(checkout)
+      console.log(formatOrder(checkout))
 /*       verifyCheckout({
         amount: total,
         products: items?.map((item:any) => formatOrderedProduct(item)),

@@ -21,7 +21,7 @@ interface CheckoutState {
   payment_method: any | null;
   delivery_time: DeliveryTime | null;
   pickup_time: DeliveryTime | null;
-  customer_contact: string;
+  customer: any;
   note: string | null;
   //verified_response: VerifiedResponse | null;
   //coupon: Coupon | null;
@@ -37,7 +37,7 @@ export const defaultCheckout: CheckoutState = {
   delivery_time: null,
   pickup_time: null,
   payment_method: null,
-  customer_contact: '',
+  customer: null,
   //verified_response: null,
   //coupon: null,
   //payable_amount: 0,
@@ -105,11 +105,11 @@ export const verifiedTokenAtom = atom(
     return set(checkoutAtom, { ...prev, token: data });
   }
 );
-export const customerContactAtom = atom(
-  (get) => get(checkoutAtom).customer_contact,
-  (get, set, data: string) => {
+export const customerAtom = atom(
+  (get) => get(checkoutAtom).customer,
+  (get, set, data: any) => {
     const prev = get(checkoutAtom);
-    return set(checkoutAtom, { ...prev, customer_contact: data });
+    return set(checkoutAtom, { ...prev, customer: data });
   }
 );
 export const verifiedResponseAtom = atom(

@@ -1,11 +1,11 @@
 import { useTranslation } from 'next-i18next';
-import { shippingAddressAtom, deliveryTypeAtom } from '@/store/checkout';
+import { shippingAddressAtom, deliveryTypeAtom, customerAtom } from '@/store/checkout';
 import dynamic from 'next/dynamic';
 import { getLayout } from '@/components/layouts/layout';
 import { AddressType } from '@/framework/utils/constants';
 import Seo from '@/components/seo/seo';
 import { useUser } from '@/framework/user';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSettings } from '@/framework/settings';
 import { useAtom } from 'jotai';
 export { getStaticProps } from '@/framework/general.ssr';
@@ -36,9 +36,12 @@ export default function CheckoutPage() {
   const { me } = useUser();
   const { id, address, contact} = me ?? {};
   const {settings: { pickupAddress}} = useSettings()
-
- 
   const [delivery_type, set_delivery_type] = useAtom(deliveryTypeAtom)
+  const [customer, setCustomer] = useAtom(customerAtom)
+  
+  useEffect(() => {
+    setCustomer(me)
+  },[])
 
   function handleDeliveryType(data:any) {
     set_delivery_type(data)

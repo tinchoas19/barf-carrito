@@ -22,10 +22,6 @@ const UnverifiedItemList = ({ hideTitle = false }: { hideTitle?: boolean }) => {
       amount: total,
     }
   );
-  
-  function handleSubmit() {
-
-  }
 
   const [selectedPayment, setSelectedPayment] = useState('')
   function getPaymentValue(value:any) {
@@ -74,8 +70,8 @@ const UnverifiedItemList = ({ hideTitle = false }: { hideTitle?: boolean }) => {
         data={bankData}
         />
       }
-      <NoteGrid/>
-      <SendButton label={t('text-send-button')} callback={handleSubmit} />
+      <NoteGrid className={selectedPayment === 'STRIPE' ? 'pt-5' : ''} />
+      <SendButton label={t('text-send-button')}/>
     </div>
   );
 };

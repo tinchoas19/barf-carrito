@@ -319,13 +319,13 @@ export interface CreateOrderInput {
   customer_id: string;
   delivery_type_id: number; // RETIRO 1 ENVIO 2
   shipping_address_id: number;
-  delivery_day: string;
+  delivery_day: string | any;
   payment_id: string;
   note: string;
-  products: ConnectProductOrderPivot[];
+  products: ConnectProductOrderPivot[] | any;
 
   //Todo estos campos sobran
-  customer_contact: string;
+  /* customer_contact: string;
   status: string;
   amount: number;
   sales_tax: number;
@@ -340,7 +340,7 @@ export interface CreateOrderInput {
   delivery_time?: string;
   card: CardInput;
   token?: string;
-  billing_address: Address;
+  billing_address: Address; */
 
 }
 export interface OrderStatus {
