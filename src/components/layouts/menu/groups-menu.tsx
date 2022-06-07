@@ -12,6 +12,7 @@ import { useTypes } from '@/framework/type';
 import useHomepage from '@/lib/hooks/use-homepage';
 import type { Type } from '@/types';
 import { TYPES_PER_PAGE } from '@/framework/client/variables';
+import { useSettings } from '@/framework/settings';
 
 interface GroupsMenuProps {
   className?: string;
@@ -28,7 +29,7 @@ const GroupsMenu: React.FC<GroupsMenuProps> = ({
 }) => {
   const router = useRouter();
 
-
+  
   const selectedMenu = groups?.find(type => router.asPath.toLowerCase().replace("/?category=", "") === type.slug.toLowerCase()) ?? defaultGroup;
 
 
@@ -145,13 +146,9 @@ type GroupsDropdownMenuProps = {
 };
 
 const GroupsDropdownMenu: React.FC<GroupsDropdownMenuProps> = ({ variant }) => {
-  const { types } = useTypes({
-    limit: TYPES_PER_PAGE,
-  });
-  //FIXME: remove this
-  const { homePage } = useHomepage();
+  const { settings : {productCategories} } = useSettings()
   return (
-    <GroupsMenu groups={types} defaultGroup={homePage} variant={variant} />
+    <GroupsMenu groups={productCategories} defaultGroup={productCategories[0]} variant={variant} />
   );
 };
 
