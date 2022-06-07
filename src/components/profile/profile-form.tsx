@@ -22,6 +22,7 @@ const ProfileForm = ({ user }: { user: User }) => {
       name: values.name,
       surname: values.surname,
       contact: values.contact,
+      email: values.email,
     });
   }
 
@@ -70,7 +71,6 @@ const ProfileForm = ({ user }: { user: User }) => {
               <Input
                   className="flex-1"
                   label={t('text-email')}
-                  disabled={true}
                   {...register('email')}
                   variant="outline"
                 />
