@@ -18,6 +18,7 @@ const AddressCard: React.FC<AddressProps> = ({
   onDelete,
 }) => {
   const { t } = useTranslation();
+  console.log(address)
   return (
     <div
       className={classNames(
@@ -29,10 +30,10 @@ const AddressCard: React.FC<AddressProps> = ({
       )}
     >
       <p className="text-sm text-heading font-semibold mb-3 capitalize">
-        {address?.title}
+        {address?.address?.street_address}
       </p>
       <p className="text-sm text-sub-heading">
-        {formatAddress(address?.address)}
+        {address?.address?.city}
       </p>
       <div className="absolute top-4 ltr:right-4 rtl:left-4 flex space-x-2 rtl:space-x-reverse opacity-0 group-hover:opacity-100">
         {onEdit && (
