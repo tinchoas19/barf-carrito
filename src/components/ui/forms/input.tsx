@@ -11,6 +11,7 @@ export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   shadow?: boolean;
   variant?: 'normal' | 'solid' | 'outline' | 'line';
   dimension?: 'small' | 'medium' | 'big';
+  callback?: Function;
 }
 
 const variantClasses = {
@@ -42,6 +43,7 @@ const Input = React.forwardRef<HTMLInputElement, Props>(
       disabled = false,
       type = 'text',
       inputClassName,
+      callback = () => {},
       ...rest
     },
     ref
@@ -75,6 +77,7 @@ const Input = React.forwardRef<HTMLInputElement, Props>(
           autoCapitalize="off"
           spellCheck="false"
           aria-invalid={error ? 'true' : 'false'}
+          onChange={e => callback(e.target.value)}
           {...rest}
         />
         {error && <p className="mt-2 text-xs text-red-500">{error}</p>}

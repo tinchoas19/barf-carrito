@@ -10,6 +10,7 @@ import InputGrid from '../contact/input-grid';
 import { SendButton } from '../send-button';
 import { useSettings } from '@/framework/settings';
 import { useState } from 'react';
+import NoteGrid from '../note-grid/note-grid';
 
 const UnverifiedItemList = ({ hideTitle = false }: { hideTitle?: boolean }) => {
   const { t } = useTranslation('common');
@@ -73,6 +74,7 @@ const UnverifiedItemList = ({ hideTitle = false }: { hideTitle?: boolean }) => {
         data={bankData}
         />
       }
+      <NoteGrid/>
       <SendButton label={t('text-send-button')} callback={handleSubmit} />
     </div>
   );
