@@ -18,7 +18,6 @@ const AddressCard: React.FC<AddressProps> = ({
   onDelete,
 }) => {
   const { t } = useTranslation();
-  console.log(address)
   return (
     <div
       className={classNames(

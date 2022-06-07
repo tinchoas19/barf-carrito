@@ -16,7 +16,6 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ className }) => {
 
   const { t } = useTranslation();
   const { pathname } = useRouter();
-  console.log('pathname:', pathname);
   return (
     <aside className={className}>
       <div className="px-10 py-8 mb-5 overflow-hidden border rounded border-border-200 bg-light">

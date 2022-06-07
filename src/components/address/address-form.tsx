@@ -211,7 +211,6 @@ export default function CreateOrUpdateAddressForm() {
   const { mutate: updateProfile } = useUpdateUser();
 
   function onSubmit(values: FormValues) {
-    console.log(values);
     const formattedInput = {
       //id: address?.id,
       // customer_id: customerId,

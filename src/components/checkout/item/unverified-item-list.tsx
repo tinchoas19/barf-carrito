@@ -16,7 +16,6 @@ const UnverifiedItemList = ({ hideTitle = false }: { hideTitle?: boolean }) => {
   const { t } = useTranslation('common');
   const { items, total, isEmpty } = useCart();
   const { settings: {bankData}}  = useSettings()
-  console.log('isEmpty:', isEmpty);
   const { price: subtotal } = usePrice(
     items && {
       amount: total,
