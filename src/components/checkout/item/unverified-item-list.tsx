@@ -29,6 +29,16 @@ const UnverifiedItemList = ({ hideTitle = false }: { hideTitle?: boolean }) => {
 
   return (
     <div className="w-full">
+       <PaymentGrid getValue={getPaymentValue} />
+       {selectedPayment === 'STRIPE' && 
+        <InputGrid
+        className="p-5 bg-light shadow-700 md:p-8 mb-5"
+        label={'Datos Bancarios'}
+        type='data'
+        count={null}
+        data={bankData}
+        />
+      }
       {!hideTitle && (
         <div className="flex flex-col items-center mb-4 space-x-4 rtl:space-x-reverse">
           <span className="text-base font-bold text-heading">
@@ -48,6 +58,7 @@ const UnverifiedItemList = ({ hideTitle = false }: { hideTitle?: boolean }) => {
           items?.map((item) => <ItemCard item={item} key={item.id} />)
         )}
       </div>
+       
       <div className="mt-4 space-y-2">
         <ItemInfoRow title={t('text-sub-total')} value={subtotal} />
         <ItemInfoRow
@@ -58,18 +69,9 @@ const UnverifiedItemList = ({ hideTitle = false }: { hideTitle?: boolean }) => {
           title={t('text-estimated-shipping')}
           value={t('text-calculated-checkout')}
         />
-        <PaymentGrid getValue={getPaymentValue}/>
       </div>
-      {selectedPayment === 'STRIPE' && 
-        <InputGrid
-        className="p-5 bg-light shadow-700 md:p-8"
-        label={'Datos Bancarios'}
-        type='data'
-        count={null}
-        data={bankData}
-        />
-      }
-      <NoteGrid className={selectedPayment === 'STRIPE' ? 'pt-5' : ''} />
+      
+      <NoteGrid className="pt-5" />
       <SendButton label={t('text-send-button')}/>
     </div>
   );

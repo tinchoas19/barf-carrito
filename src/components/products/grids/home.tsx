@@ -23,26 +23,19 @@ export default function ProductGridHome({
       //...(query.text && { text: query.text }),
       // ...(query.type && { type: query.pages?.[0] }),
     });
-    const [finalProducts, setFinalProducts] = useState(null) 
 
-     useEffect(() => {
-      if (!finalProducts) {
-        setFinalProducts(products)
-      }
-    },[products]) 
- 
-    useEffect(() => {
+    function filterProducts(prods) {
       if (query.category) {
         let result = products.filter(product => 
           !!(product.categories.find(category => category.slug === query.category)
             ))
-        setFinalProducts(result)
-      } else setFinalProducts(products)
-    }, [query.category])
+        return result
+      } else return prods
+    }
 
   return (
-    <Grid
-      products={finalProducts}
+      <Grid
+      products={filterProducts(products)}
       loadMore={loadMore}
       isLoading={isLoading}
       isLoadingMore={isLoadingMore}
@@ -52,6 +45,6 @@ export default function ProductGridHome({
       className={className}
       gridClassName={gridClassName}
       column={column}
-    />
+      />
   );
 }

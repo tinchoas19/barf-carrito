@@ -72,7 +72,7 @@ const PaymentGrid: React.FC<{ className?: string; theme?: 'bw'; getValue?:Functi
       ) : null}
 
       <RadioGroup value={gateway} onChange={setGateway}>
-        <RadioGroup.Label className="text-base text-heading font-semibold mb-5 mt-10 block text-center">
+        <RadioGroup.Label className="text-base text-heading font-semibold mb-5 block text-center">
           {t('text-choose-payment')}
         </RadioGroup.Label>
 
