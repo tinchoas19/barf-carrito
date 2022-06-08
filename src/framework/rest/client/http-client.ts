@@ -5,21 +5,23 @@ import Cookies from 'js-cookie';
 import Router from "next/router";
 
 const Axios = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_REST_API_ENDPOINT,
-  //baseURL: process.env.NEXT_PUBLIC_CRM_API_ENDPOINT,
+  //baseURL: process.env.NEXT_PUBLIC_REST_API_ENDPOINT,
+ baseURL: process.env.NEXT_PUBLIC_CRM_API_ENDPOINT,
   timeout: 500000,
   headers: {
     'Content-Type': 'application/json',
+    //'Access-Control-Allow-Origin': '*'
   },
 });
+
 // Change request data/error here
 Axios.interceptors.request.use(
   (config) => {
     const token = Cookies.get(AUTH_TOKEN_KEY);
-    config.headers = {
+    /* config.headers = {
       ...config.headers,
-      Authorization: `Bearer ${token ? token : ''}`,
-    };
+     Authorization: `Bearer ${token ? token : ''}`,
+    }; */
     return config;
   }
 );

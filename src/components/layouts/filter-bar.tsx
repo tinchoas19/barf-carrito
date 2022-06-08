@@ -14,6 +14,7 @@ export default function FilterBar({
 }) {
   const { t } = useTranslation('common');
   const [_, setDrawerView] = useAtom(drawerAtom);
+  
 
   return (
     <div

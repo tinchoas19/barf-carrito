@@ -41,7 +41,6 @@ export function Grid({
   const { t } = useTranslation('common');
 
   if (error) return <ErrorMessage message={error.message} />;
-  console.log("prods", products);
   if (!isLoading && !products?.length) {
     return (
       <div className="min-h-full w-full px-4 pt-6 pb-8 lg:p-8">

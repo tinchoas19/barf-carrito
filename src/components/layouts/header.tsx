@@ -33,15 +33,16 @@ const Header = ({ layout }: { layout: string }) => {
     !displayHeaderSearch && isHomePage && layout !== 'modern';
   return (
     <header
-      className={cn('site-header-with-search h-14 md:h-16 lg:h-22', {
+      className={cn('sticky top-0 site-header-with-search h-14 md:h-16 lg:h-22 bg-white', {
         'lg:!h-auto': isFlattenHeader,
       })}
+      style={{zIndex:1000}}
     >
       <div
         className={cn(
           'fixed flex justify-between items-center w-full h-14 md:h-16 lg:h-22 px-4 lg:px-8 py-5 z-50 bg-light border-b border-border-200 shadow-sm transition-transform duration-300 transform-gpu',
           {
-            'lg:absolute lg:bg-transparent lg:shadow-none lg:border-0':
+            'lg:sticky lg:bg-transparent lg:shadow-none lg:border-0 lg:t-0':
               isFlattenHeader,
           }
         )}
@@ -53,7 +54,7 @@ const Header = ({ layout }: { layout: string }) => {
           <>
             {(displayHeaderSearch || layout === 'modern') && (
               <div className="hidden w-full px-10 mx-auto overflow-hidden lg:block xl:w-11/12 2xl:w-10/12">
-                <Search label={t('text-search-label')} variant="minimal" />
+                <Search label={t('text-search-label')} variant="minimal" />sasd
               </div>
             )}
 

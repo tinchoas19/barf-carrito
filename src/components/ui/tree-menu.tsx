@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { ExpandLessIcon } from '@/components/icons/expand-less-icon';
 import { ExpandMoreIcon } from '@/components/icons/expand-more-icon';
 import { getIcon } from '@/lib/get-icon';
-import * as CategoryIcons from '@/components/icons/category';
+import * as groupIcons from '@/components/icons/groups';
 import { useEffect, useState } from 'react';
 import { drawerAtom } from '@/store/drawer-atom';
 import { useAtom } from 'jotai';
@@ -85,7 +85,7 @@ const TreeMenuItem: React.FC<TreeMenuItemProps> = ({
           {icon && (
             <span className="flex w-5 h-5 ltr:mr-4 rtl:ml-4 items-center justify-center">
               {getIcon({
-                iconList: CategoryIcons,
+                iconList: groupIcons,
                 iconName: icon,
                 className: 'h-full w-full',
               })}

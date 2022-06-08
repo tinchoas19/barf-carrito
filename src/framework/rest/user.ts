@@ -25,6 +25,7 @@ import {
 } from '@/components/auth/forgot-password';
 import { clearCheckoutAtom } from '@/store/checkout';
 
+
 export function useUser() {
   const [isAuthorized] = useAtom(authorizationAtom);
   const { data, isLoading, error } = useQuery(
@@ -110,13 +111,13 @@ export function useLogin() {
   let [serverError, setServerError] = useState<string | null>(null);
 
   const { mutate, isLoading } = useMutation(client.users.login, {
-    onSuccess: (data) => {
-      // data.token
-      if (false) {
+    onSuccess: (res) => {
+      console.log(res)
+      if (res?.data.token === '') {
         setServerError('error-credential-wrong');
         return;
       }
-      setToken(data.token);
+      setToken(res?.data.token);
       setAuthorized(true);
       closeModal();
     },
@@ -162,7 +163,18 @@ export function useRegister() {
 }
 
 export function useLogout() {
-  const queryClient = useQueryClient();
+  const { setToken } = useToken();
+  const [_, setAuthorized] = useAtom(authorizationAtom);
+  const [_r, resetCheckout] = useAtom(clearCheckoutAtom);
+  const { openModal } = useModalAction();
+  const mutate = function () {
+    setToken('');
+    setAuthorized(false);
+    resetCheckout();
+    openModal('LOGIN_VIEW');
+  }
+  return {mutate}
+/*   const queryClient = useQueryClient();
   const { setToken } = useToken();
   const [_, setAuthorized] = useAtom(authorizationAtom);
   const [_r, resetCheckout] = useAtom(clearCheckoutAtom);
@@ -178,7 +190,7 @@ export function useLogout() {
     onSettled: () => {
       queryClient.clear();
     },
-  });
+  }); */
 }
 
 export function useChangePassword() {

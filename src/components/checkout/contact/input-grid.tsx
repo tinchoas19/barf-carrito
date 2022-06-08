@@ -1,82 +1,57 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
 import { customerContactAtom } from '@/store/checkout';
-import { useModalAction } from '@/components/ui/modal/modal.context';
-import { PlusIcon } from '@/components/icons/plus-icon';
-import { useTranslation } from 'next-i18next';
-import classNames from 'classnames';
-import PhoneInput from '@/components/ui/forms/phone-input';
-import Input from '@/components/ui/forms/input';
+import { AddressHeader } from '@/components/address/address-header';
+import { useRouter } from 'next/router';
 
 interface InputProps {
     contact: string | undefined | null;
     label: string;
-    count?: number;
+    count: number | boolean | null;
     className?: string;
     gridClassName?: string;
+    type: string;
+    data?: string[];
+    isDisabled?:boolean;
 }
 
 const InputGrid = ({
     contact,
     label,
-    count,
+    count = null,
     className,
     gridClassName,
+    type,
+    isDisabled,
+    data
 }: InputProps) => {
-    const [contactNumber, setContactNumber] = useAtom(customerContactAtom);
-    const { t } = useTranslation('common');
+    const router = useRouter();
+    const [contactNumber, setContactNumber] = useState('');
 
     useEffect(() => {
         if (contact) {
             setContactNumber(contact);
             return;
         }
-        setContactNumber('');
     }, [contact, setContactNumber]);
 
 
     return (
         <div className={className}>
-            <div
-                className={classNames('mb-5 flex items-center justify-between', {
-                    'md:mb-8': "1",
-                })}
-            >
-                <div
-                    className={classNames('mb-5 flex items-center justify-between', {
-                        'md:mb-8': count,
+            {type === 'contact'
+            ? <AddressHeader onAdd={() => {router.push('/profile')}} count={count} label={label} type={type} isDisabled={isDisabled}/>
+            :<AddressHeader count={count} label={label} type={type} isDisabled={isDisabled}/>
+        }
+            <div className="grid grid-cols-1 gap-4">
+                <span className="relative px-5 py-3 text-base text-center bg-gray-100 border rounded border-border-200">
+                    {contactNumber.length > 0 && contactNumber}
+                    {data && data.map(text => {
+                        return (<p key={text}>{text}</p>)
                     })}
-                >
-                    <div className="flex items-center space-x-3 rtl:space-x-reverse md:space-x-4">
-                        {count && (
-                            <span className="flex items-center justify-center w-8 h-8 text-base rounded-full bg-accent text-light lg:text-xl">
-                                {count}
-                            </span>
-                        )}
-                        <p className="text-lg capitalize text-heading lg:text-xl">{label}</p>
-                    </div>
-
-                    <button
-                        className="flex items-center text-sm font-semibold transition-colors duration-200 text-accent hover:text-accent-hover focus:text-accent-hover focus:outline-none"
-
-                    >
-                        <PlusIcon className="h-4 w-4 stroke-2 ltr:mr-0.5 rtl:ml-0.5" />
-                        {contactNumber ? t('text-update') : t('text-add')}
-                    </button>
-                </div>
-
-
+                </span>
             </div>
-            <Input
-                name=""
-
-                value={contactNumber}
-                type="text"
-                variant="outline"
-                className="mb-5"
-
-            />
         </div>
+        
     );
 };
 

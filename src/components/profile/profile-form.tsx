@@ -14,7 +14,6 @@ const ProfileForm = ({ user }: { user: User }) => {
   const { mutate: updateProfile, isLoading } = useUpdateUser();
 
   function onSubmit(values: UpdateUserInput) {
-    console.log(values, 'values');
     if (!user) {
       return false;
     }
@@ -23,6 +22,7 @@ const ProfileForm = ({ user }: { user: User }) => {
       name: values.name,
       surname: values.surname,
       contact: values.contact,
+      email: values.email,
     });
   }
 
@@ -31,7 +31,7 @@ const ProfileForm = ({ user }: { user: User }) => {
       onSubmit={onSubmit}
       useFormProps={{
         ...(user && {
-          defaultValues: pick(user, ['name', 'surname', 'contact']),
+          defaultValues: pick(user, ['name', 'surname', 'contact', 'email']),
         }),
       }}
     >
@@ -64,6 +64,14 @@ const ProfileForm = ({ user }: { user: User }) => {
                   className="flex-1"
                   label={t('text-contact-number')}
                   {...register('contact')}
+                  variant="outline"
+                />
+              </div>
+              <div className="mb-6 flex flex-row">
+              <Input
+                  className="flex-1"
+                  label={t('text-email')}
+                  {...register('email')}
                   variant="outline"
                 />
               </div>

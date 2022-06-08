@@ -5,18 +5,40 @@ import EmptyCartIcon from '@/components/icons/empty-cart';
 import usePrice from '@/lib/use-price';
 import { ItemInfoRow } from './item-info-row';
 import { CheckAvailabilityAction } from '@/components/checkout/check-availability-action';
+import PaymentGrid from '../payment/payment-grid';
+import InputGrid from '../contact/input-grid';
+import { SendButton } from '../send-button';
+import { useSettings } from '@/framework/settings';
+import { useState } from 'react';
+import NoteGrid from '../note-grid/note-grid';
 
 const UnverifiedItemList = ({ hideTitle = false }: { hideTitle?: boolean }) => {
   const { t } = useTranslation('common');
   const { items, total, isEmpty } = useCart();
-  console.log('isEmpty:', isEmpty);
+  const { settings: {bankData}}  = useSettings()
   const { price: subtotal } = usePrice(
     items && {
       amount: total,
     }
   );
+
+  const [selectedPayment, setSelectedPayment] = useState('')
+  function getPaymentValue(value:any) {
+    setSelectedPayment(value)
+  }
+
   return (
     <div className="w-full">
+       <PaymentGrid getValue={getPaymentValue} />
+       {selectedPayment === 'STRIPE' && 
+        <InputGrid
+        className="p-5 bg-light shadow-700 md:p-8 mb-5"
+        label={'Datos Bancarios'}
+        type='data'
+        count={null}
+        data={bankData}
+        />
+      }
       {!hideTitle && (
         <div className="flex flex-col items-center mb-4 space-x-4 rtl:space-x-reverse">
           <span className="text-base font-bold text-heading">
@@ -36,6 +58,7 @@ const UnverifiedItemList = ({ hideTitle = false }: { hideTitle?: boolean }) => {
           items?.map((item) => <ItemCard item={item} key={item.id} />)
         )}
       </div>
+       
       <div className="mt-4 space-y-2">
         <ItemInfoRow title={t('text-sub-total')} value={subtotal} />
         <ItemInfoRow
@@ -47,9 +70,9 @@ const UnverifiedItemList = ({ hideTitle = false }: { hideTitle?: boolean }) => {
           value={t('text-calculated-checkout')}
         />
       </div>
-      <CheckAvailabilityAction>
-        {t('text-check-availability')}
-      </CheckAvailabilityAction>
+      
+      <NoteGrid className="pt-5" />
+      <SendButton label={t('text-send-button')}/>
     </div>
   );
 };

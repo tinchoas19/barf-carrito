@@ -2,7 +2,7 @@
   "name": "@pick-bazar/shop",
   "version": "7.0.0",
   "private": true,
-  "proxy": "http://buenosairesrawfood.com.ar/crm/api/",
+  "proxy": "buenosairesrawfood.com.ar",
   "scripts": {
     "clean": "rimraf \"{.next,node_modules,__generated__,.cache,src/framework/graphql/**/*.d.ts}\"",
     "dev:rest": "next dev -p 3003",

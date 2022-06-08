@@ -20,7 +20,6 @@ import { useOrder } from '@/framework/order';
 import { useRouter } from 'next/router';
 
 function OrderView({ order }: any) {
-  console.log('order:', order);
   const { t } = useTranslation('common');
   const { resetCart } = useCart();
   const [, resetCheckout] = useAtom(clearCheckoutAtom);

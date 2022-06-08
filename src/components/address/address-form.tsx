@@ -9,33 +9,47 @@ import { useModalState } from '@/components/ui/modal/modal.context';
 import { Form } from '@/components/ui/forms/form';
 import { AddressType } from '@/framework/utils/constants';
 import { useUpdateUser } from '@/framework/user';
+import DropDownInput from '../ui/forms/dropdown/dropdown-input';
+import { useEffect, useState } from 'react';
+import { string } from 'yup/lib/locale';
+import { useSettings } from '@/framework/settings';
 
 
 type FormValues = {
-  title: string;
-  type: AddressType;
+  //title: string;
+  //type: AddressType;
   address: {
-    country: string;
+    // country: string;
     city: string;
-    state: string;
-    zip: string;
+    //state: string;
+    // zip: string;
+    zone: string;
     street_address: string;
+    street_number: number;
+    bell?: string;
+    note: string;
+    wtd: string;
+    wtd_note: string;
   };
 };
 
 const addressSchema = yup.object().shape({
-  type: yup
-    .string()
-    .oneOf([AddressType.Billing, AddressType.Shipping])
-    .required('error-type-required'),
-  title: yup.string().required('error-title-required'),
+  //type: yup
+  //  .string()
+  //  .oneOf([AddressType.Billing, AddressType.Shipping])
+ //  .required('error-type-required'),
+  //title: yup.string().required('error-title-required'),
   address: yup.object().shape({
-    country: yup.string().required('error-country-required'),
+    //country: yup.string().required('error-country-required'),
     city: yup.string().required('error-city-required'),
-    state: yup.string().required('error-state-required'),
-    zip: yup.string().required('error-zip-required'),
+    //state: yup.string().required('error-state-required'),
+    //zip: yup.string().required('error-zip-required'),
+    zone: yup.string().required('error-zone-required'),
     street_address: yup.string().required('error-street-required'),
-  }),
+    street_number: yup.string().required('error-number-required'),
+    wtd: yup.string().required('error-wtd-required'),
+    wtd_note: yup.string().required('error-wtd-extra-required'),
+  }), 
 });
 
 export const AddressForm: React.FC<any> = ({
@@ -44,6 +58,21 @@ export const AddressForm: React.FC<any> = ({
   isLoading,
 }) => {
   const { t } = useTranslation('common');
+
+  const {settings: { zones, cities, wtd }} = useSettings()
+
+  const [selectedZone, setSelectedZone] = useState('')
+  const [citiesToShow, setCitiesToShow] = useState([])
+
+  function getZoneId(name:string) {
+    const finalZone = zones.find(zone => zone.name === name)
+    return finalZone?.id
+  }
+  
+  useEffect(() => {
+    const listOfCities = cities.filter(city => { return city.zone === getZoneId(selectedZone)})
+    setCitiesToShow(listOfCities)
+  },[selectedZone])
 
   return (
     <Form<FormValues>
@@ -78,58 +107,84 @@ export const AddressForm: React.FC<any> = ({
               />
             </div>
           </div> */}
-
-
           <Input
             label={t('text-address')}
-            {...register('address.country')}
-            error={t(errors.address?.country?.message!)}
+            {...register('address.street_address')}
+            error={t(errors.address?.street_address?.message!)}
             variant="outline"
           />
-
           <Input
             label={t('text-address-number')}
-            {...register('address.city')}
-            error={t(errors.address?.city?.message!)}
+            {...register('address.street_number')}
+            error={t(errors.address?.street_number?.message!)}
             variant="outline"
+            type='number'
           />
 
-          <Input
+          {/* <Input
             label={t('text-address-zone')}
             {...register('title')}
             error={t(errors.title?.message!)}
             variant="outline"
             className="col-span-2"
-          />
-
+          /> 
 
           <Input
             label={t('text-address-location')}
             {...register('address.state')}
             error={t(errors.address?.state?.message!)}
             variant="outline"
+          /> */}
+
+          <DropDownInput
+            label={t('text-address-zone')}
+            {...register('address.zone')}
+            error={t(errors.address?.zone?.message!)}
+            variant="outline"
+            className="col-span-2"
+            options={(zones.map((zone) => {return zone.name}))}
+            isParent={true}
+            onChange={setSelectedZone}
+          />
+
+          <DropDownInput
+            label={t('text-address-location')}
+            {...register('address.city')}
+            error={t(errors.address?.city?.message!)}
+            variant="outline"
+            options={(citiesToShow.map((city) => {return city?.name}))}
+            disabled={!citiesToShow.length}
           />
 
           <Input
             label={t('text-address-bell')}
-            {...register('address.zip')}
-            error={t(errors.address?.zip?.message!)}
+            {...register('address.bell')}
+            error={t(errors.address?.bell?.message!)}
             variant="outline"
           />
 
 
           <TextArea
             label={t('text-address-note')}
-            {...register('address.street_address')}
-            error={t(errors.address?.street_address?.message!)}
+            {...register('address.note')}
+            error={t(errors.address?.note?.message!)}
             variant="outline"
             className="col-span-2"
           />
 
-          <TextArea
+          <DropDownInput
             label={t('text-address-wtd')}
-            {...register('address.street_address')}
-            error={t(errors.address?.street_address?.message!)}
+            {...register('address.wtd')}
+            error={t(errors.address?.wtd?.message!)}
+            variant="outline"
+            className="col-span-2"
+            options={wtd}
+          />
+
+          <TextArea
+            label={t('text-address-wtd-extra')}
+            {...register('address.wtd_note')}
+            error={t(errors.address?.wtd_note?.message!)}
             variant="outline"
             className="col-span-2"
           />
@@ -153,18 +208,16 @@ export default function CreateOrUpdateAddressForm() {
   const {
     data: { customerId, address, type },
   } = useModalState();
-  console.log(customerId, address, type, 'customerId, address, type');
   const { mutate: updateProfile } = useUpdateUser();
 
   function onSubmit(values: FormValues) {
-    console.log(values, 'values');
     const formattedInput = {
-      id: address?.id,
+      //id: address?.id,
       // customer_id: customerId,
-      title: values.title,
-      type: values.type,
+      //title: values.title,
+      //type: values.type,
       address: {
-        ...values.address,
+        ...values.address
       },
     };
     updateProfile({
@@ -175,13 +228,11 @@ export default function CreateOrUpdateAddressForm() {
   return (
     <div className="min-h-screen bg-light p-5 sm:p-8 md:min-h-0 md:rounded-xl">
       <h1 className="mb-4 text-center text-lg font-semibold text-heading sm:mb-6">
-        {address ? t('text-update') : t('text-add-new')} {t('text-address')}
+        {address ? t('text-update') : t('text-add-new-a')} {t('text-address')}
       </h1>
       <AddressForm
         onSubmit={onSubmit}
         defaultValues={{
-          title: address?.title ?? '',
-          type: address?.type ?? type,
           address: {
             ...address?.address,
           },

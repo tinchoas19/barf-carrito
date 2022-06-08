@@ -18,6 +18,7 @@ export interface HomePageProps {
   layout: string;
 }
 
+
 export interface SearchParamOptions {
   type: string;
   name: string;
@@ -314,28 +315,35 @@ enum PaymentGatewayType {
 }
 
 export interface CreateOrderInput {
-  customer_contact: string;
+  //$clienteid, $fechayhora, $tipoentregaid, $diaentrega, 
+  //$direccionentregaid, $formapagoid, $nota, $decuentoporcentaje, $productos
+  customer_id: string;
+  delivery_type_id: number; // RETIRO 1 ENVIO 2
+  shipping_address_id: number;
+  delivery_day: string | any;
+  payment_id: string;
+  note: string;
+  products: ConnectProductOrderPivot[] | any;
+
+  //Todo estos campos sobran
+  /* customer_contact: string;
   status: string;
-  products: ConnectProductOrderPivot[];
   amount: number;
   sales_tax: number;
   total: number;
   paid_total: number;
-  payment_id?: string;
   payment_gateway: PaymentGatewayType;
   coupon_id?: string;
   shop_id?: string;
-  customer_id?: string;
   discount?: number;
   use_wallet_points?: boolean;
   delivery_fee?: number;
   delivery_time?: string;
   card: CardInput;
   token?: string;
-  billing_address: Address;
-  shipping_address: Address;
-}
+  billing_address: Address; */
 
+}
 export interface OrderStatus {
   id: string;
   name: string;
@@ -347,12 +355,14 @@ export interface OrderStatus {
 
 export interface ConnectProductOrderPivot {
   product_id: number;
-  variation_option_id: number;
   order_quantity: number;
   unit_price: number;
+  subtotalkilos: number;
+
+  //Este campo
+  variation_option_id: number;
   subtotal: number;
 }
-
 export interface CheckoutVerificationInput {
   amount: number;
   products: ConnectProductOrderPivot[];
