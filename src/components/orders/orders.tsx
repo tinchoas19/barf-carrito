@@ -8,30 +8,28 @@ import OrderListMobile from '@/components/orders/order-list-mobile';
 import { useOrders } from '@/framework/order';
 
 export default function Orders() {
-  const { orders, isLoading, error, hasMore, loadMore, isLoadingMore } =
-    useOrders();
+  const { orders, isLoading, error} = useOrders();
 
   const [order, setOrder] = useState<any>({});
-  useEffect(() => {
+    useEffect(() => {
 
-    if (orders.length) {
+    if (orders) {
       setOrder(orders[0]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [orders.length]);
-  if (error) return <ErrorMessage message={error.message} />;
+  }, [orders]);
+  if (error) return <ErrorMessage message={error.message} />;  
+ 
 
   return (
     <>
-      <OrdersWithLoader
+    {orders && <>
+       <OrdersWithLoader
         notFound={!isLoading && !orders?.length}
-        isLoadingMore={isLoadingMore}
-        onLoadMore={loadMore}
-        showLoaders={isLoading && !orders.length}
-        hasNextPage={hasMore}
+        showLoaders={isLoading && !orders?.length}
         order={order}
       >
-        {orders.map((_order: any, index: number) => (
+        {orders && orders.map((_order: any, index: number) => (
           <OrderCard
             key={index}
             order={_order}
@@ -43,10 +41,7 @@ export default function Orders() {
 
       <OrderListMobile
         notFound={!isLoading && !orders?.length}
-        isLoadingMore={isLoadingMore}
-        onLoadMore={loadMore}
         showLoaders={isLoading && !orders.length}
-        hasNextPage={hasMore}
         order={order}
       >
         {orders.map((_order: any, index: number) => (
@@ -66,7 +61,8 @@ export default function Orders() {
             <OrderDetails order={order} />
           </Collapse.Panel>
         ))}
-      </OrderListMobile>
+      </OrderListMobile> 
+    </>}
     </>
   );
 }

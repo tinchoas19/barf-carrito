@@ -146,7 +146,7 @@ type GroupsDropdownMenuProps = {
 };
 
 const GroupsDropdownMenu: React.FC<GroupsDropdownMenuProps> = ({ variant }) => {
-  const { settings : {productCategories} } = useSettings()
+  const { settings : {productCategories, wtd} } = useSettings()
   return (
     <GroupsMenu groups={productCategories} defaultGroup={productCategories[0]} variant={variant} />
   );

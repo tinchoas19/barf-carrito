@@ -29,10 +29,10 @@ const AddressCard: React.FC<AddressProps> = ({
       )}
     >
       <p className="text-sm text-heading font-semibold mb-3 capitalize">
-        {address?.address?.street_address}
+        {address?.street_address} {address?.street_number}
       </p>
       <p className="text-sm text-sub-heading">
-        {address?.address?.city}
+        {address?.city_name}
       </p>
       <div className="absolute top-4 ltr:right-4 rtl:left-4 flex space-x-2 rtl:space-x-reverse opacity-0 group-hover:opacity-100">
         {onEdit && (

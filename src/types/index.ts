@@ -18,6 +18,7 @@ export interface HomePageProps {
   layout: string;
 }
 
+
 export interface SearchParamOptions {
   type: string;
   name: string;
