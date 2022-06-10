@@ -4,6 +4,7 @@ import { useTranslation } from 'next-i18next';
 import DrawerWrapper from '@/components/ui/drawer/drawer-wrapper';
 import { useAtom } from 'jotai';
 import { drawerAtom } from '@/store/drawer-atom';
+import { useLogout } from '@/framework/user';
 
 const headerLinks = [
   { href: ROUTES.HOME, label: 'nav-menu-shops' },
@@ -15,12 +16,18 @@ const headerLinks = [
 ];
 
 export default function MobileMainMenu() {
+  const { mutate: logout } = useLogout();
   const { t } = useTranslation('common');
   const router = useRouter();
   const [_, closeSidebar] = useAtom(drawerAtom);
 
   function handleClick(path: string) {
-    router.push(path);
+    if (path === '/logout') {
+      logout()
+      return
+    }  else {
+      router.push(path);
+    }
     closeSidebar({ display: false, view: '' });
   }
 

@@ -36,7 +36,7 @@ const Header = ({ layout }: { layout: string }) => {
       className={cn('sticky top-0 site-header-with-search h-14 md:h-16 lg:h-22 bg-white', {
         'lg:!h-auto': isFlattenHeader,
       })}
-      style={{zIndex:1000}}
+      style={{zIndex:50}}
     >
       <div
         className={cn(
