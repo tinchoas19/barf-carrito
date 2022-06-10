@@ -75,6 +75,7 @@ export const SendButton: React.FC<{disabled?:boolean, label:string, className?: 
     function handleVerifyCheckout() {
       
      const order:CreateOrderInput = formatOrder(checkout)
+     console.log(order)
      const result:boolean = validateOrder(order)
      if (result) {
        const res = createOrder(order)
