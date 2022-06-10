@@ -326,6 +326,7 @@ export interface CreateOrderInput {
   payment_id: string;
   note: string;
   products: ConnectProductOrderPivot[] | any;
+  total_price : number | null;
 
   //Todo estos campos sobran
   /* customer_contact: string;

@@ -1,6 +1,7 @@
 export const API_ENDPOINTS = {
   PRODUCTS: '/products.php',
   ORDERS: '/orders.php',
+  CREATE_ORDER: '/create-order.php',
   USERS_ME: '/me.php',
   SETTINGS: '/settings.php',
   USERS_LOGIN: '/token.php',

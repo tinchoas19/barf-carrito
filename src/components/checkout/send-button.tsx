@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import Button from '@/components/ui/button';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
@@ -7,12 +8,14 @@ import { useCart } from '@/store/quick-cart/cart.context';
 import {CreateOrderInput} from './../../types/index'
 import { toast } from 'react-toastify';
 import { useTranslation } from 'next-i18next';
+import { useCreateOrder } from '@/framework/order';
 
-export const SendButton: React.FC<{disabled?:boolean, label:string, className?: string}> = (
-  {disabled, label}, rest) => {
+export const SendButton: React.FC<{disabled?:boolean, label:string, className?: string, getTotal:Function}> = (
+  {disabled, label, getTotal}, rest) => {
     const { t } = useTranslation('common');
     const [checkout] = useAtom(checkoutAtom);
     const { items, total, isEmpty } = useCart();
+    const {createOrder} = useCreateOrder()
 
     function formatOrder(checkout:any) {
       const {
@@ -31,7 +34,8 @@ export const SendButton: React.FC<{disabled?:boolean, label:string, className?: 
         delivery_day: {delivery_time: delivery_time || null, pickup_time: pickup_time || null}  || null,
         payment_id: payment_method?.id  || null,
         note: note || null,
-        products : items?.map((item:any) => formatOrderedProduct(item))  || null
+        products : items?.map((item:any) => formatOrderedProduct(item))  || null,
+        total_price : getTotal()
       } 
       return order
     }
@@ -44,7 +48,8 @@ export const SendButton: React.FC<{disabled?:boolean, label:string, className?: 
         delivery_day,
         payment_id,
         note,
-        products
+        products,
+        total_price
        } = order
        // campos obligatorios
       if (
@@ -52,6 +57,7 @@ export const SendButton: React.FC<{disabled?:boolean, label:string, className?: 
         !delivery_type_id ||
         !payment_id ||
         products.length === 0 ||
+        !total_price ||
         isEmpty
         ) return false
         // retiro
@@ -67,10 +73,12 @@ export const SendButton: React.FC<{disabled?:boolean, label:string, className?: 
     }
 
     function handleVerifyCheckout() {
+      
      const order:CreateOrderInput = formatOrder(checkout)
      const result:boolean = validateOrder(order)
      if (result) {
-       //mandar al back
+       const res = createOrder(order)
+       console.log(res)
        toast.success(t('send-order-successful'));
      } else {
        toast.error(t('send-order-error-uncomplete'));

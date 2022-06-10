@@ -2,30 +2,65 @@ import { useCart } from '@/store/quick-cart/cart.context';
 import { useTranslation } from 'next-i18next';
 import ItemCard from './item-card';
 import EmptyCartIcon from '@/components/icons/empty-cart';
-import usePrice from '@/lib/use-price';
+import usePrice, { formatPrice } from '@/lib/use-price';
 import { ItemInfoRow } from './item-info-row';
 import { CheckAvailabilityAction } from '@/components/checkout/check-availability-action';
 import PaymentGrid from '../payment/payment-grid';
 import InputGrid from '../contact/input-grid';
 import { SendButton } from '../send-button';
 import { useSettings } from '@/framework/settings';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import NoteGrid from '../note-grid/note-grid';
+import { paymentMethodAtom, deliveryTypeAtom , shippingAddressAtom} from '@/store/checkout';
+import { useAtom } from 'jotai';
 
 const UnverifiedItemList = ({ hideTitle = false }: { hideTitle?: boolean }) => {
   const { t } = useTranslation('common');
   const { items, total, isEmpty } = useCart();
   const { settings: {bankData}}  = useSettings()
-  const { price: subtotal } = usePrice(
+  const { price: subtotal, amount } = usePrice(
     items && {
       amount: total,
     }
   );
 
+  const [deliveryType] = useAtom(deliveryTypeAtom)
+  const [paymentMethod] = useAtom(paymentMethodAtom)
+  const [shippingAddress] = useAtom(shippingAddressAtom)
+
+  const [totalPrice, setTotalPrice] = useState(null)
+
   const [selectedPayment, setSelectedPayment] = useState('')
   function getPaymentValue(value:any) {
     setSelectedPayment(value)
   }
+
+  function fNum(num:number) {
+    return formatPrice({amount : num, currencyCode: 'ARS', locale: 'es'})
+  }
+
+  function getTotal() {
+    if (!deliveryType || !paymentMethod || (deliveryType.id === 2 && !shippingAddress)) {
+      return null
+    }
+    // retiro
+    let result = amount
+    // es pago en efectivo
+    if (paymentMethod.id === 2) {
+      result = (result / 10) * 9
+    }
+    // es envio
+    if (deliveryType.id === 2) {
+      result = result + parseInt(shippingAddress.delivery_fee)
+    }
+    return result
+  }
+
+  useEffect(() => {
+    setTotalPrice(getTotal())
+  },[deliveryType, paymentMethod, shippingAddress])
+
+
 
   return (
     <div className="w-full">
@@ -61,18 +96,26 @@ const UnverifiedItemList = ({ hideTitle = false }: { hideTitle?: boolean }) => {
        
       <div className="mt-4 space-y-2">
         <ItemInfoRow title={t('text-sub-total')} value={subtotal} />
-        <ItemInfoRow
-          title={t('text-tax')}
-          value={t('text-calculated-checkout')}
-        />
-        <ItemInfoRow
+        {/* DESCUENTO */}
+        {paymentMethod?.id === 2 && <ItemInfoRow
+          title={t('text-discount-cash')}
+          value={fNum((amount /10) * 9)}
+        />}
+        {/* ENVIO */}
+        {deliveryType?.id === 2 && <ItemInfoRow
           title={t('text-estimated-shipping')}
-          value={t('text-calculated-checkout')}
+          value={shippingAddress ? fNum(shippingAddress.delivery_fee) : t('text-calculated-checkout')}
+        />}
+        <ItemInfoRow
+          title={t('text-total')}
+          value={totalPrice ? fNum(totalPrice) : t('text-calculated-checkout')}
+          bold={true}
         />
+        
       </div>
       
       <NoteGrid className="pt-5" />
-      <SendButton label={t('text-send-button')}/>
+      <SendButton label={t('text-send-button')} getTotal={() => getTotal()}/>
     </div>
   );
 };

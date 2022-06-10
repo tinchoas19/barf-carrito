@@ -70,6 +70,6 @@ export default function usePrice(
   }, [amount, baseAmount, currencyCode, locale]);
 
   return typeof value === 'string'
-    ? { price: value, basePrice: null, discount: null }
+    ? { price: value, basePrice: null, discount: null, amount }
     : value;
 }
