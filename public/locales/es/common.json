@@ -111,7 +111,7 @@
   "error-wtd-required":"Seleccione una opción",
   "error-wtd-extra-required":"Se requiere una respuesta",
   "error-enough-permission": "No tiene permiso suficiente",
-  "error-credential-wrong": "¡Las credenciales eran incorrectas!",
+  "error-credential-wrong": "¡Las credenciales son incorrectas!",
   "login-helper": "Inicie sesión con su correo electrónico y contraseña",
   "error-email-format": "El formato de dirección de correo electrónico proporcionado no es válido",
   "error-email-required": "Debe proporcionar su dirección de correo electrónico",

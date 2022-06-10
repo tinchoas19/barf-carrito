@@ -4,16 +4,22 @@ import { useTranslation } from 'next-i18next';
 import DrawerWrapper from '@/components/ui/drawer/drawer-wrapper';
 import { useAtom } from 'jotai';
 import { drawerAtom } from '@/store/drawer-atom';
-import { useUser } from '@/framework/user';
+import { useUser , useLogout} from '@/framework/user';
 
 export default function MobileAuthorizedMenu() {
+  const { mutate: logout } = useLogout();
   const { t } = useTranslation('common');
   const router = useRouter();
   const { me } = useUser();
   const [_, closeSidebar] = useAtom(drawerAtom);
   function handleClick(path: string) {
 
-    router.push(path);
+    if (path === '/logout') {
+      logout()
+      return
+    } else {
+      router.push(path);
+    }
     closeSidebar({ display: false, view: '' });
   }
   return (
