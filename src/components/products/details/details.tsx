@@ -96,6 +96,8 @@ const Details: React.FC<Props> = ({
   const hasVariations = !isEmpty(variations);
   const previewImages = displayImage(selectedVariation?.image, gallery, image);
 
+  
+
   return (
     <article className="rounded-lg bg-light">
       <div className="flex flex-col border-b md:flex-row border-border-200 border-opacity-70">

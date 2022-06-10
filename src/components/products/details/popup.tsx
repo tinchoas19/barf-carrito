@@ -7,19 +7,20 @@ import { stickyShortDetailsAtom } from '@/store/sticky-short-details-atom';
 import { useAtom } from 'jotai';
 import { AttributesProvider } from './attributes.context';
 import { useProduct } from '@/framework/product';
+import { Product } from '@/types';
 
 const RelatedProducts = dynamic(() => import('./related-products'));
 interface ProductPopupProps {
-  productSlug: string;
+  product: Product;
 }
-const Popup: React.FC<ProductPopupProps> = ({ productSlug }) => {
+const Popup: React.FC<ProductPopupProps> = ({ product }) => {
   const { t } = useTranslation('common');
   const [showStickyShortDetails] = useAtom(stickyShortDetailsAtom);
-  const { product, isLoading } = useProduct({ slug: productSlug });
+  //const { product, isLoading } = useProduct({ slug: productSlug });
 
-  const { id, related_products } = product ?? {};
+  const { id } = product ?? {};
 
-  if (isLoading || !product)
+  if (!product)
     return (
       <div className="relative flex items-center justify-center w-96 h-96 bg-light">
         <Spinner text={t('common:text-loading')} />

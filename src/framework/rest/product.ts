@@ -49,10 +49,10 @@ import { formatProductsArgs } from '@/framework/utils/format-products-args';
   };
 } 
  */
-export function useProducts() {
+export function useProducts(id:number = 0) {
   const { data } = useQuery<Product[], Error>(
     [API_ENDPOINTS.PRODUCTS],
-    client.products.all
+    () => client.products.all(id)
   );
   return {
     products :data

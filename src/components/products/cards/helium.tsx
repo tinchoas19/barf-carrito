@@ -1,6 +1,6 @@
 import { Image } from '@/components/ui/image';
 import cn from 'classnames';
-import usePrice from '@/lib/use-price';
+import usePrice, { formatPrice } from '@/lib/use-price';
 import { AddToCart } from '@/components/products/add-to-cart/add-to-cart';
 import { useTranslation } from 'next-i18next';
 import { useModalAction } from '@/components/ui/modal/modal.context';
@@ -22,9 +22,9 @@ const Helium: React.FC<HeliumProps> = ({ product, className }) => {
   //   baseAmount: product.price,
   // });
 
-  const { name, image, quantity, min_price, max_price, product_type } =
+  const { name, image, min_price, max_price, price,  product_type } =
     product ?? {};
-  const { price, basePrice, discount } = usePrice({
+/*   const { price2, basePrice, discount } = usePrice({
     amount: product.sale_price ? product.sale_price : product.price!,
     baseAmount: product.price,
   });
@@ -33,12 +33,12 @@ const Helium: React.FC<HeliumProps> = ({ product, className }) => {
   });
   const { price: maxPrice } = usePrice({
     amount: max_price,
-  });
+  }); */
 
   const { openModal } = useModalAction();
 
   function handleProductQuickView() {
-    return openModal('PRODUCT_DETAILS', product.slug);
+    return openModal('PRODUCT_DETAILS', product);
   }
   return (
     <article
@@ -68,10 +68,9 @@ const Helium: React.FC<HeliumProps> = ({ product, className }) => {
       {/* End of product image */}
 
       <header className="p-3 md:p-6">
-
         <div className="flex items-center mb-2">
           <span className="text-sm md:text-base text-heading font-semibold">
-            {price}
+            {formatPrice({amount : price, currencyCode: 'ARS',locale: 'ES'})}
           </span>
           {/* {basePrice && (
               <del className="text-xs md:text-sm text-muted ltr:ml-2 rtl:mr-2">
@@ -92,9 +91,7 @@ const Helium: React.FC<HeliumProps> = ({ product, className }) => {
 
 
         <>
-          {Number(quantity) > 0 && (
             <AddToCart variant="neon" data={product} />
-          )}
         </>
 
 

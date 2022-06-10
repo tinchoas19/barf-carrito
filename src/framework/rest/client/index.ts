@@ -149,7 +149,7 @@ class Client {
   };
   products = {
     //FIXME: check this async function
-    all: async () => HttpClient.get<Product[]>(API_ENDPOINTS.PRODUCTS),
+    all: async (id:number) => HttpClient.get<Product[]>(`${API_ENDPOINTS.PRODUCTS}?id=${id}`),
   };
 }
 

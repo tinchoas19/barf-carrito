@@ -54,7 +54,7 @@ export default function usePrice(
   const {
     settings: { currency },
   } = useSettings();
-  const { amount, baseAmount, currencyCode = currency ?? 'USD' } = data ?? {};
+  const { amount, baseAmount, currencyCode = currency ?? 'ARS' } = data ?? {};
   const { locale } = useRouter();
   const value = useMemo(() => {
     if (typeof amount !== 'number' || !currencyCode) return '';

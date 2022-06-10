@@ -237,6 +237,8 @@ export interface UpdateUserInput extends Partial<User> {
 export interface LoginUserInput {
   email: string;
   password: string;
+  codasoc?: string;
+  haveCode?: boolean;
 }
 
 
