@@ -92,13 +92,13 @@ export const useContact = () => {
   return useMutation(client.users.contactUs, {
     onSuccess: (data) => {
       if (data.success) {
-        toast.success(t(data.message));
+        toast.success(t('text-email-send'));
       } else {
-        toast.error(t(data.message));
+        toast.error(t('error-email-send'));
       }
     },
     onError: (err) => {
-      console.log(err);
+      toast.error(t('error-email-send'));
     },
   });
 };

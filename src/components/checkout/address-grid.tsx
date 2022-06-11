@@ -31,7 +31,11 @@ export const AddressGrid: React.FC<AddressesProps> = ({
   const { openModal } = useModalAction();
 
  useEffect(() => {
-  setAddress(null)
+   if (addresses && addresses?.length === 1) {
+     setAddress(addresses[0])
+   } else {
+     setAddress(null)
+   }
  },[])
 /* 
   useEffect(() => {

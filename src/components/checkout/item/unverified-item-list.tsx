@@ -40,7 +40,10 @@ const UnverifiedItemList = ({ hideTitle = false }: { hideTitle?: boolean }) => {
   }
 
   function getTotal() {
-    if (!deliveryType || !paymentMethod || (deliveryType.id === 2 && !shippingAddress)) {
+    console.log({
+      deliveryType,paymentMethod, shippingAddress
+    })
+    if (deliveryType.id === 0 || !paymentMethod || (deliveryType.id === 2 && !shippingAddress)) {
       return null
     }
     // retiro

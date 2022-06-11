@@ -15,6 +15,7 @@ export default function MobileAuthorizedMenu() {
   function handleClick(path: string) {
 
     if (path === '/logout') {
+      closeSidebar({ display: false, view: '' });
       logout()
       return
     } else {

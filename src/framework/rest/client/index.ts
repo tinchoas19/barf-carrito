@@ -101,7 +101,7 @@ class Client {
   users = {
     me: () => HttpClient.get<User>(`${API_ENDPOINTS.USERS_ME}?id=${Cookies.get(AUTH_TOKEN_KEY)}`),
     update: (user: UpdateUserInput) =>
-      HttpClient.put<User>(`${API_ENDPOINTS.USERS}`, user),
+      HttpClient.put<User>(`${API_ENDPOINTS.UPDATE_CONTACT}`, user),
     //HttpClient.put<User>(`${API_ENDPOINTS.USERS}/${user.id}`, user),
     login: (input: LoginUserInput) =>
       HttpClient.post<AuthResponse>(API_ENDPOINTS.USERS_LOGIN, input),

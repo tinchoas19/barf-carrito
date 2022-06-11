@@ -21,6 +21,7 @@ const ContactForm = () => {
   const { mutate, isLoading } = useContact();
 
   function onSubmit(values: CreateContactUsInput) {
+    console.log(values)
     mutate(values);
   }
 
