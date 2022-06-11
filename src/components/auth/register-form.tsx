@@ -9,14 +9,19 @@ import { Form } from '@/components/ui/forms/form';
 import type { RegisterUserInput } from '@/types';
 import * as yup from 'yup';
 import { useRegister } from '@/framework/user';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const registerFormSchema = yup.object().shape({
   name: yup.string().required('error-name-required'),
+  surname: yup.string().required('error-surname-required'),
   email: yup
     .string()
     .email('error-email-format')
     .required('error-email-required'),
+  contact: yup.string().required('error-contact-required') ,
   password: yup.string().required('error-password-required'),
+  repeatPassword: yup.string()
+  .oneOf([yup.ref('password'), null], 'error-repeat-password')
 });
 
 function RegisterForm() {
@@ -24,10 +29,12 @@ function RegisterForm() {
   const { openModal } = useModalAction();
   const { mutate, isLoading, formError } = useRegister();
 
-  function onSubmit({ name, email, password }: RegisterUserInput) {
+  function onSubmit({ name, email, password, surname, contact }: RegisterUserInput) {
     mutate({
       name,
+      surname,
       email,
+      contact,
       password,
     });
   }
@@ -49,6 +56,13 @@ function RegisterForm() {
               error={t(errors.name?.message!)}
             />
             <Input
+              label={t('text-surname')}
+              {...register('surname')}
+              variant="outline"
+              className="mb-5"
+              error={t(errors.surname?.message!)}
+            />
+            <Input
               label={t('text-email')}
               {...register('email')}
               type="email"
@@ -56,10 +70,25 @@ function RegisterForm() {
               className="mb-5"
               error={t(errors.email?.message!)}
             />
+            <Input
+              label={t('text-contact')}
+              {...register('contact')}
+              type="number"
+              variant="outline"
+              className="mb-5"
+              error={t(errors.contact?.message!)}
+            />
             <PasswordInput
               label={t('text-password')}
               {...register('password')}
               error={t(errors.password?.message!)}
+              variant="outline"
+              className="mb-5"
+            />
+            <PasswordInput
+              label={t('text-repeat-password')}
+              {...register('repeatPassword')}
+              error={t(errors.repeatPassword?.message!)}
               variant="outline"
               className="mb-5"
             />

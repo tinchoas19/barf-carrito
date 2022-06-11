@@ -140,14 +140,17 @@ export function useRegister() {
 
   const { mutate, isLoading } = useMutation(client.users.register, {
     onSuccess: (data) => {
-      if (data?.token && data?.permissions?.length) {
-        setToken(data?.token);
+      if (data?.data?.token && data?.status_message === 'autenticado') {
+        setToken(data?.data?.token);
         setAuthorized(true);
         closeModal();
+        toast.success(t('text-register-success'))
         return;
       }
-      if (!data.token) {
-        toast.error(t('error-credential-wrong'));
+      if (!data?.data?.token) {
+        data?.data?.errors.forEach((err:string) => 
+          toast.error(t(err))
+          )
       }
     },
     onError: (error) => {

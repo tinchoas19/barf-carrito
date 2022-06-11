@@ -245,7 +245,9 @@ export interface LoginUserInput {
 
 export interface RegisterUserInput {
   name: string;
+  surname: string;
   email: string;
+  contact: string;
   password: string;
 }
 
