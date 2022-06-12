@@ -274,11 +274,16 @@ export interface PasswordChangeResponse {
   message: string;
 }
 
-export interface AuthResponse {
+export interface AuthResponseData {
   token: string;
-  permissions: string[];
+  error: string;
 }
 
+export interface AuthRespose {
+  data: AuthResponseData;
+  status: string;
+  status_message: string;
+}
 
 
 export interface DigitalFile {

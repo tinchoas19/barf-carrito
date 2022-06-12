@@ -39,7 +39,7 @@ const passwordFormValidation = yup.object().shape({
   password: yup.string().required(),
 });
 
-function EmailForm({
+/* function EmailForm({
   email,
   onSubmit,
   isLoading,
@@ -131,7 +131,7 @@ function PasswordForm({
     </Form>
   );
 }
-
+ */
 
 export const initialState: GlobalState = {
   step: 'Email',
@@ -157,6 +157,10 @@ export const updateFormState = (
 export default function ForgotUserPassword() {
   const { t } = useTranslation('common');
   const { openModal } = useModalAction();
+  
+  function onSubmit({ email }) {
+    console.log(email)
+  }
 
   return (
     <StateMachineProvider>
@@ -167,6 +171,31 @@ export default function ForgotUserPassword() {
         <p className="mt-4 text-sm leading-relaxed text-center mb-7 text-body sm:mt-5 sm:mb-10 md:text-base">
           {t('forgot-password-helper')}
         </p>
+        
+        <Form<Pick<ForgotPasswordUserInput, 'email'>>
+      onSubmit={onSubmit}
+      validationSchema={emailFormValidation}
+      className="text-left"
+    >
+      {({ register, formState: { errors } }) => (
+        <>
+          <Input
+            variant="outline"
+            label={t('text-email')}
+            type="email"
+            {...register('email')}
+            error={t(errors.email?.message!)}
+          />
+          <Button
+            type="submit"
+            className="!mt-5 w-full text-sm tracking-[0.2px] lg:!mt-6"
+          >
+            {t('text-submit-email')}
+            <ArrowNextIcon className="w-5" />
+          </Button>
+        </>
+      )}
+    </Form>
 
         <div className="relative flex flex-col items-center justify-center text-sm mt-9 mb-7 text-heading sm:mt-11 sm:mb-8">
           <hr className="w-full" />
