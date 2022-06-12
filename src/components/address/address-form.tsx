@@ -70,7 +70,6 @@ export const AddressForm: React.FC<any> = ({
   }
   
   useEffect(() => {
-    console.log(wtd)
     const listOfCities = cities.filter(city => { return city.zoneid === getZoneId(selectedZone)})
     setCitiesToShow(listOfCities)
   },[selectedZone])

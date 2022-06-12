@@ -1,6 +1,6 @@
 import BackButton from '@/components/ui/back-button';
 import { AddToCart } from '@/components/products/add-to-cart/add-to-cart';
-import usePrice from '@/lib/use-price';
+import usePrice,  { formatPrice }  from '@/lib/use-price';
 import { ThumbsCarousel } from '@/components/ui/thumb-carousel';
 import { useTranslation } from 'next-i18next';
 import { getVariations } from '@/lib/get-variations';
@@ -44,6 +44,7 @@ const Details: React.FC<Props> = ({
     type,
     quantity,
     shop,
+    price,
     slug,
   } = product ?? {};
   const { t } = useTranslation('common');
@@ -54,10 +55,10 @@ const Details: React.FC<Props> = ({
 
   const { attributes } = useAttributes();
 
-  const { price, basePrice, discount } = usePrice({
+/*   const { price, basePrice, discount } = usePrice({
     amount: product?.sale_price ? product?.sale_price : product?.price!,
     baseAmount: product?.price,
-  });
+  }); */
 
   const navigate = (path: string) => {
     router.push(path);
@@ -177,7 +178,7 @@ const Details: React.FC<Props> = ({
               ) : (
                 <span className="flex items-center my-5 md:my-10">
                   <ins className="text-2xl font-semibold no-underline md:text-3xl text-accent">
-                    {price}
+                    {formatPrice({amount:price, locale:'ES', currencyCode:'ARS'})}
                   </ins>
                   {/* {basePrice && (
                     <del className="text-sm font-normal md:text-base text-muted ltr:ml-2 rtl:mr-2">

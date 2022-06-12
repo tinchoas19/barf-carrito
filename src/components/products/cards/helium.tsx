@@ -7,6 +7,8 @@ import { useModalAction } from '@/components/ui/modal/modal.context';
 import { Product } from '@/framework/types';
 import { productPlaceholder } from '@/lib/placeholders';
 import CartIcon from '@/components/icons/cart';
+import {UserIcon as PersonalizedIcon }from '@/components/icons/user-icon';
+
 
 type HeliumProps = {
   product: any;
@@ -22,7 +24,7 @@ const Helium: React.FC<HeliumProps> = ({ product, className }) => {
   //   baseAmount: product.price,
   // });
 
-  const { name, image, min_price, max_price, price,  product_type } =
+  const { name, image, min_price, max_price, price,  product_type, isPersonalized = true } =
     product ?? {};
 /*   const { price2, basePrice, discount } = usePrice({
     amount: product.sale_price ? product.sale_price : product.price!,
@@ -47,11 +49,16 @@ const Helium: React.FC<HeliumProps> = ({ product, className }) => {
         className
       )}
     >
+        
       <div
         className="relative flex items-center justify-center cursor-pointer w-auto h-48 sm:h-64"
         onClick={handleProductQuickView}
       >
+        
+
+        
         <span className="sr-only">{t('text-product-image')}</span>
+        
         <Image
           src={image?.original ?? productPlaceholder}
           alt={name}
@@ -67,6 +74,10 @@ const Helium: React.FC<HeliumProps> = ({ product, className }) => {
       </div>
       {/* End of product image */}
 
+      {
+        isPersonalized &&  
+        <PersonalizedIcon className='absolute ml-2 mt-2' style={{zIndex: 2, top:0 , cursor:'pointer'}} />
+        }
       <header className="p-3 md:p-6">
         <div className="flex items-center mb-2">
           <span className="text-sm md:text-base text-heading font-semibold">

@@ -8,6 +8,7 @@ import { useAtom } from 'jotai';
 import { AttributesProvider } from './attributes.context';
 import { useProduct } from '@/framework/product';
 import { Product } from '@/types';
+import {UserIcon as PersonalizedIcon }from '@/components/icons/user-icon';
 
 const RelatedProducts = dynamic(() => import('./related-products'));
 interface ProductPopupProps {
@@ -18,7 +19,7 @@ const Popup: React.FC<ProductPopupProps> = ({ product }) => {
   const [showStickyShortDetails] = useAtom(stickyShortDetailsAtom);
   //const { product, isLoading } = useProduct({ slug: productSlug });
 
-  const { id } = product ?? {};
+  const { id, isPersonalized = true } = product ?? {};
 
   if (!product)
     return (
@@ -30,6 +31,10 @@ const Popup: React.FC<ProductPopupProps> = ({ product }) => {
   return (
     <AttributesProvider>
       <article className="bg-light w-full max-w-6xl xl:min-w-[1152px] relative z-[51] md:rounded-xl">
+      {
+        isPersonalized &&  
+        <PersonalizedIcon className='absolute ml-5 mt-5' style={{zIndex: 2, top:0 , cursor:'pointer'}} />
+        }
         {/* Sticky bar */}
         <ShortDetails product={product} isSticky={showStickyShortDetails} />
         {/* End of sticky bar */}

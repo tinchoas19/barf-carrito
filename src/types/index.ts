@@ -141,6 +141,7 @@ export interface Product {
   gallery: Attachment[];
   created_at: string;
   updated_at: string;
+  isPersonalized: boolean;
 }
 
 export interface Category {
