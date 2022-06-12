@@ -70,9 +70,11 @@ export const AddressForm: React.FC<any> = ({
   }
   
   useEffect(() => {
-    const listOfCities = cities.filter(city => { return city.zone === getZoneId(selectedZone)})
+    console.log(wtd)
+    const listOfCities = cities.filter(city => { return city.zoneid === getZoneId(selectedZone)})
     setCitiesToShow(listOfCities)
   },[selectedZone])
+
 
   return (
     <Form<FormValues>
@@ -153,8 +155,8 @@ export const AddressForm: React.FC<any> = ({
             error={t(errors.address?.city?.message!)}
             variant="outline"
             options={(citiesToShow.map((city) => {return city?.name}))}
-            disabled={!citiesToShow.length}
-          />
+            disabled={!citiesToShow.length || selectedZone === ''}
+          /> 
 
           <Input
             label={t('text-address-bell')}
@@ -179,7 +181,7 @@ export const AddressForm: React.FC<any> = ({
             variant="outline"
             className="col-span-2"
             options={wtd}
-          />
+          /> 
 
           <TextArea
             label={t('text-address-wtd-extra')}

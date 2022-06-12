@@ -1,6 +1,11 @@
 import cn from 'classnames';
 import React, { InputHTMLAttributes } from 'react';
 
+interface expectedOptionObject {
+  id: number;
+  name: string;
+}
+
 export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
   inputClassName?: string;
@@ -11,7 +16,7 @@ export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   shadow?: boolean;
   variant?: 'normal' | 'solid' | 'outline' | 'line';
   dimension?: 'small' | 'medium' | 'big';
-  options: string[];
+  options: string[] | expectedOptionObject[];
   onChange?: Function;
   isParent?: boolean;
 }
@@ -90,9 +95,15 @@ const DropDownInput = React.forwardRef<HTMLInputElement, Props>(
         >
           <option value='' ></option>
           {options && options.map(option => {
-            return (
-              <option key={option} value={option}>{option}</option>
-            )
+            if (typeof option === 'string') {
+              return (
+                <option key={option} value={option}>{option}</option>
+                )
+            } else if (typeof option === 'object') {
+              return (
+                <option key={option?.id} value={option?.id}>{option?.name}</option>
+                )
+            }
           })}
         </select>
         {error && <p className="mt-2 text-xs text-red-500">{error}</p>}
