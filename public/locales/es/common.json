@@ -384,5 +384,17 @@
   "text-show-products": "Mostrar productos",
   "text-guest-checkout": "Pagar como invitado",
   "text-click-here": "haga clic aquí",
-  "text-previous-step": "Paso anterior"
+  "text-previous-step": "Paso anterior",
+  "text-login-code-question" : "Tienes un código?",
+  "text-login-code ": "Código",
+  "error-code-login" : "Se requiere un código",
+  "text-discount-cash" : "Descuento en efectivo -10%",
+  "send-order-error-uncompleted" : "Faltan datos por completar",
+  "text-email-send ": "Email enviado con exito!",
+  "error-email-send" : "Algo salió mal",
+  "error-surname-required" : "Debe proporcionar su apellido",
+  "error-repeat-password" : "Las contraseñas deben coincidir",
+  "text-repeat-password" : "Confirme contraseña",
+  "text-contact" : "Número de teléfono",
+  "text-register-success" : "Usuario creado con exito!"
 }
