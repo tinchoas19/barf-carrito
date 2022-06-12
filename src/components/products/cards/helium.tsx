@@ -24,7 +24,7 @@ const Helium: React.FC<HeliumProps> = ({ product, className }) => {
   //   baseAmount: product.price,
   // });
 
-  const { name, image, min_price, max_price, price,  product_type, isPersonalized = true } =
+  const { name, image, min_price, max_price, price,  product_type, isPersonalized = false } =
     product ?? {};
 /*   const { price2, basePrice, discount } = usePrice({
     amount: product.sale_price ? product.sale_price : product.price!,

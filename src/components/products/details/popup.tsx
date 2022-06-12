@@ -19,7 +19,7 @@ const Popup: React.FC<ProductPopupProps> = ({ product }) => {
   const [showStickyShortDetails] = useAtom(stickyShortDetailsAtom);
   //const { product, isLoading } = useProduct({ slug: productSlug });
 
-  const { id, isPersonalized = true } = product ?? {};
+  const { id, isPersonalized = false } = product ?? {};
 
   if (!product)
     return (
