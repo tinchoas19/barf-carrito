@@ -10,6 +10,7 @@ import type { RegisterUserInput } from '@/types';
 import * as yup from 'yup';
 import { useRegister } from '@/framework/user';
 import { yupResolver } from '@hookform/resolvers/yup';
+import crypto from 'crypto'
 
 const registerFormSchema = yup.object().shape({
   name: yup.string().required('error-name-required'),
@@ -35,7 +36,7 @@ function RegisterForm() {
       surname,
       email,
       contact,
-      password,
+      password: crypto.createHash('md5').update(password).digest('hex'),
     });
   }
 

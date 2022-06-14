@@ -71,12 +71,17 @@ export const useUpdateUser = () => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   const { closeModal } = useModalAction();
+  const router = useRouter()
   return useMutation(client.users.update, {
     onSuccess: (data) => {
       if (data?.data?.success) {
         toast.success(t('profile-update-successful'));
         closeModal();
+        if (data?.data?.inserted) {
+          router.push('/profile')
+        }
       }
+      
     },
     onError: (error) => {
       toast.error(t('error-something-wrong'));
@@ -111,17 +116,25 @@ export function useLogin() {
   const { closeModal } = useModalAction();
   const { setToken } = useToken();
   let [serverError, setServerError] = useState<string | null>(null);
+  const router = useRouter()
 
   const { mutate, isLoading } = useMutation(client.users.login, {
     onSuccess: (res) => {
       console.log(res)
-      if (res?.data.token === '') {
-        setServerError('error-credential-wrong');
+      if (res?.data.token === '' || res?.data.token === null) {
+        if (res?.data.errors) {
+          res?.data.errors.forEach(err => {
+            toast.error(err)
+          })
+        } else {
+          setServerError('error-credential-wrong');
+        }
         return;
       }
       setToken(res?.data.token);
       setAuthorized(true);
       closeModal();
+      router.push('/')
     },
     onError: (error: Error) => {
       console.log(error.message);
@@ -207,7 +220,7 @@ export function useChangePassword() {
   const { mutate, isLoading } = useMutation(client.users.changePassword, {
     onSuccess: (data) => {
 
-      if (!data.data) {
+      if (!data.data?.success) {
         setFormError({
           oldPassword: data?.message ?? '',
         });

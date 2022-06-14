@@ -161,7 +161,6 @@ export default function ForgotUserPassword() {
 
 
   function onSubmit({ email }) {
-    console.log(email)
     changePassword({email})
   }
 

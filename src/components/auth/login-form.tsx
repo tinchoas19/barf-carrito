@@ -17,6 +17,7 @@ import { useRouter } from 'next/router';
 import { ROUTES } from '@/lib/routes';
 import Checkbox from '../ui/forms/checkbox/checkbox';
 import { useState } from 'react';
+import crypto from 'crypto'
 
 const loginFormSchema = yup.object().shape({
   email: yup
@@ -44,7 +45,7 @@ function LoginForm() {
   function onSubmit({ email, password, codasoc}: LoginUserInput) {
     login({
       email,
-      password,
+      password : crypto.createHash('md5').update(password).digest('hex'),
       codasoc : haveCode ? codasoc : ''
     });
   }

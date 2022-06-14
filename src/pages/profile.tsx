@@ -8,9 +8,12 @@ import { useUser } from '@/framework/user';
 import DashboardLayout from '@/layouts/_dashboard';
 export { getStaticProps } from '@/framework/general.ssr';
 
+
 const ProfilePage = () => {
   const { t } = useTranslation('common');
   const { me } = useUser();
+
+
   if (!me) return null;
   return (
     <>

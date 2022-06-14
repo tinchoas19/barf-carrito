@@ -5,6 +5,7 @@ import { useTranslation } from 'next-i18next';
 import { Form } from '@/components/ui/forms/form';
 import { useChangePassword, useUser } from '@/framework/user';
 import * as yup from 'yup';
+import crypto from 'crypto'
 
 export const changePasswordSchema = yup.object().shape({
   oldPassword: yup.string().required('error-old-password-required'),
@@ -28,8 +29,8 @@ export default function ChangePasswordForm() {
 
 
     me && changePassword({
-      oldPassword,
-      newPassword,
+      oldPassword: crypto.createHash('md5').update(oldPassword).digest('hex'),
+      newPassword: crypto.createHash('md5').update(newPassword).digest('hex'),
       userId : me.id
     });
   }
