@@ -1,5 +1,5 @@
 import NotFound from '@/components/ui/not-found';
-import usePrice from '@/lib/use-price';
+import { formatPrice } from '@/lib/use-price';
 import { formatAddress } from '@/lib/format-address';
 import OrderStatuses from '@/components/orders/statuses';
 import { useTranslation } from 'next-i18next';
@@ -12,6 +12,7 @@ import { useModalAction } from '@/components/ui/modal/modal.context';
 import { SadFaceIcon } from '@/components/icons/sad-face';
 import Badge from '@/components/ui/badge';
 import { Order } from '@/framework/types';
+import usePrice from '@/lib/use-price';
 
 interface Props {
   order: Order;
@@ -83,11 +84,15 @@ const OrderDetails = ({ order }: Props) => {
   const {
     products,
     shipping_address,
-    cash,
     delivery_type,
-    payment_method
+    payment_method,
+    total
   } = order ?? {};
-  const { price: discount_parcial } = usePrice({
+
+  function f(amount:number) {
+    return formatPrice({amount, currencyCode : 'ARS', locale: 'ES'})
+  }
+/*   const { price: discount_parcial } = usePrice({
     amount: ((order?.discount * order?.paid_order) / 100),
   });
 
@@ -99,7 +104,7 @@ const OrderDetails = ({ order }: Props) => {
   });
   const { price: delivery_fee } = usePrice({
     amount: parseInt(order?.shipping_address?.delivery_fee),
-  });
+  }); */
   const { price: paid_order_2 } = usePrice({
     amount: order?.paid_order,
   });
@@ -147,25 +152,29 @@ const OrderDetails = ({ order }: Props) => {
             <div className="flex w-full flex-col px-5 py-4 md:w-2/5">
               <div className="mb-3 flex justify-between">
                 <span className="text-sm text-body">{t('text-sub-total')}</span>
-                <span className="text-sm text-heading">{paid_order_2}</span>
+                <span className="text-sm text-heading">{f(total)}</span>
               </div>
 
               {delivery_type.id === '2' && <div className="mb-3 flex justify-between">
                 <span className="text-sm text-body">
                   {t('text-delivery-fee')}
                 </span>
-                <span className="text-sm text-heading">{delivery_fee}</span>
+                <span className="text-sm text-heading">{f(parseInt(shipping_address.delivery_fee))}</span>
               </div>}
               {payment_method.id === '1' &&  <div className="mb-3 flex justify-between">
                 <span className="text-sm text-body">{t('text-private-discount')}</span>
-                <span className="text-sm text-heading">{discount}</span>
+                <span className="text-sm text-heading">{f(total / 10)}</span>
               </div>}
 
               <div className="flex justify-between">
                 <span className="text-sm font-bold text-heading">
                   {t('text-total')}
                 </span>
-                <span className="text-sm font-bold text-heading">{total}</span>
+                <span className="text-sm font-bold text-heading">{f(
+                  total
+                  - (payment_method.id === '1' ?( total / 10) : 0)
+                  + (delivery_type.id === '2' ? parseInt((shipping_address.delivery_fee ? shipping_address.delivery_fee : 0)) : 0)
+                )}</span>
               </div>
             </div>
           </div>
