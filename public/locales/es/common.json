@@ -389,12 +389,16 @@
   "text-login-code ": "Código",
   "error-code-login" : "Se requiere un código",
   "text-discount-cash" : "Descuento en efectivo -10%",
-  "send-order-error-uncompleted" : "Faltan datos por completar",
+  "send-order-error-uncomplete" : "Faltan datos por completar",
   "text-email-send": "Email enviado con exito!",
   "error-email-send" : "Algo salió mal",
   "error-surname-required" : "Debe proporcionar su apellido",
   "error-repeat-password" : "Las contraseñas deben coincidir",
   "text-repeat-password" : "Confirme contraseña",
   "text-contact" : "Número de teléfono",
-  "text-register-success" : "Usuario creado con exito!"
+  "text-register-success" : "Usuario creado con exito!",
+  "error-forget-password" : "Algo salió mal",
+  "text-forget-password-success" : "Te enviamos un mail a tu correo electrónico",
+  "text-reset-password-success" : "Contraseña modificada con exito",
+  "text-delivery-type" : "Método de entrega"
 }

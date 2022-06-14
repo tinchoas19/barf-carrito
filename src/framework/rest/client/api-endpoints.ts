@@ -9,6 +9,7 @@ export const API_ENDPOINTS = {
   USERS_CONTACT_US: '/contact.php',
   UPDATE_CONTACT: '/update-user.php',
   USERS_REGISTER: '/register.php',
+  USERS_FORGOT_PASSWORD: '/forget-password.php',
 
   PRODUCTS_POPULAR: '/popular-products',
   CATEGORIES: '/categories',
@@ -28,7 +29,6 @@ export const API_ENDPOINTS = {
   GENERATE_DOWNLOADABLE_PRODUCT_LINK: '/downloads/digital_file',
   USERS: '/users',
   USERS_ADDRESS: '/address',
-  USERS_FORGOT_PASSWORD: '/forget-password',
   USERS_VERIFY_FORGOT_PASSWORD_TOKEN: '/verify-forget-password-token',
   USERS_RESET_PASSWORD: '/reset-password',
   USERS_LOGOUT: '/logout',

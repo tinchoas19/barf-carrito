@@ -24,6 +24,7 @@ import {
   updateFormState,
 } from '@/components/auth/forgot-password';
 import { clearCheckoutAtom } from '@/store/checkout';
+import { useRouter } from 'next/router';
 
 
 export function useUser() {
@@ -138,7 +139,7 @@ export function useRegister() {
   let [formError, setFormError] = useState<Partial<RegisterUserInput> | null>(
     null
   );
-
+  const router = useRouter()
   const { mutate, isLoading } = useMutation(client.users.register, {
     onSuccess: (data) => {
       if (data?.data?.token && data?.status_message === 'autenticado') {
@@ -146,6 +147,7 @@ export function useRegister() {
         setAuthorized(true);
         closeModal();
         toast.success(t('text-register-success'))
+        router.push('/')
         return;
       }
       if (!data?.data?.token) {
@@ -201,7 +203,7 @@ export function useChangePassword() {
   const { t } = useTranslation('common');
   let [formError, setFormError] =
     useState<Partial<ChangePasswordUserInput> | null>(null);
-
+  const router = useRouter()
   const { mutate, isLoading } = useMutation(client.users.changePassword, {
     onSuccess: (data) => {
 
@@ -213,6 +215,7 @@ export function useChangePassword() {
         return;
       }
       toast.success(t('password-successful'));
+      router.push('/')
     },
     onError: (error) => {
       const {
@@ -227,24 +230,26 @@ export function useChangePassword() {
 }
 
 export function useForgotPassword() {
-  const { actions } = useStateMachine({ updateFormState });
+  //const { actions } = useStateMachine({ updateFormState });
   let [message, setMessage] = useState<string | null>(null);
   let [formError, setFormError] = useState<any>(null);
   const { t } = useTranslation();
 
   const { mutate, isLoading } = useMutation(client.users.forgotPassword, {
-    onSuccess: (data, variables) => {
-      if (!data.success) {
+    onSuccess: (data) => {
+      if (!data?.data?.success) {
         setFormError({
-          email: data?.message ?? '',
+          email: data?.status_message ?? '',
         });
+        toast.error(t('error-forget-password'));
         return;
       }
-      setMessage(data?.message!);
+      toast.success(t('text-forget-password-success'));
+      /* setMessage(data?.message!);
       actions.updateFormState({
         email: variables.email,
         step: 'Token',
-      });
+      }); */
     },
   });
 
@@ -252,6 +257,7 @@ export function useForgotPassword() {
 }
 
 export function useResetPassword() {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const { openModal } = useModalAction();
   const { actions } = useStateMachine({ updateFormState });
@@ -259,7 +265,7 @@ export function useResetPassword() {
   return useMutation(client.users.resetPassword, {
     onSuccess: (data) => {
       if (data?.success) {
-        toast.success('Successfully Reset Password!');
+        toast.success(t('text-reset-password-success'));
         actions.updateFormState({
           ...initialState,
         });

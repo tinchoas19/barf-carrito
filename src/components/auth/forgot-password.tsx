@@ -157,9 +157,12 @@ export const updateFormState = (
 export default function ForgotUserPassword() {
   const { t } = useTranslation('common');
   const { openModal } = useModalAction();
-  
+  const {mutate : changePassword} = useForgotPassword()
+
+
   function onSubmit({ email }) {
     console.log(email)
+    changePassword({email})
   }
 
   return (

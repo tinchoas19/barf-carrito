@@ -6,11 +6,17 @@ import ProfileContact from '@/components/profile/profile-contact';
 import Seo from '@/components/seo/seo';
 import { useUser } from '@/framework/user';
 import DashboardLayout from '@/layouts/_dashboard';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 export { getStaticProps } from '@/framework/general.ssr';
 
 const ProfilePage = () => {
   const { t } = useTranslation('common');
   const { me } = useUser();
+  const router = useRouter()
+/*   useEffect(()=>{
+    if (!me) router.push('/')
+  },[]) */
   if (!me) return null;
   return (
     <>
