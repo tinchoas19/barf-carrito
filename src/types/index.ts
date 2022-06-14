@@ -223,12 +223,14 @@ export interface Address {
 }
 
 export interface User {
+  success: any;
   id: string;
   name: string;
   surname: string;
   email: string;
   contact?: string;
   address: Address[];
+  data?: Object;
 }
 
 export interface UpdateUserInput extends Partial<User> {

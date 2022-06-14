@@ -8,7 +8,7 @@ import * as yup from 'yup';
 import { useModalState } from '@/components/ui/modal/modal.context';
 import { Form } from '@/components/ui/forms/form';
 import { AddressType } from '@/framework/utils/constants';
-import { useUpdateUser } from '@/framework/user';
+import { useUpdateUser, useUser } from '@/framework/user';
 import DropDownInput from '../ui/forms/dropdown/dropdown-input';
 import { useEffect, useState } from 'react';
 import { string } from 'yup/lib/locale';
@@ -210,9 +210,13 @@ export default function CreateOrUpdateAddressForm() {
     data: { customerId, address, type },
   } = useModalState();
   const { mutate: updateProfile } = useUpdateUser();
+  const { me } = useUser();
 
   function onSubmit(values: FormValues) {
-    const formattedInput = {
+    const payload = {...me}
+    values.address && payload.address.push(values.address)
+    console.log(payload)
+/*     const formattedInput = {
       //id: address?.id,
       // customer_id: customerId,
       //title: values.title,
@@ -220,11 +224,8 @@ export default function CreateOrUpdateAddressForm() {
       address: {
         ...values.address
       },
-    };
-    updateProfile({
-      id: customerId,
-      address: [formattedInput],
-    });
+    };*/
+    updateProfile(payload); 
   }
   return (
     <div className="min-h-screen bg-light p-5 sm:p-8 md:min-h-0 md:rounded-xl">

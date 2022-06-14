@@ -72,7 +72,7 @@ export const useUpdateUser = () => {
   const { closeModal } = useModalAction();
   return useMutation(client.users.update, {
     onSuccess: (data) => {
-      if (data?.id) {
+      if (data?.data?.success) {
         toast.success(t('profile-update-successful'));
         closeModal();
       }
@@ -91,7 +91,8 @@ export const useContact = () => {
 
   return useMutation(client.users.contactUs, {
     onSuccess: (data) => {
-      if (data.success) {
+      console.log(data)
+      if (data?.data?.success) {
         toast.success(t('text-email-send'));
       } else {
         toast.error(t('error-email-send'));
@@ -203,10 +204,12 @@ export function useChangePassword() {
 
   const { mutate, isLoading } = useMutation(client.users.changePassword, {
     onSuccess: (data) => {
-      if (!data.success) {
+
+      if (!data.data) {
         setFormError({
           oldPassword: data?.message ?? '',
         });
+        toast.error(t('error-change-password'))
         return;
       }
       toast.success(t('password-successful'));
@@ -216,6 +219,7 @@ export function useChangePassword() {
         response: { data },
       }: any = error ?? {};
       setFormError(data);
+      toast.error(t('error-change-password'))
     },
   });
 

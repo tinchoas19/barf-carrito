@@ -3,7 +3,7 @@ import PasswordInput from '@/components/ui/forms/password-input';
 import type { ChangePasswordUserInput } from '@/types';
 import { useTranslation } from 'next-i18next';
 import { Form } from '@/components/ui/forms/form';
-import { useChangePassword } from '@/framework/user';
+import { useChangePassword, useUser } from '@/framework/user';
 import * as yup from 'yup';
 
 export const changePasswordSchema = yup.object().shape({
@@ -16,6 +16,7 @@ export const changePasswordSchema = yup.object().shape({
 });
 
 export default function ChangePasswordForm() {
+  const { me } = useUser();
   const { t } = useTranslation('common');
   const {
     mutate: changePassword,
@@ -24,10 +25,12 @@ export default function ChangePasswordForm() {
   } = useChangePassword();
 
   function onSubmit({ newPassword, oldPassword, userId }: ChangePasswordUserInput) {
-    changePassword({
+
+
+    me && changePassword({
       oldPassword,
       newPassword,
-      userId
+      userId : me.id
     });
   }
 
