@@ -390,7 +390,7 @@
   "error-code-login" : "Se requiere un código",
   "text-discount-cash" : "Descuento en efectivo -10%",
   "send-order-error-uncompleted" : "Faltan datos por completar",
-  "text-email-send ": "Email enviado con exito!",
+  "text-email-send": "Email enviado con exito!",
   "error-email-send" : "Algo salió mal",
   "error-surname-required" : "Debe proporcionar su apellido",
   "error-repeat-password" : "Las contraseñas deben coincidir",

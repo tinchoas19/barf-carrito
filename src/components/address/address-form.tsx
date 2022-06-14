@@ -20,7 +20,7 @@ type FormValues = {
   //type: AddressType;
   address: {
     // country: string;
-    city: string;
+    cityid: string;
     //state: string;
     // zip: string;
     zone: string;
@@ -41,7 +41,7 @@ const addressSchema = yup.object().shape({
   //title: yup.string().required('error-title-required'),
   address: yup.object().shape({
     //country: yup.string().required('error-country-required'),
-    city: yup.string().required('error-city-required'),
+    cityid: yup.string().required('error-city-required'),
     //state: yup.string().required('error-state-required'),
     //zip: yup.string().required('error-zip-required'),
     zone: yup.string().required('error-zone-required'),
@@ -150,10 +150,10 @@ export const AddressForm: React.FC<any> = ({
 
           <DropDownInput
             label={t('text-address-location')}
-            {...register('address.city')}
-            error={t(errors.address?.city?.message!)}
+            {...register('address.cityid')}
+            error={t(errors.address?.cityid?.message!)}
             variant="outline"
-            options={(citiesToShow.map((city) => {return city?.name}))}
+            options={citiesToShow}
             disabled={!citiesToShow.length || selectedZone === ''}
           /> 
 

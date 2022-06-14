@@ -81,13 +81,11 @@ function RefundView({ status, orderId }: { status: string; orderId: string }) {
 const OrderDetails = ({ order }: Props) => {
   const { t } = useTranslation('common');
   const {
-    id,
     products,
-    status,
     shipping_address,
-    discount,
     cash,
-    paid_order,
+    delivery_type,
+    payment_method
   } = order ?? {};
   const { price: discount_parcial } = usePrice({
     amount: ((order?.discount * order?.paid_order) / 100),
@@ -96,12 +94,17 @@ const OrderDetails = ({ order }: Props) => {
   const { price: total } = usePrice({
     amount: order?.total,
   });
+  const { price: discount } = usePrice({
+    amount: (order?.total / 10),
+  });
   const { price: delivery_fee } = usePrice({
-    amount: order?.delivery_fee,
+    amount: parseInt(order?.shipping_address?.delivery_fee),
   });
   const { price: paid_order_2 } = usePrice({
     amount: order?.paid_order,
   });
+
+
 
   return (
     <div className="flex w-full flex-col border border-border-200 bg-white lg:w-2/3">
@@ -111,15 +114,32 @@ const OrderDetails = ({ order }: Props) => {
 
           <div className="flex flex-col border-b border-border-200 sm:flex-row">
             <div className="flex w-full flex-col border-b border-border-200 px-5 py-4 sm:border-b-0 ltr:sm:border-r rtl:sm:border-l md:w-3/5">
-              <div className="mb-4">
+            <div className="mb-4">
+              <span className="mb-2 block text-sm font-bold text-heading">
+                {t('text-delivery-type')}
+              </span>
+              <span className="text-sm text-body">
+                {delivery_type.name}
+              </span>
+            </div>
+              
+              {delivery_type.id === '2' && <div className="mb-4">
                 <span className="mb-2 block text-sm font-bold text-heading">
                   {t('text-shipping-address')}
                 </span>
-
                 <span className="text-sm text-body">
                   {formatAddress(shipping_address)}
                 </span>
-              </div>
+              </div>}
+
+            <div className="mb-4">
+              <span className="mb-2 block text-sm font-bold text-heading">
+                {t('text-payment-method')}
+              </span>
+              <span className="text-sm text-body">
+                {payment_method.name}
+              </span>
+            </div>
 
 
             </div>
@@ -130,21 +150,16 @@ const OrderDetails = ({ order }: Props) => {
                 <span className="text-sm text-heading">{paid_order_2}</span>
               </div>
 
-              <div className="mb-3 flex justify-between">
-                <span className="text-sm text-body">{t('text-discount')}</span>
-                <span className="text-sm text-heading">{discount_parcial}</span>
-              </div>
-
-              <div className="mb-3 flex justify-between">
+              {delivery_type.id === '2' && <div className="mb-3 flex justify-between">
                 <span className="text-sm text-body">
                   {t('text-delivery-fee')}
                 </span>
                 <span className="text-sm text-heading">{delivery_fee}</span>
-              </div>
-              <div className="mb-3 flex justify-between">
+              </div>}
+              {payment_method.id === '1' &&  <div className="mb-3 flex justify-between">
                 <span className="text-sm text-body">{t('text-private-discount')}</span>
-                <span className="text-sm text-heading">{cash}</span>
-              </div>
+                <span className="text-sm text-heading">{discount}</span>
+              </div>}
 
               <div className="flex justify-between">
                 <span className="text-sm font-bold text-heading">
