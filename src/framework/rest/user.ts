@@ -24,6 +24,8 @@ import {
   updateFormState,
 } from '@/components/auth/forgot-password';
 import { clearCheckoutAtom } from '@/store/checkout';
+import { useRouter } from 'next/router';
+
 
 export function useUser() {
   const [isAuthorized] = useAtom(authorizationAtom);
@@ -69,12 +71,17 @@ export const useUpdateUser = () => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   const { closeModal } = useModalAction();
+  const router = useRouter()
   return useMutation(client.users.update, {
     onSuccess: (data) => {
-      if (data?.id) {
+      if (data?.data?.success) {
         toast.success(t('profile-update-successful'));
         closeModal();
+        if (data?.data?.inserted) {
+          router.push('/profile')
+        }
       }
+      
     },
     onError: (error) => {
       toast.error(t('error-something-wrong'));
@@ -90,14 +97,15 @@ export const useContact = () => {
 
   return useMutation(client.users.contactUs, {
     onSuccess: (data) => {
-      if (data.success) {
-        toast.success(t(data.message));
+      console.log(data)
+      if (data?.data?.success) {
+        toast.success(t('text-email-send'));
       } else {
-        toast.error(t(data.message));
+        toast.error(t('error-email-send'));
       }
     },
     onError: (err) => {
-      console.log(err);
+      toast.error(t('error-email-send'));
     },
   });
 };
@@ -108,17 +116,25 @@ export function useLogin() {
   const { closeModal } = useModalAction();
   const { setToken } = useToken();
   let [serverError, setServerError] = useState<string | null>(null);
+  const router = useRouter()
 
   const { mutate, isLoading } = useMutation(client.users.login, {
-    onSuccess: (data) => {
-      // data.token
-      if (false) {
-        setServerError('error-credential-wrong');
+    onSuccess: (res) => {
+      console.log(res)
+      if (res?.data.token === '' || res?.data.token === null) {
+        if (res?.data.errors) {
+          res?.data.errors.forEach(err => {
+            toast.error(err)
+          })
+        } else {
+          setServerError('error-credential-wrong');
+        }
         return;
       }
-      setToken(data.token);
+      setToken(res?.data.token);
       setAuthorized(true);
       closeModal();
+      router.push('/')
     },
     onError: (error: Error) => {
       console.log(error.message);
@@ -136,17 +152,21 @@ export function useRegister() {
   let [formError, setFormError] = useState<Partial<RegisterUserInput> | null>(
     null
   );
-
+  const router = useRouter()
   const { mutate, isLoading } = useMutation(client.users.register, {
     onSuccess: (data) => {
-      if (data?.token && data?.permissions?.length) {
-        setToken(data?.token);
+      if (data?.data?.token && data?.status_message === 'autenticado') {
+        setToken(data?.data?.token);
         setAuthorized(true);
         closeModal();
+        toast.success(t('text-register-success'))
+        router.push('/')
         return;
       }
-      if (!data.token) {
-        toast.error(t('error-credential-wrong'));
+      if (!data?.data?.token) {
+        data?.data?.errors.forEach((err:string) => 
+          toast.error(t(err))
+          )
       }
     },
     onError: (error) => {
@@ -162,7 +182,18 @@ export function useRegister() {
 }
 
 export function useLogout() {
-  const queryClient = useQueryClient();
+  const { setToken } = useToken();
+  const [_, setAuthorized] = useAtom(authorizationAtom);
+  const [_r, resetCheckout] = useAtom(clearCheckoutAtom);
+  const { openModal } = useModalAction();
+  const mutate = function () {
+    setToken('');
+    setAuthorized(false);
+    resetCheckout();
+    openModal('LOGIN_VIEW');
+  }
+  return {mutate}
+/*   const queryClient = useQueryClient();
   const { setToken } = useToken();
   const [_, setAuthorized] = useAtom(authorizationAtom);
   const [_r, resetCheckout] = useAtom(clearCheckoutAtom);
@@ -178,29 +209,33 @@ export function useLogout() {
     onSettled: () => {
       queryClient.clear();
     },
-  });
+  }); */
 }
 
 export function useChangePassword() {
   const { t } = useTranslation('common');
   let [formError, setFormError] =
     useState<Partial<ChangePasswordUserInput> | null>(null);
-
+  const router = useRouter()
   const { mutate, isLoading } = useMutation(client.users.changePassword, {
     onSuccess: (data) => {
-      if (!data.success) {
+
+      if (!data.data?.success) {
         setFormError({
           oldPassword: data?.message ?? '',
         });
+        toast.error(t('error-change-password'))
         return;
       }
       toast.success(t('password-successful'));
+      router.push('/')
     },
     onError: (error) => {
       const {
         response: { data },
       }: any = error ?? {};
       setFormError(data);
+      toast.error(t('error-change-password'))
     },
   });
 
@@ -208,24 +243,26 @@ export function useChangePassword() {
 }
 
 export function useForgotPassword() {
-  const { actions } = useStateMachine({ updateFormState });
+  //const { actions } = useStateMachine({ updateFormState });
   let [message, setMessage] = useState<string | null>(null);
   let [formError, setFormError] = useState<any>(null);
   const { t } = useTranslation();
 
   const { mutate, isLoading } = useMutation(client.users.forgotPassword, {
-    onSuccess: (data, variables) => {
-      if (!data.success) {
+    onSuccess: (data) => {
+      if (!data?.data?.success) {
         setFormError({
-          email: data?.message ?? '',
+          email: data?.status_message ?? '',
         });
+        toast.error(t('error-forget-password'));
         return;
       }
-      setMessage(data?.message!);
+      toast.success(t('text-forget-password-success'));
+      /* setMessage(data?.message!);
       actions.updateFormState({
         email: variables.email,
         step: 'Token',
-      });
+      }); */
     },
   });
 
@@ -233,6 +270,7 @@ export function useForgotPassword() {
 }
 
 export function useResetPassword() {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const { openModal } = useModalAction();
   const { actions } = useStateMachine({ updateFormState });
@@ -240,7 +278,7 @@ export function useResetPassword() {
   return useMutation(client.users.resetPassword, {
     onSuccess: (data) => {
       if (data?.success) {
-        toast.success('Successfully Reset Password!');
+        toast.success(t('text-reset-password-success'));
         actions.updateFormState({
           ...initialState,
         });

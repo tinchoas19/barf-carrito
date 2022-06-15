@@ -76,7 +76,7 @@ const CartSidebarView = () => {
 
       {/* <footer className="sticky ltr:left-0 rtl:right-0 bottom-0 w-full py-5 px-6 z-10 bg-light"> */}
       <footer className="fixed bottom-0 w-full max-w-md py-5 px-6 z-10 bg-light">
-        <button
+        {items.length !== 0 && <button
           className="flex justify-between w-full h-12 md:h-14 p-1 text-sm font-bold bg-accent rounded-full shadow-700 transition-colors focus:outline-none hover:bg-accent-hover focus:bg-accent-hover"
           onClick={handleCheckout}
         >
@@ -86,7 +86,7 @@ const CartSidebarView = () => {
           <span className="flex items-center shrink-0 h-full bg-light text-accent rounded-full px-5">
             {totalPrice}
           </span>
-        </button>
+        </button>}
       </footer>
       {/* End of footer */}
     </section>

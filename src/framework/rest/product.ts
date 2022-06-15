@@ -10,10 +10,10 @@ import { API_ENDPOINTS } from './client/api-endpoints';
 import { mapPaginatorData } from '@/framework/utils/data-mappers';
 import { formatProductsArgs } from '@/framework/utils/format-products-args';
 
-export function useProducts(options?: Partial<ProductQueryOptions>) {
+/* export function useProducts(options?: Partial<ProductQueryOptions>) {
   const formattedOptions = formatProductsArgs(options);
 
-  const {
+   const {
     data,
     isLoading,
     error,
@@ -46,6 +46,16 @@ export function useProducts(options?: Partial<ProductQueryOptions>) {
     isLoadingMore: isFetchingNextPage,
     loadMore: handleLoadMore,
     hasMore: Boolean(hasNextPage),
+  };
+} 
+ */
+export function useProducts(id:number = 0) {
+  const { data } = useQuery<Product[], Error>(
+    [API_ENDPOINTS.PRODUCTS],
+    () => client.products.all(id)
+  );
+  return {
+    products :data
   };
 }
 

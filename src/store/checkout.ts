@@ -15,40 +15,66 @@ interface VerifiedResponse {
   wallet_currency: number;
 }
 interface CheckoutState {
-  billing_address: Address | null;
+  //billing_address: Address | null;
+  delivery_type: any | null;
   shipping_address: Address | null;
-  payment_gateway: PaymentMethodName;
+  payment_method: any | null;
   delivery_time: DeliveryTime | null;
-  customer_contact: string;
-  verified_response: VerifiedResponse | null;
-  coupon: Coupon | null;
-  payable_amount: number;
-  use_wallet: boolean;
+  pickup_time: DeliveryTime | null;
+  customer: any;
+  note: string | null;
+  //verified_response: VerifiedResponse | null;
+  //coupon: Coupon | null;
+  //payable_amount: number;
+  //use_wallet: boolean;
   [key: string]: unknown;
 }
 export const defaultCheckout: CheckoutState = {
-  billing_address: null,
+  //billing_address: null,
+  delivery_type: null,
   shipping_address: null,
+  note: '',
   delivery_time: null,
-  payment_gateway: 'STRIPE',
-  customer_contact: '',
-  verified_response: null,
-  coupon: null,
-  payable_amount: 0,
-  use_wallet: false,
+  pickup_time: null,
+  payment_method: null,
+  customer: null,
+  //verified_response: null,
+  //coupon: null,
+  //payable_amount: 0,
+  //use_wallet: false,
 };
-export type PaymentMethodName = 'CASH_ON_DELIVERY' | 'STRIPE';
 
 // Original atom.
-export const checkoutAtom = atomWithStorage(CHECKOUT, defaultCheckout);
+export const checkoutAtom = atomWithStorage('', defaultCheckout);
 export const clearCheckoutAtom = atom(null, (_get, set, _data) => {
   return set(checkoutAtom, defaultCheckout);
 });
-export const billingAddressAtom = atom(
+/* export const billingAddressAtom = atom(
   (get) => get(checkoutAtom).billing_address,
   (get, set, data: Address) => {
     const prev = get(checkoutAtom);
     return set(checkoutAtom, { ...prev, billing_address: data });
+  }
+); */
+export const deliveryTypeAtom = atom(
+  (get) => get(checkoutAtom).delivery_type,
+  (get, set, data: any) => {
+    const prev = get(checkoutAtom);
+    return set(checkoutAtom, { ...prev, delivery_type: data, pickup_time: null, delivery_time: null });
+  }
+);
+export const checkoutNoteAtom = atom(
+  (get) => get(checkoutAtom).note,
+  (get, set, data: string) => {
+    const prev = get(checkoutAtom);
+    return set(checkoutAtom, { ...prev, note: data });
+  }
+);
+export const pickupTimeAtom = atom(
+  (get) => get(checkoutAtom).pickup_time,
+  (get, set, data: any) => {
+    const prev = get(checkoutAtom);
+    return set(checkoutAtom, { ...prev, pickup_time: data });
   }
 );
 export const shippingAddressAtom = atom(
@@ -65,11 +91,11 @@ export const deliveryTimeAtom = atom(
     return set(checkoutAtom, { ...prev, delivery_time: data });
   }
 );
-export const paymentGatewayAtom = atom(
-  (get) => get(checkoutAtom).payment_gateway,
-  (get, set, data: PaymentMethodName) => {
+export const paymentMethodAtom = atom(
+  (get) => get(checkoutAtom).payment_method,
+  (get, set, data: any) => {
     const prev = get(checkoutAtom);
-    return set(checkoutAtom, { ...prev, payment_gateway: data });
+    return set(checkoutAtom, { ...prev, payment_method: data });
   }
 );
 export const verifiedTokenAtom = atom(
@@ -79,11 +105,11 @@ export const verifiedTokenAtom = atom(
     return set(checkoutAtom, { ...prev, token: data });
   }
 );
-export const customerContactAtom = atom(
-  (get) => get(checkoutAtom).customer_contact,
-  (get, set, data: string) => {
+export const customerAtom = atom(
+  (get) => get(checkoutAtom).customer,
+  (get, set, data: any) => {
     const prev = get(checkoutAtom);
-    return set(checkoutAtom, { ...prev, customer_contact: data });
+    return set(checkoutAtom, { ...prev, customer: data });
   }
 );
 export const verifiedResponseAtom = atom(
@@ -100,7 +126,7 @@ export const couponAtom = atom(
     return set(checkoutAtom, { ...prev, coupon: data });
   }
 );
-export const discountAtom = atom((get) => get(checkoutAtom).coupon?.amount);
+//export const discountAtom = atom((get) => get(checkoutAtom).coupon?.amount);
 
 export const walletAtom = atom(
   (get) => get(checkoutAtom).use_wallet,

@@ -53,7 +53,7 @@ const ManagedModal = () => {
       )}
       {view === 'DELETE_ADDRESS' && <AddressDeleteView />}
       {view === 'PRODUCT_DETAILS' && (
-        <ProductDetailsModalView productSlug={data} />
+        <ProductDetailsModalView product={data} />
       )}
     </Modal>
   );

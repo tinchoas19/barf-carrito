@@ -1,10 +1,13 @@
 import { useTranslation } from 'next-i18next';
-import { billingAddressAtom, shippingAddressAtom } from '@/store/checkout';
+import { shippingAddressAtom, deliveryTypeAtom, customerAtom } from '@/store/checkout';
 import dynamic from 'next/dynamic';
 import { getLayout } from '@/components/layouts/layout';
 import { AddressType } from '@/framework/utils/constants';
 import Seo from '@/components/seo/seo';
 import { useUser } from '@/framework/user';
+import { useEffect, useState } from 'react';
+import { useSettings } from '@/framework/settings';
+import { useAtom } from 'jotai';
 export { getStaticProps } from '@/framework/general.ssr';
 
 const ScheduleGrid = dynamic(
@@ -14,9 +17,9 @@ const AddressGrid = dynamic(
   () => import('@/components/checkout/address-grid'),
   { ssr: false }
 );
-const ContactGrid = dynamic(
+/*  const ContactGrid = dynamic(
   () => import('@/components/checkout/contact/contact-grid')
-);
+);  */
 const InputGrid = dynamic(
   () => import('@/components/checkout/contact/input-grid')
 );
@@ -24,11 +27,26 @@ const RightSideView = dynamic(
   () => import('@/components/checkout/right-side-view'),
   { ssr: false }
 );
+const CheckboxGrid = dynamic(
+  () => import('@/components/checkout/checkbox/checkbox-grid')
+)
 
 export default function CheckoutPage() {
   const { t } = useTranslation();
   const { me } = useUser();
-  const { id, address, profile } = me ?? {};
+  const { id, address, contact} = me ?? {};
+  const {settings: { pickupAddress}} = useSettings()
+  const [delivery_type, set_delivery_type] = useAtom(deliveryTypeAtom)
+  const [customer, setCustomer] = useAtom(customerAtom)
+  
+  useEffect(() => {
+    console.log('in checkout', customer)
+    setCustomer(me)
+  },[])
+
+  function handleDeliveryType(data:any) {
+    set_delivery_type(data)
+  } 
   return (
     <>
       <Seo noindex={true} nofollow={true} />
@@ -37,40 +55,77 @@ export default function CheckoutPage() {
           <div className="w-full space-y-6 lg:max-w-2xl">
             <InputGrid
               className="p-5 bg-light shadow-700 md:p-8"
-              contact={profile?.contact}
+              contact={contact}
               label={t('text-contact-number')}
               count={1}
+              type='contact'
             />
-
-            <AddressGrid
+            <CheckboxGrid
+            className="p-5 bg-light shadow-700 md:p-8"
+            label={t('text-delivery-method')}
+            isWithdrawal={true}
+            data={[]}
+            count={2}
+            callback={handleDeliveryType}
+            type='withdral'
+            />
+            {delivery_type?.title === '' &&
+            <>
+            <InputGrid
+            className="p-5 bg-light shadow-700 md:p-8"
+            data={[t('text-select-withdrawal-option')]}
+            label={t('text-address')}
+            count={3}
+            type='data'
+            isDisabled={true}
+          />
+          <InputGrid
+            className="p-5 bg-light shadow-700 md:p-8"
+            data={[t('text-select-withdrawal-option')]}
+            label={t('text-schedule')}
+            count={4}
+            type='data'
+            isDisabled={true}
+          />
+            </>
+            }
+            {delivery_type?.title === 'Envio' && 
+            <>
+              <AddressGrid
               userId={id!}
-              className="p-5 bg-light shadow-700 md:p-8"
-              label={t('text-billing-address')}
-              count={2}
-              //@ts-ignore
-              addresses={address?.filter(
-                (item) => item?.type === AddressType.Billing
-              )}
-              atom={billingAddressAtom}
-              type={AddressType.Billing}
-            />
-            <AddressGrid
-              userId={me?.id!}
               className="p-5 bg-light shadow-700 md:p-8"
               label={t('text-shipping-address')}
               count={3}
               //@ts-ignore
-              addresses={address?.filter(
-                (item) => item?.type === AddressType.Shipping
-              )}
+              addresses={address}
               atom={shippingAddressAtom}
-              type={AddressType.Shipping}
-            />
-            <ScheduleGrid
+              type={AddressType.Billing}
+                />
+                <ScheduleGrid
               className="p-5 bg-light shadow-700 md:p-8"
               label={t('text-delivery-schedule')}
               count={4}
-            />
+              />
+            </>
+            }
+            {delivery_type?.title === 'Retiro' &&
+            <>
+            <InputGrid
+            className="p-5 bg-light shadow-700 md:p-8"
+            data={pickupAddress}
+            label={t('text-retirement-address')}
+            count={3}
+            type='data'
+          />
+          <ScheduleGrid
+              className="p-5 bg-light shadow-700 md:p-8"
+              label={t('text-pickup-schedule')}
+              count={4}
+              isPickup={true}
+              />
+            </>
+            }
+
           </div>
           <div className="w-full mt-10 mb-10 sm:mb-12 lg:mb-0 lg:w-96">
             <RightSideView />

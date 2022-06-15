@@ -1,6 +1,11 @@
 import cn from 'classnames';
 import React, { InputHTMLAttributes } from 'react';
 
+interface expectedOptionObject {
+  id: number;
+  name: string;
+}
+
 export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
   inputClassName?: string;
@@ -11,7 +16,9 @@ export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   shadow?: boolean;
   variant?: 'normal' | 'solid' | 'outline' | 'line';
   dimension?: 'small' | 'medium' | 'big';
-  callback?: Function;
+  options: string[] | expectedOptionObject[];
+  onChange?: Function;
+  isParent?: boolean;
 }
 
 const variantClasses = {
@@ -29,7 +36,7 @@ const sizeClasses = {
   big: 'h-14',
 };
 
-const Input = React.forwardRef<HTMLInputElement, Props>(
+const DropDownInput = React.forwardRef<HTMLInputElement, Props>(
   (
     {
       className,
@@ -43,13 +50,15 @@ const Input = React.forwardRef<HTMLInputElement, Props>(
       disabled = false,
       type = 'text',
       inputClassName,
-      callback = () => {},
+      options,
+      onChange,
+      isParent,
       ...rest
-    },
-    ref
+    }, ref
   ) => {
+
     return (
-      <div className={className}>
+      <div className={className} >
         {label && (
           <label
             htmlFor={name}
@@ -58,11 +67,10 @@ const Input = React.forwardRef<HTMLInputElement, Props>(
             {label}
           </label>
         )}
-        <input
+        <select
           id={name}
-          name={name}
-          type={type}
           ref={ref}
+          name={name}
           className={cn(
             'flex w-full appearance-none items-center px-4 text-sm text-heading transition duration-300 ease-in-out focus:outline-none focus:ring-0',
             shadow && 'focus:shadow',
@@ -71,19 +79,37 @@ const Input = React.forwardRef<HTMLInputElement, Props>(
             disabled && 'cursor-not-allowed bg-gray-100',
             inputClassName
           )}
+          onChange={(e) => { if (onChange){
+            if (isParent) {
+              onChange(e.target.value)
+            }
+          } 
+        }}
           disabled={disabled}
           autoComplete="off"
           autoCorrect="off"
           autoCapitalize="off"
           spellCheck="false"
           aria-invalid={error ? 'true' : 'false'}
-          onChange={e => callback(e.target.value)}
           {...rest}
-        />
+        >
+          <option value='' ></option>
+          {options && options.map(option => {
+            if (typeof option === 'string') {
+              return (
+                <option key={option} value={option}>{option}</option>
+                )
+            } else if (typeof option === 'object') {
+              return (
+                <option key={option?.id} value={option?.id}>{option?.name}</option>
+                )
+            }
+          })}
+        </select>
         {error && <p className="mt-2 text-xs text-red-500">{error}</p>}
       </div>
     );
   }
 );
-Input.displayName = 'Input';
-export default Input;
+DropDownInput.displayName = 'DropDownInput';
+export default DropDownInput;

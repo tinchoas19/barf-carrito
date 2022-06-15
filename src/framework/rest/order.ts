@@ -22,11 +22,11 @@ import { verifiedResponseAtom } from '@/store/checkout';
 import { useRouter } from 'next/router';
 import { ROUTES } from '@/lib/routes';
 import { mapPaginatorData } from '@/framework/utils/data-mappers';
+import Cookies from 'js-cookie';
+import { AUTH_TOKEN_KEY } from '@/lib/constants';
 
 export function useOrders(options?: Partial<OrderQueryOptions>) {
-
-
-  const {
+/*   const {
     data,
     isLoading,
     error,
@@ -34,37 +34,41 @@ export function useOrders(options?: Partial<OrderQueryOptions>) {
     hasNextPage,
     isFetching,
     isFetchingNextPage,
-  } = useInfiniteQuery<OrderPaginator, Error>(
-    [API_ENDPOINTS.ORDERS, options],
+  } = useInfiniteQuery<Order[], Error>(
+    [`${API_ENDPOINTS.ORDERS}?id=${Cookies.get(AUTH_TOKEN_KEY)}`, options],
     ({ queryKey, pageParam }) =>
-      client.orders.all(Object.assign({}, queryKey[1], pageParam)),
-    {
+      client.orders.all())
+     {
       getNextPageParam: ({ current_page, last_page }) =>
         last_page > current_page && { page: current_page + 1 },
-    }
+    } 
   );
 
   function handleLoadMore() {
     fetchNextPage();
-  }
+  } */
 
+
+  const { data, isLoading, error } = useQuery(
+    [API_ENDPOINTS.ORDERS],
+    client.orders.all,
+    {
+      onError: (err) => {
+        console.log(err);
+      },
+    }
+  );
+  
   return {
-    orders: data?.pages.flatMap((page) => page.data) ?? [],
-    paginatorInfo: Array.isArray(data?.pages)
-      ? mapPaginatorData(data?.pages[data.pages.length - 1])
-      : null,
+    orders: data,
     isLoading,
-    error,
-    isFetching,
-    isLoadingMore: isFetchingNextPage,
-    loadMore: handleLoadMore,
-    hasMore: Boolean(hasNextPage),
+    error
   };
 }
 
 export function useOrder({ tracking_number }: { tracking_number: string }) {
   const { data, isLoading, error } = useQuery<Order, Error>(
-    [API_ENDPOINTS.ORDERS, tracking_number],
+    [`${API_ENDPOINTS.ORDERS}?id=${Cookies.get(AUTH_TOKEN_KEY)}`, tracking_number],
     () => client.orders.get(tracking_number)
   );
 
@@ -74,7 +78,7 @@ export function useOrder({ tracking_number }: { tracking_number: string }) {
     error,
   };
 }
-
+/* 
 export function useOrderStatuses(options: Pick<QueryOptions, 'limit'>) {
   const {
     data,
@@ -108,9 +112,9 @@ export function useOrderStatuses(options: Pick<QueryOptions, 'limit'>) {
     loadMore: handleLoadMore,
     hasMore: Boolean(hasNextPage),
   };
-}
+} */
 
-export const useDownloadableProducts = (
+/* export const useDownloadableProducts = (
   options: Pick<QueryOptions, 'limit'>
 ) => {
   const {
@@ -145,8 +149,20 @@ export const useDownloadableProducts = (
     loadMore: handleLoadMore,
     hasMore: Boolean(hasNextPage),
   };
-};
+}; */
 
+
+/* export function useSendOrder() {
+  const { data, isLoading, error } = useQuery<Settings, Error>(
+    [API_ENDPOINTS.ORDERS],
+    client.settings.all
+  );
+  return {
+    settings: data?.options ?? {},
+    isLoading,
+    error,
+  };
+} */
 
 
 export function useCreateOrder() {
@@ -157,12 +173,14 @@ export function useCreateOrder() {
       if (data?.tracking_number) {
         router.push(`${ROUTES.ORDERS}/${data?.tracking_number}`);
       }
+      console.log('data:',data)
     },
     onError: (error) => {
       const {
         response: { data },
       }: any = error ?? {};
       toast.error(data?.message);
+      console.log('error:',error)
     },
   });
 
@@ -172,7 +190,7 @@ export function useCreateOrder() {
   };
 }
 
-export function useGenerateDownloadableUrl() {
+/* export function useGenerateDownloadableUrl() {
   const { mutate: getDownloadableUrl } = useMutation(
     client.orders.generateDownloadLink,
     {
@@ -198,9 +216,9 @@ export function useGenerateDownloadableUrl() {
   return {
     generateDownloadableUrl,
   };
-}
+} */
 
-export function useVerifyOrder() {
+/* export function useVerifyOrder() {
   const [_, setVerifiedResponse] = useAtom(verifiedResponseAtom);
 
   return useMutation(client.orders.verify, {
@@ -218,4 +236,4 @@ export function useVerifyOrder() {
       toast.error(data?.message);
     },
   });
-}
+} */

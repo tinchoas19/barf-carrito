@@ -32,12 +32,14 @@ import type {
   User,
   VerifiedCheckoutData,
 } from '@/types';
+import Cookies from 'js-cookie';
 import { API_ENDPOINTS } from './api-endpoints';
 import { HttpClient } from './http-client';
+import { AUTH_TOKEN_KEY } from '@/lib/constants';
 
 
 class Client {
-  products = {
+/*   productsOld = {
     all: ({
       type,
       categories,
@@ -59,7 +61,7 @@ class Client {
       HttpClient.get<Product[]>(API_ENDPOINTS.PRODUCTS_POPULAR, params),
     get: (slug: string) =>
       HttpClient.get<Product>(`${API_ENDPOINTS.PRODUCTS}/${slug}`),
-  };
+  }; */
 
 
   types = {
@@ -70,12 +72,12 @@ class Client {
   };
 
   orders = {
-    all: (params: Partial<OrderQueryOptions>) =>
-      HttpClient.get<OrderPaginator>(API_ENDPOINTS.ORDERS, params),
+    all: () =>
+      HttpClient.get<Order[]>(`${API_ENDPOINTS.ORDERS}?id=${Cookies.get(AUTH_TOKEN_KEY)}`),
     get: (tracking_number: string) =>
       HttpClient.get<Order>(`${API_ENDPOINTS.ORDERS}/${tracking_number}`),
     create: (input: CreateOrderInput) =>
-      HttpClient.post<Order>(API_ENDPOINTS.ORDERS, input),
+      HttpClient.post<Order>(API_ENDPOINTS.CREATE_ORDER, input),
     statuses: (params: Pick<QueryOptions, 'limit'>) =>
       HttpClient.get<OrderStatusPaginator>(API_ENDPOINTS.ORDERS_STATUS, params),
 
@@ -97,9 +99,9 @@ class Client {
       ),
   };
   users = {
-    me: () => HttpClient.get<User>(API_ENDPOINTS.USERS_ME),
+    me: () => HttpClient.get<User>(`${API_ENDPOINTS.USERS_ME}?id=${Cookies.get(AUTH_TOKEN_KEY)}`),
     update: (user: UpdateUserInput) =>
-      HttpClient.put<User>(`${API_ENDPOINTS.USERS}`, user),
+      HttpClient.post<User>(`${API_ENDPOINTS.UPDATE_CONTACT}`, user),
     //HttpClient.put<User>(`${API_ENDPOINTS.USERS}/${user.id}`, user),
     login: (input: LoginUserInput) =>
       HttpClient.post<AuthResponse>(API_ENDPOINTS.USERS_LOGIN, input),
@@ -133,7 +135,7 @@ class Client {
   settings = {
     //FIXME: check this async function
     all: async () => HttpClient.get<Settings>(API_ENDPOINTS.SETTINGS),
-    upload: (input: File[]) => {
+/*     upload: (input: File[]) => {
       let formData = new FormData();
       input.forEach((attachment) => {
         formData.append('attachment[]', attachment);
@@ -143,7 +145,11 @@ class Client {
           'Content-Type': 'multipart/form-data',
         },
       });
-    },
+    }, */
+  };
+  products = {
+    //FIXME: check this async function
+    all: async (id:number) => HttpClient.get<Product[]>(`${API_ENDPOINTS.PRODUCTS}?id=${id}`),
   };
 }
 

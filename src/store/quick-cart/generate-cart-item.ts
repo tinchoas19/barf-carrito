@@ -40,9 +40,9 @@ export function generateCartItem(item: Item, variation: Variation) {
       slug,
       unit,
       is_digital: variation?.is_digital,
-      stock: variation.quantity,
+      stock: 1000,
       price: Number(
-        variation.sale_price ? variation.sale_price : variation.price
+variation.price
       ),
       image: image?.thumbnail,
       variationId: variation.id,
@@ -55,7 +55,7 @@ export function generateCartItem(item: Item, variation: Variation) {
     unit,
     is_digital,
     image: image?.thumbnail,
-    stock: quantity,
+    stock: 1000,
     price: Number(sale_price ? sale_price : price),
   };
 }

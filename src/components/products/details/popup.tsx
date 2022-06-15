@@ -7,19 +7,21 @@ import { stickyShortDetailsAtom } from '@/store/sticky-short-details-atom';
 import { useAtom } from 'jotai';
 import { AttributesProvider } from './attributes.context';
 import { useProduct } from '@/framework/product';
+import { Product } from '@/types';
+import {UserIcon as PersonalizedIcon }from '@/components/icons/user-icon';
 
 const RelatedProducts = dynamic(() => import('./related-products'));
 interface ProductPopupProps {
-  productSlug: string;
+  product: Product;
 }
-const Popup: React.FC<ProductPopupProps> = ({ productSlug }) => {
+const Popup: React.FC<ProductPopupProps> = ({ product }) => {
   const { t } = useTranslation('common');
   const [showStickyShortDetails] = useAtom(stickyShortDetailsAtom);
-  const { product, isLoading } = useProduct({ slug: productSlug });
+  //const { product, isLoading } = useProduct({ slug: productSlug });
 
-  const { id, related_products } = product ?? {};
+  const { id, isPersonalized = false } = product ?? {};
 
-  if (isLoading || !product)
+  if (!product)
     return (
       <div className="relative flex items-center justify-center w-96 h-96 bg-light">
         <Spinner text={t('common:text-loading')} />
@@ -29,6 +31,10 @@ const Popup: React.FC<ProductPopupProps> = ({ productSlug }) => {
   return (
     <AttributesProvider>
       <article className="bg-light w-full max-w-6xl xl:min-w-[1152px] relative z-[51] md:rounded-xl">
+      {
+        isPersonalized &&  
+        <PersonalizedIcon className='absolute ml-5 mt-5' style={{zIndex: 2, top:0 , cursor:'pointer'}} />
+        }
         {/* Sticky bar */}
         <ShortDetails product={product} isSticky={showStickyShortDetails} />
         {/* End of sticky bar */}

@@ -15,6 +15,9 @@ import type { LoginUserInput } from '@/types';
 import { AnonymousIcon } from '@/components/icons/anonymous-icon';
 import { useRouter } from 'next/router';
 import { ROUTES } from '@/lib/routes';
+import Checkbox from '../ui/forms/checkbox/checkbox';
+import { useState } from 'react';
+import crypto from 'crypto'
 
 const loginFormSchema = yup.object().shape({
   email: yup
@@ -23,6 +26,15 @@ const loginFormSchema = yup.object().shape({
     .required('error-email-required'),
   password: yup.string().required('error-password-required'),
 });
+
+const loginFormSchemaWithCode = yup.object().shape({
+  email: yup
+    .string()
+    .email('error-email-format')
+    .required('error-email-required'),
+  password: yup.string().required('error-password-required'),
+  codasoc: yup.string().required('error-login-code')
+});
 function LoginForm() {
   const { t } = useTranslation('common');
   const router = useRouter();
@@ -30,11 +42,18 @@ function LoginForm() {
   const isCheckout = router.pathname.includes('checkout');
   const { mutate: login, isLoading, serverError, setServerError } = useLogin();
 
-  function onSubmit({ email, password }: LoginUserInput) {
+  function onSubmit({ email, password, codasoc}: LoginUserInput) {
     login({
       email,
-      password,
+      password : crypto.createHash('md5').update(password).digest('hex'),
+      codasoc : haveCode ? codasoc : ''
     });
+  }
+
+  const [haveCode, setHaveCode] = useState(false)
+
+  function handleCheckbox(checked: boolean) {
+    setHaveCode(checked)
   }
 
   return (
@@ -48,7 +67,7 @@ function LoginForm() {
       />
       <Form<LoginUserInput>
         onSubmit={onSubmit}
-        validationSchema={loginFormSchema}
+        validationSchema={haveCode ? loginFormSchemaWithCode : loginFormSchema}
       >
         {({ register, formState: { errors } }) => (
           <>
@@ -68,6 +87,19 @@ function LoginForm() {
               className="mb-5"
               forgotPageRouteOnClick={() => openModal('FORGOT_VIEW')}
             />
+            <Checkbox
+              label={t('text-login-code-question')}
+              {...register('haveCode')}
+              className="mb-5"
+              callback={handleCheckbox}
+            />
+            {haveCode && <Input
+              label={t('text-login-code')}
+              {...register('codasoc')}
+              variant="outline"
+              className="mb-5"
+              error={t(errors.codasoc?.message!)}
+            />}
             <div className="mt-8">
               <Button
                 className="h-11 w-full sm:h-12"
