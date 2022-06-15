@@ -1,6 +1,6 @@
 import BackButton from '@/components/ui/back-button';
 import { AddToCart } from '@/components/products/add-to-cart/add-to-cart';
-import usePrice,  { formatPrice }  from '@/lib/use-price';
+import { formatPrice }  from '@/lib/use-price';
 import { ThumbsCarousel } from '@/components/ui/thumb-carousel';
 import { useTranslation } from 'next-i18next';
 import { getVariations } from '@/lib/get-variations';
@@ -8,8 +8,7 @@ import { useMemo } from 'react';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import Truncate from '@/components/ui/truncate';
-import { scroller, Element } from 'react-scroll';
-import CategoryBadges from './category-badges';
+import { scroller } from 'react-scroll';
 import VariationPrice from './variation-price';
 import { useRouter } from 'next/router';
 import { ROUTES } from '@/lib/routes';
@@ -39,11 +38,7 @@ const Details: React.FC<Props> = ({
     image, //could only had image we need to think it also
     description,
     unit,
-    categories,
     gallery,
-    type,
-    quantity,
-    shop,
     price,
     slug,
   } = product ?? {};
@@ -55,10 +50,7 @@ const Details: React.FC<Props> = ({
 
   const { attributes } = useAttributes();
 
-/*   const { price, basePrice, discount } = usePrice({
-    amount: product?.sale_price ? product?.sale_price : product?.price!,
-    baseAmount: product?.price,
-  }); */
+
 
   const navigate = (path: string) => {
     router.push(path);
@@ -105,11 +97,7 @@ const Details: React.FC<Props> = ({
         <div className="p-6 pt-10 md:w-1/2 lg:p-14 xl:p-16">
           <div className="flex items-center justify-between mb-8 lg:mb-10">
             {backBtn && <BackButton />}
-            {/* {discount && (
-              <div className="px-3 text-xs font-semibold leading-6 bg-yellow-500 rounded-full text-light ltr:ml-auto rtl:mr-auto">
-                {discount}
-              </div>
-            )} */}
+
           </div>
 
           <div className="h-full product-gallery">
@@ -180,11 +168,7 @@ const Details: React.FC<Props> = ({
                   <ins className="text-2xl font-semibold no-underline md:text-3xl text-accent">
                     {formatPrice({amount:price, locale:'ES', currencyCode:'ARS'})}
                   </ins>
-                  {/* {basePrice && (
-                    <del className="text-sm font-normal md:text-base text-muted ltr:ml-2 rtl:mr-2">
-                      {basePrice}
-                    </del>
-                  )} */}
+
                 </span>
               )}
 
@@ -198,69 +182,15 @@ const Details: React.FC<Props> = ({
                   />
                 </div>
 
-                {/* {!hasVariations && (
-                  <>
-                    {Number(quantity) > 0 ? (
-                      <span className="text-base text-body whitespace-nowrap ltr:lg:ml-7 rtl:lg:mr-7">
-                        {quantity} {t('text-pieces-available')}
-                      </span>
-                    ) : (
-                      <div className="text-base text-red-500 whitespace-nowrap ltr:lg:ml-7 rtl:lg:mr-7">
-                        {t('text-out-stock')}
-                      </div>
-                    )}
-                  </>
-                )} */}
-                {/* {!isEmpty(selectedVariation) && (
-                  <span className="text-base text-body whitespace-nowrap ltr:lg:ml-7 rtl:lg:mr-7">
-                    {selectedVariation?.is_disable ||
-                    selectedVariation.quantity === 0
-                      ? t('text-out-stock')
-                      : `${selectedVariation.quantity} ${t(
-                          'text-pieces-available'
-                        )}`}
-                  </span>
-                )} */}
+        
               </div>
             </div>
           </Waypoint>
-          {/* 
-          {!!categories?.length && (
-            <CategoryBadges
-              categories={categories}
-              basePath={`/${type?.slug}`}
-              onClose={closeModal}
-            />
-          )}
 
-          {shop?.name && (
-            <div className="flex items-center mt-2">
-              <span className="py-1 text-sm font-semibold capitalize text-heading ltr:mr-6 rtl:ml-6">
-                {t('common:text-sellers')}
-              </span>
-
-              <button
-                onClick={() =>
-                  navigate(`${ROUTES.SHOPS}/${encodeURIComponent(shop?.slug)}`)
-                }
-                className="text-sm tracking-wider underline transition text-accent hover:text-accent-hover hover:no-underline"
-              >
-                {shop?.name}
-              </button>
-            </div>
-          )} */}
         </div>
       </div>
 
-      {/* <Element
-        name="details"
-        className="px-5 py-4 border-b lg:px-16 lg:py-14 border-border-200 border-opacity-70"
-      >
-        <h2 className="mb-4 text-lg font-semibold tracking-tight text-heading md:mb-6">
-          {t('text-details')}
-        </h2>
-        <p className="text-sm text-body">{description}</p>
-      </Element> */}
+
     </article>
   );
 };

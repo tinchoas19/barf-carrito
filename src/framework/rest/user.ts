@@ -1,7 +1,6 @@
 import { useModalAction } from '@/components/ui/modal/modal.context';
 import { useTranslation } from 'next-i18next';
 import {
-  QueryClient,
   useMutation,
   useQuery,
   useQueryClient,
@@ -17,7 +16,6 @@ import {
   RegisterUserInput,
   ChangePasswordUserInput,
 } from '@/types';
-import { initialOtpState, optAtom } from '@/components/otp/atom';
 import { useStateMachine } from 'little-state-machine';
 import {
   initialState,
@@ -35,7 +33,6 @@ export function useUser() {
     {
       enabled: isAuthorized,
       onError: (err) => {
-        console.log(err);
       },
     }
   );
@@ -97,7 +94,6 @@ export const useContact = () => {
 
   return useMutation(client.users.contactUs, {
     onSuccess: (data) => {
-      console.log(data)
       if (data?.data?.success) {
         toast.success(t('text-email-send'));
       } else {
@@ -120,7 +116,6 @@ export function useLogin() {
 
   const { mutate, isLoading } = useMutation(client.users.login, {
     onSuccess: (res) => {
-      console.log(res)
       if (res?.data.token === '' || res?.data.token === null) {
         if (res?.data.errors) {
           res?.data.errors.forEach(err => {
@@ -137,7 +132,6 @@ export function useLogin() {
       router.push('/')
     },
     onError: (error: Error) => {
-      console.log(error.message);
     },
   });
 

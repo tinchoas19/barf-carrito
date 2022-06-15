@@ -5,7 +5,7 @@ import { getLayout } from '@/components/layouts/layout';
 import { AddressType } from '@/framework/utils/constants';
 import Seo from '@/components/seo/seo';
 import { useUser } from '@/framework/user';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSettings } from '@/framework/settings';
 import { useAtom } from 'jotai';
 export { getStaticProps } from '@/framework/general.ssr';
@@ -40,7 +40,6 @@ export default function CheckoutPage() {
   const [customer, setCustomer] = useAtom(customerAtom)
   
   useEffect(() => {
-    console.log('in checkout', customer)
     setCustomer(me)
   },[])
 

@@ -1,11 +1,7 @@
 import NotFound from '@/components/ui/not-found';
 import { formatPrice } from '@/lib/use-price';
 import { formatAddress } from '@/lib/format-address';
-import OrderStatuses from '@/components/orders/statuses';
 import { useTranslation } from 'next-i18next';
-import Link from '@/components/ui/link';
-import { ROUTES } from '@/lib/routes';
-import { Eye } from '@/components/icons/eye-icon';
 import { OrderItems } from './order-items';
 import isEmpty from 'lodash/isEmpty';
 import { useModalAction } from '@/components/ui/modal/modal.context';
@@ -92,23 +88,6 @@ const OrderDetails = ({ order }: Props) => {
   function f(amount:number) {
     return formatPrice({amount, currencyCode : 'ARS', locale: 'ES'})
   }
-/*   const { price: discount_parcial } = usePrice({
-    amount: ((order?.discount * order?.paid_order) / 100),
-  });
-
-  const { price: total } = usePrice({
-    amount: order?.total,
-  });
-  const { price: discount } = usePrice({
-    amount: (order?.total / 10),
-  });
-  const { price: delivery_fee } = usePrice({
-    amount: parseInt(order?.shipping_address?.delivery_fee),
-  }); */
-  const { price: paid_order_2 } = usePrice({
-    amount: order?.paid_order,
-  });
-
 
 
   return (

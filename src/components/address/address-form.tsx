@@ -1,28 +1,19 @@
 import Button from '@/components/ui/button';
 import Input from '@/components/ui/forms/input';
-import Label from '@/components/ui/forms/label';
-import Radio from '@/components/ui/forms/radio/radio';
 import TextArea from '@/components/ui/forms/text-area';
 import { useTranslation } from 'next-i18next';
 import * as yup from 'yup';
 import { useModalState } from '@/components/ui/modal/modal.context';
 import { Form } from '@/components/ui/forms/form';
-import { AddressType } from '@/framework/utils/constants';
 import { useUpdateUser, useUser } from '@/framework/user';
 import DropDownInput from '../ui/forms/dropdown/dropdown-input';
 import { useEffect, useState } from 'react';
-import { string } from 'yup/lib/locale';
 import { useSettings } from '@/framework/settings';
 
 
 type FormValues = {
-  //title: string;
-  //type: AddressType;
   address: {
-    // country: string;
     cityid: string;
-    //state: string;
-    // zip: string;
     zone: string;
     street_address: string;
     street_number: number;
@@ -34,16 +25,8 @@ type FormValues = {
 };
 
 const addressSchema = yup.object().shape({
-  //type: yup
-  //  .string()
-  //  .oneOf([AddressType.Billing, AddressType.Shipping])
- //  .required('error-type-required'),
-  //title: yup.string().required('error-title-required'),
   address: yup.object().shape({
-    //country: yup.string().required('error-country-required'),
     cityid: yup.string().required('error-city-required'),
-    //state: yup.string().required('error-state-required'),
-    //zip: yup.string().required('error-zip-required'),
     zone: yup.string().required('error-zone-required'),
     street_address: yup.string().required('error-street-required'),
     street_number: yup.string().required('error-number-required'),
@@ -89,25 +72,6 @@ export const AddressForm: React.FC<any> = ({
     >
       {({ register, formState: { errors } }) => (
         <>
-          {/* <div>
-            <Label>{t('text-type')}</Label>
-            <div className="flex items-center space-x-4 rtl:space-x-reverse">
-              <Radio
-                id="billing"
-                {...register('type')}
-                type="radio"
-                value={AddressType.Billing}
-                label={t('text-billing')}
-              />
-              <Radio
-                id="shipping"
-                {...register('type')}
-                type="radio"
-                value={AddressType.Shipping}
-                label={t('text-shipping')}
-              />
-            </div>
-          </div> */}
           <Input
             label={t('text-address')}
             {...register('address.street_address')}
@@ -122,20 +86,6 @@ export const AddressForm: React.FC<any> = ({
             type='number'
           />
 
-          {/* <Input
-            label={t('text-address-zone')}
-            {...register('title')}
-            error={t(errors.title?.message!)}
-            variant="outline"
-            className="col-span-2"
-          /> 
-
-          <Input
-            label={t('text-address-location')}
-            {...register('address.state')}
-            error={t(errors.address?.state?.message!)}
-            variant="outline"
-          /> */}
 
           <DropDownInput
             label={t('text-address-zone')}
@@ -207,7 +157,7 @@ export const AddressForm: React.FC<any> = ({
 export default function CreateOrUpdateAddressForm() {
   const { t } = useTranslation('common');
   const {
-    data: { customerId, address, type },
+    data: {  address },
   } = useModalState();
   const { mutate: updateProfile } = useUpdateUser();
   const { me } = useUser();
@@ -215,16 +165,7 @@ export default function CreateOrUpdateAddressForm() {
   function onSubmit(values: FormValues) {
     const payload = {...me}
     values.address && payload.address.push(values.address)
-    console.log(payload)
-/*     const formattedInput = {
-      //id: address?.id,
-      // customer_id: customerId,
-      //title: values.title,
-      //type: values.type,
-      address: {
-        ...values.address
-      },
-    };*/
+
     updateProfile(payload); 
   }
   return (

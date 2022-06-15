@@ -1,9 +1,6 @@
 import type {
-  Attachment,
 
   AuthResponse,
-  CategoryPaginator,
-  CategoryQueryOptions,
   ChangePasswordUserInput,
   CheckoutVerificationInput,
 
@@ -14,14 +11,10 @@ import type {
   ForgotPasswordUserInput,
   LoginUserInput,
   Order,
-  OrderPaginator,
   OrderQueryOptions,
   OrderStatusPaginator,
   PasswordChangeResponse,
-  PopularProductQueryOptions,
   Product,
-  ProductPaginator,
-  ProductQueryOptions,
   QueryOptions,
   RegisterUserInput,
   ResetPasswordUserInput,
@@ -39,29 +32,6 @@ import { AUTH_TOKEN_KEY } from '@/lib/constants';
 
 
 class Client {
-/*   productsOld = {
-    all: ({
-      type,
-      categories,
-      name,
-      ...params
-    }: Partial<ProductQueryOptions>) =>
-      HttpClient.get<ProductPaginator>(API_ENDPOINTS.PRODUCTS, {
-        searchJoin: 'and',
-        with: 'type;author',
-        ...params,
-        search: HttpClient.formatSearchParams({
-          type,
-          categories,
-          name,
-
-        }),
-      }),
-    popular: (params: Partial<PopularProductQueryOptions>) =>
-      HttpClient.get<Product[]>(API_ENDPOINTS.PRODUCTS_POPULAR, params),
-    get: (slug: string) =>
-      HttpClient.get<Product>(`${API_ENDPOINTS.PRODUCTS}/${slug}`),
-  }; */
 
 
   types = {

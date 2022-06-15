@@ -1,54 +1,11 @@
 import type {
   PopularProductQueryOptions,
   Product,
-  ProductPaginator,
-  ProductQueryOptions,
 } from '@/types';
-import { useInfiniteQuery, useQuery } from 'react-query';
+import { useQuery } from 'react-query';
 import client from './client';
 import { API_ENDPOINTS } from './client/api-endpoints';
-import { mapPaginatorData } from '@/framework/utils/data-mappers';
-import { formatProductsArgs } from '@/framework/utils/format-products-args';
 
-/* export function useProducts(options?: Partial<ProductQueryOptions>) {
-  const formattedOptions = formatProductsArgs(options);
-
-   const {
-    data,
-    isLoading,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-    isFetchingNextPage,
-  } = useInfiniteQuery<ProductPaginator, Error>(
-    [API_ENDPOINTS.PRODUCTS, formattedOptions],
-    ({ queryKey, pageParam }) =>
-      client.products.all(Object.assign({}, queryKey[1], pageParam)),
-    {
-      getNextPageParam: ({ current_page, last_page }) =>
-        last_page > current_page && { page: current_page + 1 },
-    }
-  );
-
-  function handleLoadMore() {
-    fetchNextPage();
-  }
-
-  return {
-    products: data?.pages.flatMap((page) => page.data) ?? [],
-    paginatorInfo: Array.isArray(data?.pages)
-      ? mapPaginatorData(data?.pages[data.pages.length - 1])
-      : null,
-    isLoading,
-    error,
-    isFetching,
-    isLoadingMore: isFetchingNextPage,
-    loadMore: handleLoadMore,
-    hasMore: Boolean(hasNextPage),
-  };
-} 
- */
 export function useProducts(id:number = 0) {
   const { data } = useQuery<Product[], Error>(
     [API_ENDPOINTS.PRODUCTS],

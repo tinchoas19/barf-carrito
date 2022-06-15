@@ -1,4 +1,4 @@
-import usePrice, { formatPrice } from '@/lib/use-price';
+import { formatPrice } from '@/lib/use-price';
 import dayjs from 'dayjs';
 import cn from 'classnames';
 import { useTranslation } from 'next-i18next';
@@ -21,12 +21,7 @@ const OrderCard: React.FC<OrderCardProps> = ({ onClick, order, isActive }) => {
     payment_method, 
     total
   } = order;
-/*   const { price: amount } = usePrice({
-    amount: order?.amount,
-  });
-  const { price: total } = usePrice({
-    amount: order?.total,
-  }); */
+
 
   return (
     <div
@@ -42,12 +37,7 @@ const OrderCard: React.FC<OrderCardProps> = ({ onClick, order, isActive }) => {
           {t('text-order')}
           <span className="font-normal">#{id}</span>
         </span>
-        {/* <span
-          className="text-sm text-blue-500 bg-blue-100 px-3 py-2 rounded whitespace-nowrap truncate max-w-full"
-          title={status.name}
-        >
-          {status.name}
-        </span> */}
+
       </div>
 
       <div className="flex flex-col p-5 md:p-3 lg:px-4 lg:py-5">

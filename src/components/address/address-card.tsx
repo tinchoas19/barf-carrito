@@ -1,7 +1,5 @@
 import { CloseIcon } from '@/components/icons/close-icon';
 import { PencilIcon } from '@/components/icons/pencil-icon';
-import { useModalAction } from '@/components/ui/modal/modal.context';
-import { formatAddress } from '@/lib/format-address';
 import classNames from 'classnames';
 import { useTranslation } from 'next-i18next';
 

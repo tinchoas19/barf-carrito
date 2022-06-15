@@ -4,13 +4,12 @@ import { useRouter } from 'next/router';
 
 interface Props {
   className?: string;
-  variables: any;
+  variables?: any;
   column?: any;
   gridClassName?: string;
 }
 export default function ProductGridHome({
   className,
-  variables,
   column,
   gridClassName,
 }: Props) {

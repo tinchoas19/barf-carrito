@@ -14,7 +14,7 @@ import { useAtom } from 'jotai';
 import { clearCheckoutAtom } from '@/store/checkout';
 import SuborderItems from '@/components/orders/suborder-items';
 import Spinner from '@/components/ui/loaders/spinner/spinner';
-import { isEmpty, every } from 'lodash';
+import { isEmpty} from 'lodash';
 import OrderStatuses from '@/components/orders/statuses';
 import { useOrder } from '@/framework/order';
 import { useRouter } from 'next/router';

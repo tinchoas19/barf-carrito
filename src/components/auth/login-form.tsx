@@ -1,4 +1,3 @@
-import { signIn } from 'next-auth/react';
 import Logo from '@/components/ui/logo';
 import Alert from '@/components/ui/alert';
 import Input from '@/components/ui/forms/input';
@@ -6,13 +5,10 @@ import PasswordInput from '@/components/ui/forms/password-input';
 import Button from '@/components/ui/button';
 import { useTranslation } from 'next-i18next';
 import * as yup from 'yup';
-import { GoogleIcon } from '@/components/icons/google';
 import { useModalAction } from '@/components/ui/modal/modal.context';
-import { MobileIcon } from '@/components/icons/mobile-icon';
 import { Form } from '@/components/ui/forms/form';
 import { useLogin } from '@/framework/user';
 import type { LoginUserInput } from '@/types';
-import { AnonymousIcon } from '@/components/icons/anonymous-icon';
 import { useRouter } from 'next/router';
 import { ROUTES } from '@/lib/routes';
 import Checkbox from '../ui/forms/checkbox/checkbox';
@@ -112,48 +108,7 @@ function LoginForm() {
           </>
         )}
       </Form>
-      {/* //===============// */}
-      {/* <div className="relative mt-8 mb-6 flex flex-col items-center justify-center text-sm text-heading sm:mt-11 sm:mb-8">
-        <hr className="w-full" />
-        <span className="absolute -top-2.5 bg-light px-2 ltr:left-2/4 ltr:-ml-4 rtl:right-2/4 rtl:-mr-4">
-          {t('text-or')}
-        </span>
-      </div>
-      <div className="mt-2 grid grid-cols-1 gap-4">
-        <Button
-          className="!bg-social-google !text-light hover:!bg-social-google-hover"
-          disabled={isLoading}
-          onClick={() => {
-            signIn('google');
-          }}
-        >
-          <GoogleIcon className="h-4 w-4 ltr:mr-3 rtl:ml-3" />
-          {t('text-login-google')}
-        </Button>
-
-        <Button
-          className="h-11 w-full !bg-gray-500 !text-light hover:!bg-gray-600 sm:h-12"
-          disabled={isLoading}
-          onClick={() => openModal('OTP_LOGIN')}
-        >
-          <MobileIcon className="h-5 text-light ltr:mr-2 rtl:ml-2" />
-          {t('text-login-mobile')}
-        </Button>
-
-        {isCheckout && (
-          <Button
-            className="h-11 w-full !bg-pink-700 !text-light hover:!bg-pink-800 sm:h-12"
-            disabled={isLoading}
-            onClick={() => router.push(`${ROUTES.CHECKOUT}/guest`)}
-          >
-            <AnonymousIcon className="h-6 text-light ltr:mr-2 rtl:ml-2" />
-            {t('text-guest-checkout')}
-          </Button>
-        )}
-      </div>
-      <div className="relative mt-8 mb-6 flex flex-col items-center justify-center text-sm text-heading sm:mt-11 sm:mb-8">
-        <hr className="w-full" />
-      </div> */}
+      
       <div className="text-center text-sm text-body sm:text-base">
         {t('text-no-account')}{' '}
         <button

@@ -9,7 +9,6 @@ import TopAuthorsGrid from '@/components/author/top-authors-grid';
 import Banner from '@/components/banners/banner';
 
 import { useTranslation } from 'next-i18next';
-import SellingProductsGrid from '@/components/products/selling-products';
 import type { HomePageProps } from '@/types';
 import ProductGridHome from '../products/grids/home';
 
@@ -36,7 +35,6 @@ export default function CompactLayout({ variables }: HomePageProps) {
           />
         </SectionBlock>
         <TopAuthorsGrid />
-        {/* <SellingProductsGrid limit={6} /> */}
 
         <CallToAction />
       </main>

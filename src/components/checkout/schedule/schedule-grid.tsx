@@ -2,7 +2,6 @@ import { RadioGroup } from '@headlessui/react';
 import { useAtom } from 'jotai';
 import ScheduleCard from './schedule-card';
 import { deliveryTimeAtom, pickupTimeAtom } from '@/store/checkout';
-import { useEffect} from 'react';
 import { useTranslation } from 'next-i18next';
 import { useSettings } from '@/framework/settings';
 

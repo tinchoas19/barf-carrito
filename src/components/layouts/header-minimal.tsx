@@ -12,23 +12,14 @@ import { useIsHomePage } from '@/lib/use-is-homepage';
 import { useEffect } from 'react';
 import SearchWithSuggestion from '@/components/ui/search/search-with-suggestion';
 import Link from '@/components/ui/link';
-import GroupsDropdownMenu from './menu/groups-menu';
 
-const CartCounterIconButton = dynamic(
-  () => import('@/components/cart/cart-counter-icon-button'),
-  { ssr: false }
-);
-const AuthorizedMenu = dynamic(() => import('./menu/authorized-menu'), {
-  ssr: false,
-});
-const JoinButton = dynamic(() => import('./menu/join-button'), { ssr: false });
+
 
 const HeaderMinimal = ({ layout }: { layout: string }) => {
   const router = useRouter();
   const { t } = useTranslation('common');
   const [_, setDisplayHeaderSearch] = useAtom(displayHeaderSearchAtom);
   const [displayMobileHeaderSearch] = useAtom(displayMobileHeaderSearchAtom);
-  const [isAuthorize] = useAtom(authorizationAtom);
   const isHomePage = useIsHomePage();
 
   useEffect(() => {

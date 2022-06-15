@@ -2,42 +2,11 @@ import { RadioGroup } from '@headlessui/react';
 import { useTranslation } from 'next-i18next';
 import { useEffect, useState } from 'react';
 import Alert from '@/components/ui/alert';
-//import StripePayment from '@/components/checkout/payment/stripe';
-//import CashOnDelivery from '@/components/checkout/payment/cash-on-delivery';
 import { useAtom } from 'jotai';
 import { paymentMethodAtom } from '@/store/checkout';
 import cn from 'classnames';
 import { useSettings } from '@/framework/settings';
 
-/* interface PaymentMethodInformation {
-  name: string;
-  value: PaymentMethodName;
-  icon: string;
-  //component: React.FunctionComponent;
-}
-
-// Payment Methods Mapping Object
-
-const AVAILABLE_PAYMENT_METHODS_MAP: Record<
-  PaymentMethodName,
-  PaymentMethodInformation
-> = {
-  STRIPE: {
-    name: 'Transferencia',
-    value: 'STRIPE',
-    icon: '',
-    //component: StripePayment,
-  },
-  CASH_ON_DELIVERY: {
-    name: 'Pago al recibir',
-    value: 'CASH_ON_DELIVERY',
-    icon: '',
-    //component: CashOnDelivery,
-  },
-};
-   */
-  
-  
 
 const PaymentGrid: React.FC<{ className?: string; theme?: 'bw'; getValue?:Function; }> = ({
   className,
@@ -49,8 +18,6 @@ const PaymentGrid: React.FC<{ className?: string; theme?: 'bw'; getValue?:Functi
   const [gateway, setGateway] = useAtom(paymentMethodAtom);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { t } = useTranslation('common');
-  //const PaymentMethod = AVAILABLE_PAYMENT_METHODS_MAP[gateway];
-  //const Component = PaymentMethod?.component ?? StripePayment;
   useEffect(() => {
     setGateway(null)
   },[])
@@ -108,9 +75,7 @@ const PaymentGrid: React.FC<{ className?: string; theme?: 'bw'; getValue?:Functi
           )}
         </div>
       </RadioGroup>
-{/*       <div>
-        <Component />
-      </div> */}
+
     </div>
   );
 };

@@ -37,15 +37,6 @@ export const AddressGrid: React.FC<AddressesProps> = ({
      setAddress(null)
    }
  },[])
-/* 
-  useEffect(() => {
-    if (addresses?.length) {
-      if (selectedAddress?.id) {
-        const index = addresses.findIndex((a) => a.id === selectedAddress.id);
-        setAddress(addresses[index]);
-      } 
-    }
-  }, [addresses, addresses?.length, selectedAddress?.id, setAddress]); */
 
   function onAdd() {
     openModal('ADD_OR_UPDATE_ADDRESS', { customerId: userId, type });
@@ -75,8 +66,6 @@ export const AddressGrid: React.FC<AddressesProps> = ({
                 {({ checked }: { checked: boolean }) => (
                   <AddressCard
                     checked={checked}
-                    //onDelete={() => onDelete(address)}
-                    //onEdit={() => onEdit(address)}
                     address={address}
                   />
                 )}

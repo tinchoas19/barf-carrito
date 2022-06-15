@@ -8,10 +8,7 @@ import * as groupIcons from '@/components/icons/groups';
 import { useRouter } from 'next/router';
 import Link from '@/components/ui/link';
 import { ArrowDownIcon } from '@/components/icons/arrow-down';
-import { useTypes } from '@/framework/type';
-import useHomepage from '@/lib/hooks/use-homepage';
 import type { Type } from '@/types';
-import { TYPES_PER_PAGE } from '@/framework/client/variables';
 import { useSettings } from '@/framework/settings';
 
 interface GroupsMenuProps {
