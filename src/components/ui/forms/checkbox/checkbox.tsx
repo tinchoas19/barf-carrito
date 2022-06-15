@@ -7,10 +7,14 @@ export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   error?: string;
   theme?: 'primary' | 'secondary';
+  callback?: Function;
 }
 
 const Checkbox = React.forwardRef<HTMLInputElement, Props>(
-  ({ className, label, name, error, theme = 'primary', ...rest }, ref) => {
+  ({ className, label, name, error, theme = 'primary', callback, ...rest }, ref) => {
+
+    
+
     return (
       <div className={className}>
         <div className="flex items-center">
@@ -21,6 +25,7 @@ const Checkbox = React.forwardRef<HTMLInputElement, Props>(
             ref={ref}
             className="checkbox"
             {...rest}
+            onChange={(e) => {callback && callback(e.target.checked)}}
           />
 
           <label

@@ -33,10 +33,10 @@ const Header = ({ layout }: { layout: string }) => {
     !displayHeaderSearch && isHomePage && layout !== 'modern';
   return (
     <header
-      className={cn('sticky top-0 site-header-with-search h-14 md:h-16 lg:h-22 bg-white', {
+      className={cn('top-0 site-header-with-search h-14 md:h-16 lg:h-22 bg-white lg:sticky', {
         'lg:!h-auto': isFlattenHeader,
       })}
-      style={{zIndex:50}}
+      style={{zIndex:50, top: 0}}
     >
       <div
         className={cn(

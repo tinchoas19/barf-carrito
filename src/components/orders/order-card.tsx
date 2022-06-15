@@ -1,4 +1,4 @@
-import usePrice from '@/lib/use-price';
+import usePrice, { formatPrice } from '@/lib/use-price';
 import dayjs from 'dayjs';
 import cn from 'classnames';
 import { useTranslation } from 'next-i18next';
@@ -9,15 +9,24 @@ type OrderCardProps = {
   onClick?: (e: any) => void;
 };
 
+function f(amount:number) {
+  return formatPrice({amount, currencyCode : 'ARS', locale: 'ES'})
+}
+
 const OrderCard: React.FC<OrderCardProps> = ({ onClick, order, isActive }) => {
   const { t } = useTranslation('common');
-  const { id, status, created_at, delivery_time } = order;
-  const { price: amount } = usePrice({
+  const { id, created_at,     
+    shipping_address,
+    delivery_type,
+    payment_method, 
+    total
+  } = order;
+/*   const { price: amount } = usePrice({
     amount: order?.amount,
   });
   const { price: total } = usePrice({
     amount: order?.total,
-  });
+  }); */
 
   return (
     <div
@@ -58,7 +67,11 @@ const OrderCard: React.FC<OrderCardProps> = ({ onClick, order, isActive }) => {
             {t('text-total-price')}
           </span>
           <span className="ltr:mr-auto rtl:ml-auto">:</span>
-          <span className="ltr:ml-1 rtl:mr-1">{total}</span>
+          <span className="ltr:ml-1 rtl:mr-1">{f(
+                  total
+                  - (payment_method.id === '1' ?( total / 10) : 0)
+                  + (delivery_type.id === '2' ? parseInt((shipping_address.delivery_fee ? shipping_address.delivery_fee : 0)) : 0)
+                )}</span>
         </p>
       </div>
     </div>

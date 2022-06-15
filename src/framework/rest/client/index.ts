@@ -77,7 +77,7 @@ class Client {
     get: (tracking_number: string) =>
       HttpClient.get<Order>(`${API_ENDPOINTS.ORDERS}/${tracking_number}`),
     create: (input: CreateOrderInput) =>
-      HttpClient.post<Order>(API_ENDPOINTS.ORDERS, input),
+      HttpClient.post<Order>(API_ENDPOINTS.CREATE_ORDER, input),
     statuses: (params: Pick<QueryOptions, 'limit'>) =>
       HttpClient.get<OrderStatusPaginator>(API_ENDPOINTS.ORDERS_STATUS, params),
 
@@ -101,7 +101,7 @@ class Client {
   users = {
     me: () => HttpClient.get<User>(`${API_ENDPOINTS.USERS_ME}?id=${Cookies.get(AUTH_TOKEN_KEY)}`),
     update: (user: UpdateUserInput) =>
-      HttpClient.put<User>(`${API_ENDPOINTS.USERS}`, user),
+      HttpClient.post<User>(`${API_ENDPOINTS.UPDATE_CONTACT}`, user),
     //HttpClient.put<User>(`${API_ENDPOINTS.USERS}/${user.id}`, user),
     login: (input: LoginUserInput) =>
       HttpClient.post<AuthResponse>(API_ENDPOINTS.USERS_LOGIN, input),
@@ -149,7 +149,7 @@ class Client {
   };
   products = {
     //FIXME: check this async function
-    all: async () => HttpClient.get<Product[]>(API_ENDPOINTS.PRODUCTS),
+    all: async (id:number) => HttpClient.get<Product[]>(`${API_ENDPOINTS.PRODUCTS}?id=${id}`),
   };
 }
 

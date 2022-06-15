@@ -28,7 +28,7 @@ const ShortDetails: React.FC<ShortDetailsProps> = ({ product, isSticky }) => {
   const { closeModal } = useModalAction();
   const { attributes } = useAttributes();
 
-  const { name, slug, image, unit, quantity, min_price, max_price } =
+  const { name, slug, image, unit, quantity, min_price, max_price, price } =
     product ?? {};
 
   const navigate = (path: string) => {
@@ -36,10 +36,10 @@ const ShortDetails: React.FC<ShortDetailsProps> = ({ product, isSticky }) => {
     closeModal();
   };
 
-  const { price, basePrice, discount } = usePrice({
+/*   const { price, basePrice, discount } = usePrice({
     amount: product?.sale_price ? product?.sale_price : product?.price!,
     baseAmount: product?.price!,
-  });
+  }); */
 
   const variations = useMemo(
     () => getVariations(product?.variations),
@@ -124,11 +124,11 @@ const ShortDetails: React.FC<ShortDetailsProps> = ({ product, isSticky }) => {
               <ins className="text-xl lg:text-2xl font-semibold text-accent no-underline">
                 {price}
               </ins>
-              {basePrice && (
+         {/*      {basePrice && (
                 <del className="text-sm lg:text-base font-normal text-muted ltr:ml-2 rtl:mr-2">
                   {basePrice}
                 </del>
-              )}
+              )} */}
             </span>
           )}
 

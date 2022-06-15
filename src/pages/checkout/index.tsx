@@ -40,6 +40,7 @@ export default function CheckoutPage() {
   const [customer, setCustomer] = useAtom(customerAtom)
   
   useEffect(() => {
+    console.log('in checkout', customer)
     setCustomer(me)
   },[])
 

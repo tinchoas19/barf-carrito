@@ -152,6 +152,18 @@ export function useOrderStatuses(options: Pick<QueryOptions, 'limit'>) {
 }; */
 
 
+/* export function useSendOrder() {
+  const { data, isLoading, error } = useQuery<Settings, Error>(
+    [API_ENDPOINTS.ORDERS],
+    client.settings.all
+  );
+  return {
+    settings: data?.options ?? {},
+    isLoading,
+    error,
+  };
+} */
+
 
 export function useCreateOrder() {
   const router = useRouter();
@@ -161,12 +173,14 @@ export function useCreateOrder() {
       if (data?.tracking_number) {
         router.push(`${ROUTES.ORDERS}/${data?.tracking_number}`);
       }
+      console.log('data:',data)
     },
     onError: (error) => {
       const {
         response: { data },
       }: any = error ?? {};
       toast.error(data?.message);
+      console.log('error:',error)
     },
   });
 

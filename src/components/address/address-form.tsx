@@ -8,7 +8,7 @@ import * as yup from 'yup';
 import { useModalState } from '@/components/ui/modal/modal.context';
 import { Form } from '@/components/ui/forms/form';
 import { AddressType } from '@/framework/utils/constants';
-import { useUpdateUser } from '@/framework/user';
+import { useUpdateUser, useUser } from '@/framework/user';
 import DropDownInput from '../ui/forms/dropdown/dropdown-input';
 import { useEffect, useState } from 'react';
 import { string } from 'yup/lib/locale';
@@ -20,7 +20,7 @@ type FormValues = {
   //type: AddressType;
   address: {
     // country: string;
-    city: string;
+    cityid: string;
     //state: string;
     // zip: string;
     zone: string;
@@ -41,7 +41,7 @@ const addressSchema = yup.object().shape({
   //title: yup.string().required('error-title-required'),
   address: yup.object().shape({
     //country: yup.string().required('error-country-required'),
-    city: yup.string().required('error-city-required'),
+    cityid: yup.string().required('error-city-required'),
     //state: yup.string().required('error-state-required'),
     //zip: yup.string().required('error-zip-required'),
     zone: yup.string().required('error-zone-required'),
@@ -70,9 +70,10 @@ export const AddressForm: React.FC<any> = ({
   }
   
   useEffect(() => {
-    const listOfCities = cities.filter(city => { return city.zone === getZoneId(selectedZone)})
+    const listOfCities = cities.filter(city => { return city.zoneid === getZoneId(selectedZone)})
     setCitiesToShow(listOfCities)
   },[selectedZone])
+
 
   return (
     <Form<FormValues>
@@ -149,12 +150,12 @@ export const AddressForm: React.FC<any> = ({
 
           <DropDownInput
             label={t('text-address-location')}
-            {...register('address.city')}
-            error={t(errors.address?.city?.message!)}
+            {...register('address.cityid')}
+            error={t(errors.address?.cityid?.message!)}
             variant="outline"
-            options={(citiesToShow.map((city) => {return city?.name}))}
-            disabled={!citiesToShow.length}
-          />
+            options={citiesToShow}
+            disabled={!citiesToShow.length || selectedZone === ''}
+          /> 
 
           <Input
             label={t('text-address-bell')}
@@ -179,7 +180,7 @@ export const AddressForm: React.FC<any> = ({
             variant="outline"
             className="col-span-2"
             options={wtd}
-          />
+          /> 
 
           <TextArea
             label={t('text-address-wtd-extra')}
@@ -209,9 +210,13 @@ export default function CreateOrUpdateAddressForm() {
     data: { customerId, address, type },
   } = useModalState();
   const { mutate: updateProfile } = useUpdateUser();
+  const { me } = useUser();
 
   function onSubmit(values: FormValues) {
-    const formattedInput = {
+    const payload = {...me}
+    values.address && payload.address.push(values.address)
+    console.log(payload)
+/*     const formattedInput = {
       //id: address?.id,
       // customer_id: customerId,
       //title: values.title,
@@ -219,11 +224,8 @@ export default function CreateOrUpdateAddressForm() {
       address: {
         ...values.address
       },
-    };
-    updateProfile({
-      id: customerId,
-      address: [formattedInput],
-    });
+    };*/
+    updateProfile(payload); 
   }
   return (
     <div className="min-h-screen bg-light p-5 sm:p-8 md:min-h-0 md:rounded-xl">

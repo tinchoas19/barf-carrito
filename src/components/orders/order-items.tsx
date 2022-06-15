@@ -8,7 +8,7 @@ import { productPlaceholder } from '@/lib/placeholders';
 
 const OrderItemList = (_: any, record: any) => {
   const { price } = usePrice({
-    amount: record.pivot?.unit_price,
+    amount: parseInt(record.price),
   });
   let name = record.name;
   if (record?.pivot?.variation_option_id) {
@@ -31,10 +31,10 @@ const OrderItemList = (_: any, record: any) => {
       <div className="flex flex-col ltr:ml-4 rtl:mr-4 overflow-hidden">
         <div className="flex mb-1">
           <span className="text-sm text-body truncate inline-block overflow-hidden">
-            {name} x&nbsp;
+            {name} x&nbsp; 
           </span>
           <span className="text-sm text-heading font-semibold truncate inline-block overflow-hidden">
-            {record.unit}
+            {record.quantity}
           </span>
         </div>
         <span className="text-sm text-accent font-semibold mb-1 truncate inline-block overflow-hidden">
@@ -60,19 +60,19 @@ export const OrderItems = ({ products }: { products: any }) => {
         render: OrderItemList,
       },
 
-      // {
-      //   title: t('text-price'),
-      //   dataIndex: 'pivot',
-      //   key: 'price',
-      //   align: alignRight,
-      //   width: 100,
-      //   render: function RenderPrice(pivot: any) {
-      //     const { price } = usePrice({
-      //       amount: pivot.subtotal,
-      //     });
-      //     return <p>{price}</p>;
-      //   },
-      // },
+       {
+         title: t('text-price'),
+          dataIndex: '',
+          key: 'price',
+         align: alignRight,
+         width: 100,
+         render: function RenderPrice(pivot: any) {
+           const { price } = usePrice({
+             amount: parseInt(pivot.price) * parseInt(pivot.quantity),
+           });
+           return <p>{price}</p>;
+         },
+      },
     ],
     [alignLeft, alignRight, t]
   );

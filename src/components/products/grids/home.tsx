@@ -1,7 +1,6 @@
 import { useProducts } from '@/framework/product';
 import { Grid } from '@/components/products/grid';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 
 interface Props {
   className?: string;
@@ -16,10 +15,10 @@ export default function ProductGridHome({
   gridClassName,
 }: Props) {
   const { query } = useRouter();
-  const { products } =useProducts();
+  const { products } =useProducts(1);
 
     function filterProducts(prods) {
-      if (query.category) {
+      if (query.category && products) {
         let result = products.filter(product => 
           !!(product.categories.find(category => category.slug === query.category)
             ))
@@ -33,6 +32,7 @@ export default function ProductGridHome({
       className={className}
       gridClassName={gridClassName}
       column={column}
+      isLoading={!products ? true : false}
       />
   );
 }

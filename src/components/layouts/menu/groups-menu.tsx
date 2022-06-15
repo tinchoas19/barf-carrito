@@ -32,7 +32,7 @@ const GroupsMenu: React.FC<GroupsMenuProps> = ({
   
   const selectedMenu = groups?.find(type => router.asPath.toLowerCase().replace("/?category=", "") === type.slug.toLowerCase()) ?? defaultGroup;
 
-
+  
   return (
     <Menu
       as="div"
@@ -93,7 +93,7 @@ const GroupsMenu: React.FC<GroupsMenuProps> = ({
         <Menu.Items
           as="ul"
           className={cn(
-            'absolute mt-2 py-2 w-48 h-56 lg:h-72 2xl:h-auto min-h-40 max-h-56 sm:max-h-72 2xl:max-h-screen bg-light rounded shadow-700 focus:outline-none overflow-hidden',
+            'absolute mt-2 py-2 lg:h-72 2xl:h-auto min-h-40 max-h-56 sm:max-h-72 2xl:max-h-screen bg-light rounded shadow-700 focus:outline-none overflow-hidden',
             {
               'border border-border-200 ltr:right-0 rtl:left-0 ltr:origin-top-right rtl:origin-top-left':
                 variant === 'minimal',
@@ -111,7 +111,7 @@ const GroupsMenu: React.FC<GroupsMenuProps> = ({
             }}
           >
             {groups?.map(({ id, name, slug, icon }) => (
-              <Menu.Item key={id}>
+              selectedMenu && selectedMenu.slug !== slug && <Menu.Item key={id}>
                 {({ active }) => (
                   <Link
                     href={`?category=${slug}`}

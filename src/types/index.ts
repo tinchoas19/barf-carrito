@@ -141,6 +141,7 @@ export interface Product {
   gallery: Attachment[];
   created_at: string;
   updated_at: string;
+  isPersonalized: boolean;
 }
 
 export interface Category {
@@ -222,12 +223,14 @@ export interface Address {
 }
 
 export interface User {
+  success: any;
   id: string;
   name: string;
   surname: string;
   email: string;
   contact?: string;
   address: Address[];
+  data?: Object;
 }
 
 export interface UpdateUserInput extends Partial<User> {
@@ -237,13 +240,17 @@ export interface UpdateUserInput extends Partial<User> {
 export interface LoginUserInput {
   email: string;
   password: string;
+  codasoc?: string;
+  haveCode?: boolean;
 }
 
 
 
 export interface RegisterUserInput {
   name: string;
+  surname: string;
   email: string;
+  contact: string;
   password: string;
 }
 
@@ -270,11 +277,16 @@ export interface PasswordChangeResponse {
   message: string;
 }
 
-export interface AuthResponse {
+export interface AuthResponseData {
   token: string;
-  permissions: string[];
+  error: string;
 }
 
+export interface AuthRespose {
+  data: AuthResponseData;
+  status: string;
+  status_message: string;
+}
 
 
 export interface DigitalFile {
@@ -324,6 +336,7 @@ export interface CreateOrderInput {
   payment_id: string;
   note: string;
   products: ConnectProductOrderPivot[] | any;
+  total_price : number | null;
 
   //Todo estos campos sobran
   /* customer_contact: string;
