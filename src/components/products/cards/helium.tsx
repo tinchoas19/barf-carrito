@@ -5,7 +5,6 @@ import { AddToCart } from '@/components/products/add-to-cart/add-to-cart';
 import { useTranslation } from 'next-i18next';
 import { useModalAction } from '@/components/ui/modal/modal.context';
 import { productPlaceholder } from '@/lib/placeholders';
-import {UserIcon as PersonalizedIcon }from '@/components/icons/user-icon';
 
 
 type HeliumProps = {
@@ -56,7 +55,9 @@ const Helium: React.FC<HeliumProps> = ({ product, className }) => {
 
       {
         isPersonalized &&  
-        <PersonalizedIcon className='absolute ml-2 mt-2' style={{zIndex: 2, top:0 , cursor:'pointer'}} />
+        <div  className='absolute ml-2 mt-2 rounded-full bg-red-600 pr-2 pl-2 pt-1 pb-1 text-white text-sm' style={{zIndex: 2, top:0 , cursor:'pointer', opacity: 0.8}}>
+          {t('text-personalized')}
+        </div>
         }
       <header className="p-3 md:p-6">
         <div className="flex items-center mb-2">
