@@ -1,6 +1,8 @@
 import { useProducts } from '@/framework/product';
 import { Grid } from '@/components/products/grid';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { useUser } from '@/framework/user';
 
 interface Props {
   className?: string;
@@ -14,7 +16,16 @@ export default function ProductGridHome({
   gridClassName,
 }: Props) {
   const { query } = useRouter();
-  const { products } =useProducts(1);
+  const {me} = useUser()
+  const { getProducts, products } = useProducts();
+
+  useEffect(()=> {
+    getProducts(0)
+    if (me && me.id) {
+      getProducts(me.id)
+    }
+
+  },[me])
 
     function filterProducts(prods) {
       if (query.category && products) {
