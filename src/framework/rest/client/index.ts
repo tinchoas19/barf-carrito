@@ -50,8 +50,8 @@ class Client {
       HttpClient.post<Order>(API_ENDPOINTS.CREATE_ORDER, input),
     statuses: (params: Pick<QueryOptions, 'limit'>) =>
       HttpClient.get<OrderStatusPaginator>(API_ENDPOINTS.ORDERS_STATUS, params),
-
-
+    validateStock : (products: any) => 
+      HttpClient.post<any>(API_ENDPOINTS.VALIDATE_STOCK, products),
     downloadable: (query?: OrderQueryOptions) =>
       HttpClient.get<DownloadableFilePaginator>(
         API_ENDPOINTS.ORDERS_DOWNLOADS,

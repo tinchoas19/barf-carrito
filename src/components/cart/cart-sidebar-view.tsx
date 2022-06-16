@@ -12,26 +12,42 @@ import { formatString } from '@/lib/format-string';
 import { useTranslation } from 'next-i18next';
 import { useAtom } from 'jotai';
 import { drawerAtom } from '@/store/drawer-atom';
+import { useValidateStock } from '@/framework/order';
+import { useEffect } from 'react';
 
 const CartSidebarView = () => {
   const { t } = useTranslation('common');
   const { items, totalUniqueItems, total } = useCart();
   const [_, closeSidebar] = useAtom(drawerAtom);
   const router = useRouter();
+  const { price: totalPrice } = usePrice({
+    amount: total,
+  });
+  const { isLoading, validateStock} = useValidateStock()
+
+  
   function handleCheckout() {
     const isRegularCheckout = items.find((item) => !Boolean(item.is_digital));
-    if (isRegularCheckout) {
+    const itemsToValidate = items.map(item => {
+      return {id: item.id, quantity: item.quantity, name:item.name}
+    })
+    validateStock({
+      products: itemsToValidate
+    })
+
+/*     if (isRegularCheckout) {
       router.push(ROUTES.CHECKOUT);
     } else {
       router.push(ROUTES.CHECKOUT_DIGITAL);
     }
-
     closeSidebar({ display: false, view: '' });
+ */
   }
 
-  const { price: totalPrice } = usePrice({
-    amount: total,
-  });
+
+
+
+
   return (
     <section className="flex flex-col h-full relative">
       <header className="fixed max-w-md w-full top-0 z-10 bg-light py-4 px-6 flex items-center justify-between border-b border-border-200 border-opacity-75">

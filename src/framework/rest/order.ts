@@ -16,6 +16,7 @@ import { useRouter } from 'next/router';
 import { ROUTES } from '@/lib/routes';
 import Cookies from 'js-cookie';
 import { AUTH_TOKEN_KEY } from '@/lib/constants';
+import { useTranslation } from 'next-i18next';
 
 export function useOrders(options?: Partial<OrderQueryOptions>) {
 
@@ -48,6 +49,60 @@ export function useOrder({ tracking_number }: { tracking_number: string }) {
     error,
   };
 }
+
+
+export function useValidateStock() {
+  const router = useRouter();
+  const { t } = useTranslation();
+  const { mutate: validateStock, isLoading } = useMutation(client.orders.validateStock, {
+    onSuccess: (data) => {
+      const products = data.data.products
+      if (products.length !== 0) {
+        let errors : string[] = []
+        const noStockErrors : string[] = []
+        products.forEach((prod:any) => {
+          if (prod.nohabrastock) {
+            noStockErrors.push(`${prod.name}: No hay stock esta semana.`)
+          } else {
+          }
+          errors = [...errors, ...prod.errors]
+        })
+        if (errors.length === 0 && noStockErrors.length === 0) {
+          router.push(ROUTES.CHECKOUT)
+        } else {
+          if (errors.length > 0) {
+            errors.forEach(err => {
+              toast.error(err,{
+                "closeButton": true,
+                progress: 1
+            });
+            })
+          }
+          if (noStockErrors.length > 0) {
+            noStockErrors.forEach(err => {
+              toast.warning(err,{
+                "closeButton": true,
+                progress:1
+            });
+            })
+          }
+        
+        }
+      }
+    },
+    onError: (error) => {
+      toast.error(t('error-something-wrong'))
+    },
+  });
+
+  return {
+    validateStock,
+    isLoading
+  };
+}
+
+
+
 
 
 export function useCreateOrder() {
