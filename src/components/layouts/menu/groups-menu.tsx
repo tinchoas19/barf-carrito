@@ -10,6 +10,8 @@ import Link from '@/components/ui/link';
 import { ArrowDownIcon } from '@/components/icons/arrow-down';
 import type { Type } from '@/types';
 import { useSettings } from '@/framework/settings';
+import { useAtom } from 'jotai';
+import { categorySlugAtom } from '@/store/category-atom';
 
 interface GroupsMenuProps {
   className?: string;
@@ -24,11 +26,15 @@ const GroupsMenu: React.FC<GroupsMenuProps> = ({
   defaultGroup,
   variant = 'colored',
 }) => {
-  const router = useRouter();
+  //const router = useRouter();
+  const [categorySlug, setCategorySlug] = useAtom(categorySlugAtom)
 
   
-  const selectedMenu = groups?.find(type => router.asPath.toLowerCase().replace("/?category=", "") === type.slug.toLowerCase()) ?? defaultGroup;
+  const selectedMenu = groups?.find(type => categorySlug === type.slug.toLowerCase()) ?? defaultGroup;
 
+  function handleCategoryChange({slug, name}:{slug:string, name:string}) {
+    setCategorySlug(slug)
+  }
   
   return (
     <Menu
@@ -110,10 +116,10 @@ const GroupsMenu: React.FC<GroupsMenuProps> = ({
             {groups?.map(({ id, name, slug, icon }) => (
               selectedMenu && selectedMenu.slug !== slug && <Menu.Item key={id}>
                 {({ active }) => (
-                  <Link
-                    href={`?category=${slug}`}
+                  <div
+                    onClick={() => handleCategoryChange({slug, name})}
                     className={cn(
-                      'flex space-x-4 rtl:space-x-reverse items-center w-full px-5 py-2.5 text-sm font-semibold capitalize transition duration-200 hover:text-accent focus:outline-none',
+                      'flex space-x-2 w-36 rtl:space-x-reverse items-center w-full px-5 py-2.5 text-sm font-semibold capitalize transition duration-200 hover:text-accent focus:outline-none',
                       active ? 'text-accent' : 'text-body-dark'
                     )}
                   >
@@ -127,7 +133,7 @@ const GroupsMenu: React.FC<GroupsMenuProps> = ({
                       </span>
                     )}
                     <span>{name}</span>
-                  </Link>
+                  </div>
                 )}
               </Menu.Item>
             ))}
