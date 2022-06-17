@@ -31,6 +31,7 @@ import { HttpClient } from './http-client';
 import { AUTH_TOKEN_KEY } from '@/lib/constants';
 
 
+
 class Client {
 
 
@@ -119,7 +120,7 @@ class Client {
   };
   products = {
     //FIXME: check this async function
-    all: async (id:number) => HttpClient.get<Product[]>(`${API_ENDPOINTS.PRODUCTS}?id=${id}`),
+    all: async (id:number = 0) => HttpClient.get<Product[]>(`${API_ENDPOINTS.PRODUCTS}?id=${id}`),
   };
 }
 

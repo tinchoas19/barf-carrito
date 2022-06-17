@@ -7,7 +7,7 @@ import { useMutation, useQuery } from 'react-query';
 import client from './client';
 import { API_ENDPOINTS } from './client/api-endpoints';
 
-export function useProducts(id:number = 0) {
+export function useProducts() {
   const [products, setProducts] = useState(null)
   const { mutate: getProducts, isLoading } = useMutation(client.products.all, {
     onSuccess: (data) => {

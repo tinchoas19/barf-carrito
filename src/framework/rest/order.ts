@@ -17,6 +17,9 @@ import { ROUTES } from '@/lib/routes';
 import Cookies from 'js-cookie';
 import { AUTH_TOKEN_KEY } from '@/lib/constants';
 import { useTranslation } from 'next-i18next';
+import { drawerAtom } from '@/store/drawer-atom';
+import { useAtom } from 'jotai';
+import { stockAuthBooleanAtom } from '@/store/authorization-atom';
 
 export function useOrders(options?: Partial<OrderQueryOptions>) {
 
@@ -52,8 +55,10 @@ export function useOrder({ tracking_number }: { tracking_number: string }) {
 
 
 export function useValidateStock() {
+  const [_, closeSidebar] = useAtom(drawerAtom);
   const router = useRouter();
   const { t } = useTranslation();
+  const [stockAuth, setStockAuth] = useAtom(stockAuthBooleanAtom)
   const { mutate: validateStock, isLoading } = useMutation(client.orders.validateStock, {
     onSuccess: (data) => {
       const products = data.data.products
@@ -68,7 +73,9 @@ export function useValidateStock() {
           errors = [...errors, ...prod.errors]
         })
         if (errors.length === 0 && noStockErrors.length === 0) {
+          setStockAuth(true)
           router.push(ROUTES.CHECKOUT)
+          closeSidebar({ display: false, view: '' });
         } else {
           if (errors.length > 0) {
             errors.forEach(err => {

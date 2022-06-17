@@ -55,7 +55,7 @@ const Helium: React.FC<HeliumProps> = ({ product, className }) => {
 
       {
         isPersonalized &&  
-        <div  className='absolute ml-2 mt-2 rounded-full bg-red-600 pr-2 pl-2 pt-1 pb-1 text-white text-sm' style={{zIndex: 2, top:0 , cursor:'pointer', opacity: 0.8}}>
+        <div  className='absolute ml-2 mt-2 rounded-full bg-gray-500 pr-2 pl-2 pt-1 pb-1 text-white text-sm' style={{zIndex: 2, top:0 , cursor:'pointer', opacity: 0.8}}>
           {t('text-personalized')}
         </div>
         }

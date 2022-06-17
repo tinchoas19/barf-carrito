@@ -3,6 +3,10 @@ import { Grid } from '@/components/products/grid';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useUser } from '@/framework/user';
+import { useAtom } from 'jotai';
+import { authorizationAtom } from '@/store/authorization-atom';
+import Cookies from 'js-cookie';
+import { AUTH_TOKEN_KEY } from '@/lib/constants';
 
 interface Props {
   className?: string;
@@ -16,16 +20,18 @@ export default function ProductGridHome({
   gridClassName,
 }: Props) {
   const { query } = useRouter();
-  const {me} = useUser()
-  const { getProducts, products } = useProducts();
+  const { getProducts, products, isLoading } = useProducts();
+  const [isAuthorize] = useAtom(authorizationAtom);
 
   useEffect(()=> {
-    getProducts(0)
-    if (me && me.id) {
-      getProducts(me.id)
+    if (isAuthorize) {
+      const token:string = Cookies.get(AUTH_TOKEN_KEY)
+      getProducts(parseInt(token))
+    } else {
+      getProducts(0)
     }
 
-  },[me])
+  },[])
 
     function filterProducts(prods) {
       if (query.category && products) {
@@ -42,7 +48,7 @@ export default function ProductGridHome({
       className={className}
       gridClassName={gridClassName}
       column={column}
-      isLoading={!products ? true : false}
+      isLoading={isLoading}
       />
   );
 }

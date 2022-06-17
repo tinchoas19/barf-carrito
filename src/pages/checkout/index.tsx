@@ -8,6 +8,8 @@ import { useUser } from '@/framework/user';
 import { useEffect } from 'react';
 import { useSettings } from '@/framework/settings';
 import { useAtom } from 'jotai';
+import { stockAuthBooleanAtom } from '@/store/authorization-atom';
+import { useRouter } from 'next/router';
 export { getStaticProps } from '@/framework/general.ssr';
 
 const ScheduleGrid = dynamic(
@@ -38,14 +40,26 @@ export default function CheckoutPage() {
   const {settings: { pickupAddress}} = useSettings()
   const [delivery_type, set_delivery_type] = useAtom(deliveryTypeAtom)
   const [customer, setCustomer] = useAtom(customerAtom)
+  const [stockAuth] = useAtom(stockAuthBooleanAtom)
+  const router = useRouter()
   
   useEffect(() => {
+    if (!stockAuth) router.push('/')
     setCustomer(me)
   },[])
 
   function handleDeliveryType(data:any) {
     set_delivery_type(data)
   } 
+  if (!stockAuth) return <div className='fixed flex justify-center items-center' style={{width: '100%', height: '100%'}}>
+    <span
+  className='h-40 w-40 ltr:ml-2 rtl:mr-2 rounded-full border-2 border-transparent border-t-2 animate-spin'
+  style={{
+    borderTopColor:'currentColor',
+    opacity: 0.2
+  }}/>
+  </div>
+
   return (
     <>
       <Seo noindex={true} nofollow={true} />
