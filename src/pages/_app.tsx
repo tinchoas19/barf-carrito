@@ -35,10 +35,10 @@ function CustomApp({
                 <DefaultSeo />
                 {authenticationRequired ? (
                   <PrivateRoute>
-                    {getLayout(<Component {...pageProps} />)}
+                    {getLayout(<Component {...pageProps} id='body-container' />)}
                   </PrivateRoute>
                 ) : (
-                  getLayout(<Component {...pageProps} />)
+                  getLayout(<Component {...pageProps} id='body-container'/>)
                 )}
                 <ManagedModal />
                 <ManagedDrawer />

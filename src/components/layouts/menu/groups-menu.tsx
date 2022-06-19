@@ -5,13 +5,12 @@ import { Fragment } from 'react';
 import { getIcon } from '@/lib/get-icon';
 import { CaretDown } from '@/components/icons/caret-down';
 import * as groupIcons from '@/components/icons/groups';
-import { useRouter } from 'next/router';
-import Link from '@/components/ui/link';
 import { ArrowDownIcon } from '@/components/icons/arrow-down';
 import type { Type } from '@/types';
 import { useSettings } from '@/framework/settings';
 import { useAtom } from 'jotai';
-import { categorySlugAtom } from '@/store/category-atom';
+import { categoryNameAtom, categorySlugAtom } from '@/store/category-atom';
+import { scroller } from 'react-scroll';
 
 interface GroupsMenuProps {
   className?: string;
@@ -28,13 +27,20 @@ const GroupsMenu: React.FC<GroupsMenuProps> = ({
 }) => {
   //const router = useRouter();
   const [categorySlug, setCategorySlug] = useAtom(categorySlugAtom)
+  const [_, setCategoryName] = useAtom(categoryNameAtom)
 
   
   const selectedMenu = groups?.find(type => categorySlug === type.slug.toLowerCase()) ?? defaultGroup;
 
   function handleCategoryChange({slug, name}:{slug:string, name:string}) {
     setCategorySlug(slug)
+    setCategoryName(name)
+    scroller.scrollTo('grid', {
+      smooth: true,
+      offset: -110,
+    });
   }
+
   
   return (
     <Menu
@@ -43,7 +49,7 @@ const GroupsMenu: React.FC<GroupsMenuProps> = ({
     >
       <Menu.Button
         className={cn(
-          'flex items-center shrink-0 text-sm md:text-base font-semibold h-11 focus:outline-none text-heading xl:px-4',
+          'flex items-center shrink-0 text-sm md:text-base font-semibold h-11 z-11 focus:outline-none text-heading xl:px-4',
           {
             'bg-gray-50 border border-border-200 rounded-lg px-3':
               variant === 'minimal',
@@ -119,7 +125,7 @@ const GroupsMenu: React.FC<GroupsMenuProps> = ({
                   <div
                     onClick={() => handleCategoryChange({slug, name})}
                     className={cn(
-                      'flex space-x-2 w-36 rtl:space-x-reverse items-center w-full px-5 py-2.5 text-sm font-semibold capitalize transition duration-200 hover:text-accent focus:outline-none',
+                      'flex space-x-2 w-40  rtl:space-x-reverse items-center w-full px-5 py-2.5 text-sm font-semibold capitalize transition duration-200 hover:text-accent focus:outline-none',
                       active ? 'text-accent' : 'text-body-dark'
                     )}
                   >

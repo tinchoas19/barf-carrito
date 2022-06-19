@@ -19,7 +19,7 @@ import { AUTH_TOKEN_KEY } from '@/lib/constants';
 import { useTranslation } from 'next-i18next';
 import { drawerAtom } from '@/store/drawer-atom';
 import { useAtom } from 'jotai';
-import { stockAuthBooleanAtom } from '@/store/authorization-atom';
+import { stockAuthBooleanAtom, stockDeliveryDaysAtom, stockPickUpDaysAtom } from '@/store/authorization-atom';
 
 export function useOrders(options?: Partial<OrderQueryOptions>) {
 
@@ -58,7 +58,9 @@ export function useValidateStock() {
   const [_, closeSidebar] = useAtom(drawerAtom);
   const router = useRouter();
   const { t } = useTranslation();
-  const [stockAuth, setStockAuth] = useAtom(stockAuthBooleanAtom)
+  const [_1, setStockAuth] = useAtom(stockAuthBooleanAtom)
+  const [_2, setPickUpDays] = useAtom(stockPickUpDaysAtom)
+  const [_3, setDeliveryDays] = useAtom(stockDeliveryDaysAtom)
   const { mutate: validateStock, isLoading } = useMutation(client.orders.validateStock, {
     onSuccess: (data) => {
       const products = data.data.products
@@ -72,7 +74,9 @@ export function useValidateStock() {
           }
           errors = [...errors, ...prod.errors]
         })
-        if (errors.length === 0 && noStockErrors.length === 0) {
+        if (errors.length === 0 && 
+          noStockErrors.length === 0 && 
+          !data.tieneErrores) {
           setStockAuth(true)
           router.push(ROUTES.CHECKOUT)
           closeSidebar({ display: false, view: '' });

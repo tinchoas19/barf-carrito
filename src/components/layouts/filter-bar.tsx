@@ -1,8 +1,8 @@
-import { useTranslation } from 'next-i18next';
-import { useAtom } from 'jotai';
-import { drawerAtom } from '@/store/drawer-atom';
 import GroupsDropdownMenu from './menu/groups-menu';
 import classNames from 'classnames';
+import { categoryNameAtom } from '@/store/category-atom';
+import { useAtom } from 'jotai';
+import { useTranslation } from 'next-i18next';
 
 export default function FilterBar({
   className,
@@ -11,6 +11,8 @@ export default function FilterBar({
   variables?: any;
 }) {
   
+  const { t }= useTranslation('common')
+  const [categoryName] = useAtom(categoryNameAtom)
 
   return (
     <div
@@ -19,8 +21,16 @@ export default function FilterBar({
         className
       )}
     >
-      <div className="flex h-8 items-center py-1 px-3 text-sm font-semibold text-heading transition-colors duration-200 md:h-10 md:py-1.5 md:px-4 md:text-base"></div>
-      <GroupsDropdownMenu />
+      {categoryName !== 'Todos' && <div
+        className='absolute z-10'
+      >
+       <span
+        className='text-sm pl-2 pr-2 pt-1 pb-1 rounded bg-gray-300'
+        style={{ color: 'white'}}
+       >{t('text-category-filter')+ " '" +categoryName+ "'"} </span>
+      </div>}
+      <div className="flex h-8 z-10 items-center py-1 px-3 text-sm font-semibold text-heading transition-colors duration-200 md:h-10 md:py-1.5 md:px-4 md:text-base"></div>
+      <GroupsDropdownMenu  />
     </div>
   );
 }

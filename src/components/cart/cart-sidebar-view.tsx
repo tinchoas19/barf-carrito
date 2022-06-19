@@ -34,7 +34,8 @@ const CartSidebarView = () => {
       return {id: item.id, quantity: item.quantity, name:item.name}
     })
     validateStock({
-      products: itemsToValidate
+      products: itemsToValidate,
+      userId: me.id
     })
 
   }
@@ -109,7 +110,7 @@ const CartSidebarView = () => {
         </button>
         :
         <button
-          className="flex justify-between w-full h-12 md:h-14 p-1 text-sm font-bold bg-gray-400 rounded-full shadow-700 transition-colors focus:outline-none"
+          className="flex justify-between w-full h-12 md:h-14 p-1 text-sm font-bold bg-gray-300 rounded-full shadow-700 transition-colors focus:outline-none"
           disabled={true}
         >
           <span className="flex flex-1 items-center h-full px-5 text-light justify-center">

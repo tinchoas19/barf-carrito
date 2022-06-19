@@ -10,12 +10,18 @@ export function checkIsLoggedIn() {
 }
 export const authorizationAtom = atom(checkIsLoggedIn());
 
+
+
 interface StockAuth {
   auth:boolean;
+  deliveryDays:any;
+  pickupDays:any;
 }
 
 export const defaultStockAuth: StockAuth = {
-  auth: false
+  auth: false,
+  deliveryDays : [],
+  pickupDays : []
 };
 
 // Original atom.
@@ -24,6 +30,20 @@ export const clearStockAuthAtom = atom(null, (_get, set, _data) => {
   return set(stockAuthAtom, defaultStockAuth);
 });
 
+export const stockDeliveryDaysAtom = atom(
+  (get) => get(stockAuthAtom).deliveryDays,
+  (get, set, data: any[]) => {
+    const prev = get(stockAuthAtom);
+    return set(stockAuthAtom, { ...prev, deliveryDays: data });
+  }
+);
+export const stockPickUpDaysAtom = atom(
+  (get) => get(stockAuthAtom).pickupDays,
+  (get, set, data: any[]) => {
+    const prev = get(stockAuthAtom);
+    return set(stockAuthAtom, { ...prev, pickupDays: data });
+  }
+);
 export const stockAuthBooleanAtom = atom(
   (get) => get(stockAuthAtom).auth,
   (get, set, data: boolean) => {

@@ -8,10 +8,9 @@ import client from './client';
 import { API_ENDPOINTS } from './client/api-endpoints';
 
 export function useProducts() {
-  const [products, setProducts] = useState(null)
-  const { mutate: getProducts, isLoading } = useMutation(client.products.all, {
+  const { mutate: getProducts, isLoading, data } = useMutation(client.products.all, {
     onSuccess: (data) => {
-      setProducts(data)
+
       console.log
     },
     onError: (error) => {
@@ -20,14 +19,14 @@ export function useProducts() {
   });
 
   return {
-    products,
     getProducts,
     isLoading,
+    data
   };
 }
 
 
-export function useProducts2(id:number = 0) {
+/* export function useProducts2(id:number = 0) {
   const { data } = useQuery<Product[], Error>(
     [API_ENDPOINTS.PRODUCTS],
     () => client.products.all(id)
@@ -36,7 +35,7 @@ export function useProducts2(id:number = 0) {
     products :data
   };
 }
-
+ */
 export const usePopularProducts = (
   options?: Partial<PopularProductQueryOptions>
 ) => {
