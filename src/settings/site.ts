@@ -26,7 +26,7 @@ export const siteSettings = {
   authorizedLinks: [
     { href: ROUTES.PROFILE, label: 'auth-menu-profile' },
     { href: ROUTES.ORDERS, label: 'auth-menu-my-orders' },
-    { href: ROUTES.CHECKOUT, label: 'auth-menu-checkout' },
+    { href: ROUTES.CHANGE_PASSWORD, label: 'profile-sidebar-password' },
   ],
   authorizedLinksMobile: [
     { href: ROUTES.PROFILE, label: 'auth-menu-profile' },
@@ -49,10 +49,10 @@ export const siteSettings = {
       href: ROUTES.ORDERS,
       label: 'profile-sidebar-orders',
     },
-    {
+/*     {
       href: ROUTES.DOWNLOADS,
       label: 'profile-sidebar-downloads',
-    },
+    }, */
     // {
     //   href: ROUTES.REFUNDS,
     //   label: 'text-my-refunds',

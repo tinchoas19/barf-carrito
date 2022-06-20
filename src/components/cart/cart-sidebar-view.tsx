@@ -14,9 +14,12 @@ import { useAtom } from 'jotai';
 import { drawerAtom } from '@/store/drawer-atom';
 import { useValidateStock } from '@/framework/order';
 import { useUser } from '@/framework/user';
+import { ArrowNextIcon } from '../icons/arrow-next';
+import { useModalAction } from '../ui/modal/modal.context';
 
 
 const CartSidebarView = () => {
+  const { openModal } = useModalAction();
   const { t } = useTranslation('common');
   const { items, totalUniqueItems, total } = useCart();
   const [_, closeSidebar] = useAtom(drawerAtom);
@@ -106,11 +109,15 @@ const CartSidebarView = () => {
         </button>
         :
         <button
-          className="flex justify-between w-full h-12 md:h-14 p-1 text-sm font-bold bg-gray-300 rounded-full shadow-700 transition-colors focus:outline-none"
-          disabled={true}
+          className={!me ? 
+            "flex justify-between w-full h-12 md:h-14 p-1 text-sm font-bold bg-accent rounded-full shadow-700 transition-colors focus:outline-none hover:bg-accent-hover focus:bg-accent-hover" : 
+            "flex justify-between w-full h-12 md:h-14 p-1 text-sm font-bold bg-gray-300 rounded-full shadow-700 transition-colors focus:outline-none"}
+          disabled={!me ? false : true}
+          onClick={() => openModal('LOGIN_VIEW')}
         >
           <span className="flex flex-1 items-center h-full px-5 text-light justify-center">
             {me ? t('text-no-items-cart') :  t('text-need-to-login')}
+          {!me && <ArrowNextIcon className="w-5" />}
           </span>
         </button>
         }
