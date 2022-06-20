@@ -15,9 +15,9 @@ const ScheduleCard: React.FC<ScheduleProps> = ({ checked, schedule }) => (
     )}
   >
     <span className="text-sm text-heading font-semibold block mb-2">
-      {schedule.title}
+      {schedule.name}
     </span>
-    <span className="text-sm text-heading block">{schedule.description}</span>
+    <span className="text-sm text-heading block">{schedule.details}</span>
   </div>
 );
 

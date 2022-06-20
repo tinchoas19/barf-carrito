@@ -7,6 +7,7 @@ import { useSettings } from '@/framework/settings';
 
 interface ScheduleProps {
   label: string;
+  schedules: any[];
   className?: string;
   count?: number;
   isPickup?: boolean;
@@ -16,13 +17,11 @@ export const ScheduleGrid: React.FC<ScheduleProps> = ({
   label,
   className,
   count,
-  isPickup
+  isPickup,
+  schedules
 }) => {
   const { t } = useTranslation('common');
-  const {
-    settings: { deliveryTime: deliveryTime, pickupTime: pickup },
-  } = useSettings();
-  const schedules = isPickup ? pickup : deliveryTime
+  //const schedules = isPickup ? pickup : deliveryTime
   const atom = isPickup ? pickupTimeAtom : deliveryTimeAtom
   const [selectedSchedule, setSchedule] = useAtom(atom);
 

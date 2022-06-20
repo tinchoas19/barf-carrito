@@ -108,6 +108,7 @@
   "profile-sidebar-help": "Necesito ayuda",
   "profile-sidebar-logout": "Cerrar sesión",
   "password-successful": "Contraseña cambiada correctamente",
+  "error-no-pickup-days": "No quedan dias de retiro/envío para esta semana",
   "error-number-required":"Se requiere la altura",
   "error-zone-required":"Seleccione una zona",
   "error-bell-required":"Se requiere un timbre",
@@ -272,7 +273,7 @@
   "add-phone-number": "¡Pague después de recibir sus productos!0",
   "text-confirm": "¡Pague después de recibir sus productos!1",
   "text-check-availability": "¡Pague después de recibir sus productos!2",
-  "text-no-delivery-time-found": "¡Pague después de recibir sus productos!3",
+  "text-no-delivery-time-found": "QUE RESPONDO ACA?",
   "otp-login-helper": "¡Pague después de recibir sus productos!4",
   "button-cancel": "¡Pague después de recibir sus productos!5",
   "button-delete": "¡Pague después de recibir sus productos!6",
@@ -404,5 +405,6 @@
   "error-forget-password" : "Algo salió mal",
   "text-forget-password-success" : "Te enviamos un mail a tu correo electrónico",
   "text-reset-password-success" : "Contraseña modificada con exito",
-  "text-delivery-type" : "Método de entrega"
+  "text-delivery-type" : "Método de entrega",
+  "text-select-address-option" : "Seleccione una dirección"
 }

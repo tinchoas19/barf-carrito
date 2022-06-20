@@ -64,6 +64,9 @@ export function useValidateStock() {
   const { mutate: validateStock, isLoading } = useMutation(client.orders.validateStock, {
     onSuccess: (data) => {
       const products = data.data.products
+      const pickupDays = data.data.pickupDays
+      const deliveryDays = data.data.deliveryDays
+      // checkea stock y errores en products
       if (products.length !== 0) {
         let errors : string[] = []
         const noStockErrors : string[] = []
@@ -74,12 +77,22 @@ export function useValidateStock() {
           }
           errors = [...errors, ...prod.errors]
         })
+        // checkea que no haya errores
         if (errors.length === 0 && 
-          noStockErrors.length === 0 && 
-          !data.tieneErrores) {
-          setStockAuth(true)
-          router.push(ROUTES.CHECKOUT)
-          closeSidebar({ display: false, view: '' });
+          noStockErrors.length === 0 
+          //!data.tieneErrores 
+          ) {
+            // checkea que haya minimo 1 dia de pickup
+            if (pickupDays.length > 0) {
+              setStockAuth(true)
+              setPickUpDays(pickupDays)
+              setDeliveryDays(deliveryDays)
+              router.push(ROUTES.CHECKOUT)
+              closeSidebar({ display: false, view: '' });
+            } else {
+              toast.error(t('error-no-days'));
+            }
+        
         } else {
           if (errors.length > 0) {
             errors.forEach(err => {
