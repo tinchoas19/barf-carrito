@@ -77,8 +77,7 @@ export const SendButton: React.FC<{disabled?:boolean, label:string, className?: 
      const order:CreateOrderInput = formatOrder(checkout)
      const result:boolean = validateOrder(order)
      if (result) {
-       const res = createOrder(order)
-       toast.success(t('send-order-successful'));
+       createOrder(order)
      } else {
        toast.error(t('send-order-error-uncomplete'));
      }

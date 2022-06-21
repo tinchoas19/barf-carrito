@@ -1,9 +1,9 @@
 import { RadioGroup } from '@headlessui/react';
 import { useAtom } from 'jotai';
 import ScheduleCard from './schedule-card';
-import { deliveryTimeAtom, pickupTimeAtom } from '@/store/checkout';
+import { deliveryTimeAtom, pickupTimeAtom, shippingAddressAtom } from '@/store/checkout';
 import { useTranslation } from 'next-i18next';
-import { useSettings } from '@/framework/settings';
+import { useEffect } from 'react';
 
 interface ScheduleProps {
   label: string;
@@ -24,6 +24,11 @@ export const ScheduleGrid: React.FC<ScheduleProps> = ({
   //const schedules = isPickup ? pickup : deliveryTime
   const atom = isPickup ? pickupTimeAtom : deliveryTimeAtom
   const [selectedSchedule, setSchedule] = useAtom(atom);
+  const [shippingAddress] = useAtom(shippingAddressAtom)
+
+  useEffect(() => {
+    setSchedule(null)
+  },[shippingAddress])
 
   return (
     <div className={className}>

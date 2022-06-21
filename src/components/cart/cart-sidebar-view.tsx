@@ -16,6 +16,8 @@ import { useValidateStock } from '@/framework/order';
 import { useUser } from '@/framework/user';
 import { ArrowNextIcon } from '../icons/arrow-next';
 import { useModalAction } from '../ui/modal/modal.context';
+import { authorizationAtom, stockAuthBooleanAtom } from '@/store/authorization-atom';
+import { useEffect } from 'react';
 
 
 const CartSidebarView = () => {
@@ -24,6 +26,8 @@ const CartSidebarView = () => {
   const { items, totalUniqueItems, total } = useCart();
   const [_, closeSidebar] = useAtom(drawerAtom);
   const {me} = useUser();
+  const [isAuthorize] = useAtom(authorizationAtom);
+  const [stockAuth, setStockAuth] = useAtom(stockAuthBooleanAtom)
 
   const { price: totalPrice } = usePrice({
     amount: total,
@@ -40,8 +44,13 @@ const CartSidebarView = () => {
       products: itemsToValidate,
       userId: me.id
     })
-
   }
+
+  useEffect(() => {
+    if (window.location.pathname === '/checkout') {
+      setStockAuth(false)
+    }
+  },[])
 
   return (
     <section className="flex flex-col h-full relative">
@@ -96,7 +105,7 @@ const CartSidebarView = () => {
 
       {/* <footer className="sticky ltr:left-0 rtl:right-0 bottom-0 w-full py-5 px-6 z-10 bg-light"> */}
       <footer className="fixed bottom-0 w-full max-w-md py-5 px-6 z-10 bg-light">
-      {(items.length !== 0 && me) ? <button
+      {(items.length !== 0 && isAuthorize) ? <button
           className="flex justify-between w-full h-12 md:h-14 p-1 text-sm font-bold bg-accent rounded-full shadow-700 transition-colors focus:outline-none hover:bg-accent-hover focus:bg-accent-hover"
           onClick={handleCheckout}
         >
@@ -109,15 +118,15 @@ const CartSidebarView = () => {
         </button>
         :
         <button
-          className={!me ? 
+          className={!isAuthorize ? 
             "flex justify-between w-full h-12 md:h-14 p-1 text-sm font-bold bg-accent rounded-full shadow-700 transition-colors focus:outline-none hover:bg-accent-hover focus:bg-accent-hover" : 
             "flex justify-between w-full h-12 md:h-14 p-1 text-sm font-bold bg-gray-300 rounded-full shadow-700 transition-colors focus:outline-none"}
-          disabled={!me ? false : true}
+          disabled={!isAuthorize ? false : true}
           onClick={() => openModal('LOGIN_VIEW')}
         >
           <span className="flex flex-1 items-center h-full px-5 text-light justify-center">
-            {me ? t('text-no-items-cart') :  t('text-need-to-login')}
-          {!me && <ArrowNextIcon className="w-5" />}
+            {isAuthorize ? t('text-no-items-cart') :  t('text-need-to-login')}
+          {!isAuthorize && <ArrowNextIcon className="w-5" />}
           </span>
         </button>
         }

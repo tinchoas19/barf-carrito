@@ -31,6 +31,7 @@ export function generateCartItem(item: Item, variation: Variation) {
     quantity,
     unit,
     is_digital,
+    isPersonalized
   } = item;
   if (!isEmpty(variation)) {
     return {
@@ -46,6 +47,7 @@ variation.price
       ),
       image: image?.thumbnail,
       variationId: variation.id,
+      isPersonalized
     };
   }
   return {
@@ -57,5 +59,6 @@ variation.price
     image: image?.thumbnail,
     stock: 1000,
     price: Number(sale_price ? sale_price : price),
+    isPersonalized
   };
 }

@@ -97,6 +97,8 @@
   "text-state": "Estado",
   "text-zip": "ZIP",
   "text-street-address": "Dirección",
+  "text-modify": "Modificar",
+  "text-checkout-validation-fail": "Es probable que alguno de los productos seleccionados ya no tenga stock y/o el dia de retiro/envío seleccionado ya no se encuentre disponible. Vuelva a intentar.",
   "text-add-new": "Agregar nuevo",
   "text-personalized" : "★ DIETA PERSONALIZADA",
   "text-no-items-cart" : "Ningún producto seleccionado",

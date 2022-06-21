@@ -23,6 +23,7 @@ import {
 } from '@/components/auth/forgot-password';
 import { clearCheckoutAtom } from '@/store/checkout';
 import { useRouter } from 'next/router';
+import { useCart } from '@/store/quick-cart/cart.context';
 
 
 export function useUser() {
@@ -180,7 +181,11 @@ export function useLogout() {
   const [_, setAuthorized] = useAtom(authorizationAtom);
   const [_r, resetCheckout] = useAtom(clearCheckoutAtom);
   const { openModal } = useModalAction();
+  const { items, clearItemFromCart } = useCart();
   const mutate = function () {
+    items.forEach(item => {
+      if (item.isPersonalized) clearItemFromCart(item.id)
+    })
     setToken('');
     setAuthorized(false);
     resetCheckout();

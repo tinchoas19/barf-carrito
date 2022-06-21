@@ -20,6 +20,8 @@ import { useTranslation } from 'next-i18next';
 import { drawerAtom } from '@/store/drawer-atom';
 import { useAtom } from 'jotai';
 import { stockAuthBooleanAtom, stockDeliveryDaysAtom, stockPickUpDaysAtom } from '@/store/authorization-atom';
+import { useCart } from '@/store/quick-cart/cart.context';
+
 
 export function useOrders(options?: Partial<OrderQueryOptions>) {
 
@@ -63,16 +65,27 @@ export function useValidateStock() {
   const [_3, setDeliveryDays] = useAtom(stockDeliveryDaysAtom)
   const { mutate: validateStock, isLoading } = useMutation(client.orders.validateStock, {
     onSuccess: (data) => {
-      const products = data.data.products
-      const pickupDays = data.data.pickupDays
-      const deliveryDays = data.data.deliveryDays
-      // checkea stock y errores en products
-      const today = new Date()
-
+      // checkea que sea sabado
+      const argTime = new Date().toLocaleString('en-US', {
+        timeZone: 'America/Argentina/Buenos_Aires'
+      })
+      
+      const today = new Date(argTime)
+      
       if (today.getDay() === 6) {
         toast.warning(t('text-no-order-today'))
         return
       }
+      // checkea que este iniciado el stock de la semana
+       if (data.noInit) {
+        toast.error(t('error-something-wrong'))
+        return 
+      } 
+
+      const products = data.data.products
+      const pickupDays = data.data.pickupDays
+      const deliveryDays = data.data.deliveryDays
+      // checkea stock y errores en products
       if (products.length !== 0) {
         let errors : string[] = []
         const noStockErrors : string[] = []
@@ -136,19 +149,29 @@ export function useValidateStock() {
 
 
 export function useCreateOrder() {
+  const { t } = useTranslation();
   const router = useRouter();
+  const [_, setDrawerView] = useAtom(drawerAtom);
+  const { resetCart} = useCart();
 
   const { mutate: createOrder, isLoading } = useMutation(client.orders.create, {
     onSuccess: (data) => {
-      if (data?.tracking_number) {
-        router.push(`${ROUTES.ORDERS}/${data?.tracking_number}`);
+      if (data.data.success) {
+        toast.success(t('send-order-successful'))
+        router.push(`${ROUTES.ORDERS}`);
+        setTimeout(() => {
+          resetCart()
+        }, 2000)
+      } else {
+        toast.warning(t('text-checkout-validation-fail'), {
+          "closeButton": true,
+          progress: 1
+      })
+        setDrawerView({ display: true, view:'cart' });
       }
     },
     onError: (error) => {
-      const {
-        response: { data },
-      }: any = error ?? {};
-      toast.error(data?.message);
+      toast.error(t('error-something-wrong'));
     },
   });
 

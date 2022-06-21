@@ -38,8 +38,7 @@ export const AddressHeader: React.FC<AddressHeaderProps> = ({
           onClick={onAdd}
         >
           <PlusIcon className="w-4 h-4 stroke-2 ltr:mr-0.5 rtl:ml-0.5" />
-          {!type && t('text-add')}
-          {type === 'contact' && 'Modificar'}
+          {t('text-modify')}
         </button>
       )}
     </div>

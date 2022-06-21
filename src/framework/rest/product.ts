@@ -11,10 +11,9 @@ export function useProducts() {
   const { mutate: getProducts, isLoading, data } = useMutation(client.products.all, {
     onSuccess: (data) => {
 
-      console.log
     },
     onError: (error) => {
-      console.log(error)
+
     },
   });
 

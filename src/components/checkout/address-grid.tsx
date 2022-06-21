@@ -6,6 +6,7 @@ import AddressCard from '@/components/address/address-card';
 import { AddressHeader } from '@/components/address/address-header';
 import { useTranslation } from 'next-i18next';
 import type { Address } from '@/types';
+import { useRouter } from 'next/router';
 
 interface AddressesProps {
   addresses: Address[] | undefined | null;
@@ -28,7 +29,7 @@ export const AddressGrid: React.FC<AddressesProps> = ({
 }) => {
   const { t } = useTranslation('common');
   const [selectedAddress, setAddress] = useAtom(atom);
-  const { openModal } = useModalAction();
+  const router = useRouter();
 
  useEffect(() => {
    if (addresses && addresses?.length === 1) {
@@ -38,7 +39,7 @@ export const AddressGrid: React.FC<AddressesProps> = ({
    }
  },[])
 
-  function onAdd() {
+/*   function onAdd() {
     openModal('ADD_OR_UPDATE_ADDRESS', { customerId: userId, type });
   }
   function onEdit(address: any) {
@@ -47,10 +48,11 @@ export const AddressGrid: React.FC<AddressesProps> = ({
   function onDelete(address: any) {
     openModal('DELETE_ADDRESS', { customerId: userId, addressId: address?.id });
   }
-
+ */
   return (
     <div className={className}>
-      <AddressHeader onAdd={onAdd} count={count} label={label} />
+      {/* <AddressHeader onAdd={onAdd} count={count} label={label} /> */}
+      <AddressHeader onAdd={() => {router.push('/profile')}} count={count} label={label} type={type}/>
       {!addresses?.length ? (
         <div className="grid grid-cols-1 gap-4">
           <span className="relative px-5 py-6 text-base text-center bg-gray-100 border rounded border-border-200">

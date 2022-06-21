@@ -15,7 +15,6 @@ import { clearCheckoutAtom } from '@/store/checkout';
 import SuborderItems from '@/components/orders/suborder-items';
 import Spinner from '@/components/ui/loaders/spinner/spinner';
 import { isEmpty} from 'lodash';
-import OrderStatuses from '@/components/orders/statuses';
 import { useOrder } from '@/framework/order';
 import { useRouter } from 'next/router';
 
@@ -91,11 +90,6 @@ function OrderView({ order }: any) {
         </div>
         {/* end of order received  */}
 
-        {/* start of order Status */}
-        <div className="mb-8 flex w-full items-center justify-center md:mb-12">
-          <OrderStatuses status={order?.status?.serial} />
-        </div>
-        {/* end of order Status */}
 
         <div className="flex flex-col lg:flex-row">
           <div className="mb-12 w-full lg:mb-0 lg:w-1/2 ltr:lg:pr-3 rtl:lg:pl-3">

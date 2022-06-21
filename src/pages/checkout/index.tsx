@@ -40,7 +40,7 @@ export default function CheckoutPage() {
   const {settings: { pickupAddress}} = useSettings()
   const [delivery_type, set_delivery_type] = useAtom(deliveryTypeAtom)
   const [_, setCustomer] = useAtom(customerAtom)
-  const [stockAuth] = useAtom(stockAuthBooleanAtom)
+  const [stockAuth, setStockAuth] = useAtom(stockAuthBooleanAtom)
   const [pickUpDays] = useAtom(stockPickUpDaysAtom)
   const [allDeliveryDays] = useAtom(stockDeliveryDaysAtom)
   const [deliveryDays, setDeliveryDays] = useState([])
@@ -50,7 +50,6 @@ export default function CheckoutPage() {
   useEffect(() => {
     if (!stockAuth) router.push('/')
     setCustomer(me)
-
   },[])
 
   useEffect(() => {
@@ -60,9 +59,14 @@ export default function CheckoutPage() {
     } 
     if (result) setDeliveryDays(result.deliveryDays)
     else setDeliveryDays([])
-    console.log('all',allDeliveryDays)
-    console.log('address',shippingAddress)
   },[shippingAddress])
+
+  useEffect(() => {
+    return () => {
+      setStockAuth(false)
+    }
+  },[])
+
 
   function handleDeliveryType(data:any) {
     set_delivery_type(data)
