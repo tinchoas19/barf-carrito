@@ -1,13 +1,10 @@
 import { Image } from '@/components/ui/image';
 import cn from 'classnames';
-import usePrice, { formatPrice } from '@/lib/use-price';
+import { formatPrice } from '@/lib/use-price';
 import { AddToCart } from '@/components/products/add-to-cart/add-to-cart';
 import { useTranslation } from 'next-i18next';
 import { useModalAction } from '@/components/ui/modal/modal.context';
-import { Product } from '@/framework/types';
 import { productPlaceholder } from '@/lib/placeholders';
-import CartIcon from '@/components/icons/cart';
-import {UserIcon as PersonalizedIcon }from '@/components/icons/user-icon';
 
 
 type HeliumProps = {
@@ -18,24 +15,10 @@ type HeliumProps = {
 const Helium: React.FC<HeliumProps> = ({ product, className }) => {
 
   const { t } = useTranslation('common');
-  // const { name, image, quantity } = product ?? {};
-  // const { price, basePrice, discount } = usePrice({
-  //   amount: product.sale_price ? product.sale_price : product.price!,
-  //   baseAmount: product.price,
-  // });
 
-  const { name, image, min_price, max_price, price,  product_type, isPersonalized = false } =
+
+  const { name, image,  price,  isPersonalized = false } =
     product ?? {};
-/*   const { price2, basePrice, discount } = usePrice({
-    amount: product.sale_price ? product.sale_price : product.price!,
-    baseAmount: product.price,
-  });
-  const { price: minPrice } = usePrice({
-    amount: min_price,
-  });
-  const { price: maxPrice } = usePrice({
-    amount: max_price,
-  }); */
 
   const { openModal } = useModalAction();
 
@@ -66,28 +49,22 @@ const Helium: React.FC<HeliumProps> = ({ product, className }) => {
           objectFit="contain"
           className="product-image"
         />
-        {/* {discount && (
-          <div className="absolute top-3 ltr:right-3 rtl:left-3 md:top-4 ltr:md:right-4 rtl:md:left-4 rounded text-xs leading-6 font-semibold px-1.5 sm:px-2 md:px-2.5 bg-accent text-light">
-            {discount}
-          </div>
-        )} */}
+
       </div>
       {/* End of product image */}
 
       {
         isPersonalized &&  
-        <PersonalizedIcon className='absolute ml-2 mt-2' style={{zIndex: 2, top:0 , cursor:'pointer'}} />
+        <div  className='absolute ml-2 mt-2 rounded-full bg-gray-500 pr-2 pl-2 pt-1 pb-1 text-white text-sm' style={{zIndex: 2, top:0 , cursor:'pointer', opacity: 0.8}}>
+          {t('text-personalized')}
+        </div>
         }
       <header className="p-3 md:p-6">
         <div className="flex items-center mb-2">
           <span className="text-sm md:text-base text-heading font-semibold">
             {formatPrice({amount : price, currencyCode: 'ARS',locale: 'ES'})}
           </span>
-          {/* {basePrice && (
-              <del className="text-xs md:text-sm text-muted ltr:ml-2 rtl:mr-2">
-                {basePrice}
-              </del>
-            )} */}
+
         </div>
 
         {/* End of product price */}

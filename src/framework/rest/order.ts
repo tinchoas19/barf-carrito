@@ -1,13 +1,8 @@
 import {
-  DownloadableFilePaginator,
   Order,
-  OrderPaginator,
   OrderQueryOptions,
-  OrderStatusPaginator,
-  QueryOptions,
 } from '@/types';
 import {
-  useInfiniteQuery,
   useMutation,
   useQuery,
 
@@ -17,36 +12,18 @@ import { toast } from 'react-toastify';
 
 import { API_ENDPOINTS } from './client/api-endpoints';
 import client from './client';
-import { useAtom } from 'jotai';
-import { verifiedResponseAtom } from '@/store/checkout';
 import { useRouter } from 'next/router';
 import { ROUTES } from '@/lib/routes';
-import { mapPaginatorData } from '@/framework/utils/data-mappers';
 import Cookies from 'js-cookie';
 import { AUTH_TOKEN_KEY } from '@/lib/constants';
+import { useTranslation } from 'next-i18next';
+import { drawerAtom } from '@/store/drawer-atom';
+import { useAtom } from 'jotai';
+import { stockAuthBooleanAtom, stockDeliveryDaysAtom, stockPickUpDaysAtom } from '@/store/authorization-atom';
+import { useCart } from '@/store/quick-cart/cart.context';
+
 
 export function useOrders(options?: Partial<OrderQueryOptions>) {
-/*   const {
-    data,
-    isLoading,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-    isFetchingNextPage,
-  } = useInfiniteQuery<Order[], Error>(
-    [`${API_ENDPOINTS.ORDERS}?id=${Cookies.get(AUTH_TOKEN_KEY)}`, options],
-    ({ queryKey, pageParam }) =>
-      client.orders.all())
-     {
-      getNextPageParam: ({ current_page, last_page }) =>
-        last_page > current_page && { page: current_page + 1 },
-    } 
-  );
-
-  function handleLoadMore() {
-    fetchNextPage();
-  } */
 
 
   const { data, isLoading, error } = useQuery(
@@ -54,7 +31,6 @@ export function useOrders(options?: Partial<OrderQueryOptions>) {
     client.orders.all,
     {
       onError: (err) => {
-        console.log(err);
       },
     }
   );
@@ -78,109 +54,124 @@ export function useOrder({ tracking_number }: { tracking_number: string }) {
     error,
   };
 }
-/* 
-export function useOrderStatuses(options: Pick<QueryOptions, 'limit'>) {
-  const {
-    data,
-    isFetching,
-    isFetchingNextPage,
-    fetchNextPage,
-    hasNextPage,
-    error,
-  } = useInfiniteQuery<OrderStatusPaginator, Error>(
-    [API_ENDPOINTS.ORDERS_STATUS, options],
-    ({ queryKey, pageParam }) =>
-      client.orders.statuses(Object.assign({}, queryKey[1], pageParam)),
-    {
-      getNextPageParam: ({ current_page, last_page }) =>
-        last_page > current_page && { page: current_page + 1 },
-    }
-  );
 
-  function handleLoadMore() {
-    fetchNextPage();
-  }
+
+export function useValidateStock() {
+  const [_, closeSidebar] = useAtom(drawerAtom);
+  const router = useRouter();
+  const { t } = useTranslation();
+  const [_1, setStockAuth] = useAtom(stockAuthBooleanAtom)
+  const [_2, setPickUpDays] = useAtom(stockPickUpDaysAtom)
+  const [_3, setDeliveryDays] = useAtom(stockDeliveryDaysAtom)
+  const { mutate: validateStock, isLoading } = useMutation(client.orders.validateStock, {
+    onSuccess: (data) => {
+      // checkea que sea sabado
+      const argTime = new Date().toLocaleString('en-US', {
+        timeZone: 'America/Argentina/Buenos_Aires'
+      })
+      
+      const today = new Date(argTime)
+      
+      if (today.getDay() === 6) {
+        toast.warning(t('text-no-order-today'))
+        return
+      }
+      // checkea que este iniciado el stock de la semana
+       if (data.noInit) {
+        toast.error(t('error-something-wrong'))
+        return 
+      } 
+
+      const products = data.data.products
+      const pickupDays = data.data.pickupDays
+      const deliveryDays = data.data.deliveryDays
+      // checkea stock y errores en products
+      if (products.length !== 0) {
+        let errors : string[] = []
+        const noStockErrors : string[] = []
+        products.forEach((prod:any) => {
+          if (prod.nohabrastock) {
+            noStockErrors.push(`${prod.name}: No hay stock esta semana.`)
+          } else {
+          }
+          errors = [...errors, ...prod.errors]
+        })
+        // checkea que no haya errores
+        if (errors.length === 0 && 
+          noStockErrors.length === 0 
+          //!data.tieneErrores 
+          ) {
+            // checkea que haya minimo 1 dia de pickup
+            if (pickupDays.length > 0) {
+              setStockAuth(true)
+              setPickUpDays(pickupDays)
+              setDeliveryDays(deliveryDays)
+              router.push(ROUTES.CHECKOUT)
+              closeSidebar({ display: false, view: '' });
+            } else {
+              toast.error(t('error-no-days'));
+            }
+        
+        } else {
+          if (errors.length > 0) {
+            errors.forEach(err => {
+              toast.error(err,{
+                "closeButton": true,
+                progress: 1
+            });
+            })
+          }
+          if (noStockErrors.length > 0) {
+            noStockErrors.forEach(err => {
+              toast.warning(err,{
+                "closeButton": true,
+                progress:1
+            });
+            })
+          }
+        
+        }
+      }
+    },
+    onError: (error) => {
+      toast.error(t('error-something-wrong'))
+    },
+  });
 
   return {
-    orderStatuses: data?.pages.flatMap((page) => page.data) ?? [],
-    paginatorInfo: Array.isArray(data?.pages)
-      ? mapPaginatorData(data?.pages[data.pages.length - 1])
-      : null,
-    isLoading: isFetching,
-    isLoadingMore: isFetchingNextPage,
-    error,
-    loadMore: handleLoadMore,
-    hasMore: Boolean(hasNextPage),
+    validateStock,
+    isLoading
   };
-} */
-
-/* export const useDownloadableProducts = (
-  options: Pick<QueryOptions, 'limit'>
-) => {
-  const {
-    data,
-    isLoading,
-    isFetchingNextPage,
-    fetchNextPage,
-    hasNextPage,
-    error,
-  } = useInfiniteQuery<DownloadableFilePaginator, Error>(
-    [API_ENDPOINTS.ORDERS_DOWNLOADS, options],
-    ({ queryKey, pageParam }) =>
-      client.orders.downloadable(Object.assign({}, queryKey[1], pageParam)),
-    {
-      getNextPageParam: ({ current_page, last_page }) =>
-        last_page > current_page && { page: current_page + 1 },
-    }
-  );
-
-  function handleLoadMore() {
-    fetchNextPage();
-  }
-
-  return {
-    downloads: data?.pages.flatMap((page) => page.data) ?? [],
-    paginatorInfo: Array.isArray(data?.pages)
-      ? mapPaginatorData(data?.pages[data.pages.length - 1])
-      : null,
-    isLoading,
-    isLoadingMore: isFetchingNextPage,
-    error,
-    loadMore: handleLoadMore,
-    hasMore: Boolean(hasNextPage),
-  };
-}; */
+}
 
 
-/* export function useSendOrder() {
-  const { data, isLoading, error } = useQuery<Settings, Error>(
-    [API_ENDPOINTS.ORDERS],
-    client.settings.all
-  );
-  return {
-    settings: data?.options ?? {},
-    isLoading,
-    error,
-  };
-} */
+
 
 
 export function useCreateOrder() {
+  const { t } = useTranslation();
   const router = useRouter();
+  const [_, setDrawerView] = useAtom(drawerAtom);
+  const { resetCart} = useCart();
 
   const { mutate: createOrder, isLoading } = useMutation(client.orders.create, {
     onSuccess: (data) => {
-      if (data?.tracking_number) {
-        router.push(`${ROUTES.ORDERS}/${data?.tracking_number}`);
+      if (data.data.success) {
+        toast.success(t('send-order-successful'))
+        router.push(`${ROUTES.ORDERS}`);
+        setTimeout(() => {
+          resetCart()
+        }, 2000)
+      } else {
+        toast.warning(t('text-checkout-validation-fail'), {
+          "closeButton": true,
+          progress: 1
+      })
+        setDrawerView({ display: true, view:'cart' });
       }
-      console.log('data:',data)
     },
     onError: (error) => {
-      const {
-        response: { data },
-      }: any = error ?? {};
-      toast.error(data?.message);
-      console.log('error:',error)
+      toast.error(t('error-something-wrong'));
     },
   });
 
@@ -190,50 +181,3 @@ export function useCreateOrder() {
   };
 }
 
-/* export function useGenerateDownloadableUrl() {
-  const { mutate: getDownloadableUrl } = useMutation(
-    client.orders.generateDownloadLink,
-    {
-      onSuccess: (data) => {
-        function download(fileUrl: string, fileName: string) {
-          var a = document.createElement('a');
-          a.href = fileUrl;
-          a.setAttribute('download', fileName);
-          a.click();
-        }
-
-        download(data, 'record.name');
-      },
-    }
-  );
-
-  function generateDownloadableUrl(digital_file_id: string) {
-    getDownloadableUrl({
-      digital_file_id,
-    });
-  }
-
-  return {
-    generateDownloadableUrl,
-  };
-} */
-
-/* export function useVerifyOrder() {
-  const [_, setVerifiedResponse] = useAtom(verifiedResponseAtom);
-
-  return useMutation(client.orders.verify, {
-    onSuccess: (data) => {
-      if (data) {
-        //@ts-ignore
-        setVerifiedResponse(data);
-      }
-    },
-    onError: (error) => {
-      const {
-        response: { data },
-      }: any = error ?? {};
-
-      toast.error(data?.message);
-    },
-  });
-} */

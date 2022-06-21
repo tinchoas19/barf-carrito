@@ -2,7 +2,6 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import cn from 'classnames';
 import { AddToCart } from '@/components/products/add-to-cart/add-to-cart';
-import usePrice from '@/lib/use-price';
 import { getVariations } from '@/lib/get-variations';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
@@ -12,7 +11,6 @@ import { ROUTES } from '@/lib/routes';
 import { useModalAction } from '@/components/ui/modal/modal.context';
 import VariationGroups from './variation-groups';
 import { Product } from '@/framework/types';
-import { productPlaceholder } from '@/lib/placeholders';
 import { isVariationSelected } from '@/lib/is-variation-selected';
 import { useMemo } from 'react';
 import { useAttributes } from './attributes.context';
@@ -36,10 +34,6 @@ const ShortDetails: React.FC<ShortDetailsProps> = ({ product, isSticky }) => {
     closeModal();
   };
 
-/*   const { price, basePrice, discount } = usePrice({
-    amount: product?.sale_price ? product?.sale_price : product?.price!,
-    baseAmount: product?.price!,
-  }); */
 
   const variations = useMemo(
     () => getVariations(product?.variations),
@@ -124,11 +118,7 @@ const ShortDetails: React.FC<ShortDetailsProps> = ({ product, isSticky }) => {
               <ins className="text-xl lg:text-2xl font-semibold text-accent no-underline">
                 {price}
               </ins>
-         {/*      {basePrice && (
-                <del className="text-sm lg:text-base font-normal text-muted ltr:ml-2 rtl:mr-2">
-                  {basePrice}
-                </del>
-              )} */}
+
             </span>
           )}
 

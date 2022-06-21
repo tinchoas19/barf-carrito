@@ -1,8 +1,5 @@
 import { RadioGroup } from '@headlessui/react';
-import { useAtom } from 'jotai';
 import classNames from "classnames";
-import ScheduleCard from '../schedule/schedule-card';
-import { deliveryTimeAtom } from '@/store/checkout';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'next-i18next';
 import { useSettings } from '@/framework/settings';
@@ -26,10 +23,6 @@ export const CheckboxGrid: React.FC<ScheduleProps> = ({
   type,
   isWithdrawal
 }) => {
-  /* const {
-    settings: { deliveryTime: schedules },
-  } = useSettings(); */
-  const { t } = useTranslation('common');
   const {settings : {delivery_type}} = useSettings()
   const data  = isWithdrawal ? delivery_type:dataProps
   const [selectedData, setSelectedData] = useState({id: 0, title: '', description: ''});

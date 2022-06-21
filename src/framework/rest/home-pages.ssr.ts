@@ -1,7 +1,5 @@
 import type {
-  CategoryQueryOptions,
   HomePageProps,
-  PopularProductQueryOptions,
   TypeQueryOptions,
 } from '@/types';
 import type { GetStaticPaths, GetStaticProps } from 'next';
@@ -12,7 +10,6 @@ import invariant from 'tiny-invariant';
 import client from './client';
 import { API_ENDPOINTS } from './client/api-endpoints';
 import {
-  CATEGORIES_PER_PAGE,
   PRODUCTS_PER_PAGE,
   TYPES_PER_PAGE,
 } from './client/variables';
@@ -95,14 +92,3 @@ export const getStaticProps: GetStaticProps<
   };
 };
 
-/* Fix : locales: 14kB,
-popularProducts: 30kB,
-category: 22kB,
-groups: 8kB,
-group: 2kB,
-settings: 2kB,
-perProduct: 4.2 * 30 = 120kB,
-total = 14 + 30 + 22 + 8 + 2 + 2 + 120 = 198kB
-others: 225 - 198 = 27kB
-
- */

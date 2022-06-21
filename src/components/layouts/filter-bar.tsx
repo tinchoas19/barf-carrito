@@ -1,20 +1,18 @@
-import { FilterIcon } from '@/components/icons/filter-icon';
-import { useTranslation } from 'next-i18next';
-import { useAtom } from 'jotai';
-import { drawerAtom } from '@/store/drawer-atom';
 import GroupsDropdownMenu from './menu/groups-menu';
 import classNames from 'classnames';
+import { categoryNameAtom } from '@/store/category-atom';
+import { useAtom } from 'jotai';
+import { useTranslation } from 'next-i18next';
 
 export default function FilterBar({
   className,
-  variables,
 }: {
   className?: string;
-  variables: any;
+  variables?: any;
 }) {
-  const { t } = useTranslation('common');
-  const [_, setDrawerView] = useAtom(drawerAtom);
   
+  const { t }= useTranslation('common')
+  const [categoryName] = useAtom(categoryNameAtom)
 
   return (
     <div
@@ -23,17 +21,16 @@ export default function FilterBar({
         className
       )}
     >
-      <div className="flex h-8 items-center py-1 px-3 text-sm font-semibold text-heading transition-colors duration-200 md:h-10 md:py-1.5 md:px-4 md:text-base"></div>
-      {/* <button
-        onClick={() =>
-          setDrawerView({ display: true, view: 'FILTER_VIEW', data: variables })
-        }
-        className="flex h-8 items-center rounded border border-border-200 bg-gray-100 bg-opacity-90 py-1 px-3 text-sm font-semibold text-heading transition-colors duration-200 hover:border-accent-hover hover:bg-accent hover:text-light focus:border-accent-hover focus:bg-accent focus:text-light focus:outline-none md:h-10 md:py-1.5 md:px-4 md:text-base"
+      {categoryName !== 'Todos' && <div
+        className='absolute z-10'
       >
-        <FilterIcon width="18" height="14" className="ltr:mr-2 rtl:ml-2" />
-        {t('text-filter')}
-      </button> */}
-      <GroupsDropdownMenu />
+       <span
+        className='text-sm pl-2 pr-2 pt-1 pb-1 rounded bg-gray-300'
+        style={{ color: 'white'}}
+       >{t('text-category-filter')+ " '" +categoryName+ "'"} </span>
+      </div>}
+      <div className="flex h-8 z-10 items-center py-1 px-3 text-sm font-semibold text-heading transition-colors duration-200 md:h-10 md:py-1.5 md:px-4 md:text-base"></div>
+      <GroupsDropdownMenu  />
     </div>
   );
 }

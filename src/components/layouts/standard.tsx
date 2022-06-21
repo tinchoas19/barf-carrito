@@ -9,6 +9,7 @@ export default function Standard({ variables }: HomePageProps) {
   return (
     <>
       <Banner layout="standard" variables={variables.types} />
+      
       <FilterBar variables={variables.categories} />
       <Categories layout="standard" variables={variables.categories} />
       <main className="flex-1">

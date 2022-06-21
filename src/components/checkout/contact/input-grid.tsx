@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useAtom } from 'jotai';
-import { customerContactAtom } from '@/store/checkout';
 import { AddressHeader } from '@/components/address/address-header';
 import { useRouter } from 'next/router';
 

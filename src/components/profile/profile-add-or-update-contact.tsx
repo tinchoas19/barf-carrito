@@ -16,10 +16,7 @@ const ProfileAddOrUpdateContact = () => {
     }
     updateProfile({
       id: customerId,
-      // profile: {
-      //   id: profileId,
-      //   contact: phone_number,
-      // },
+
     });
   }
 

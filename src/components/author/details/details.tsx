@@ -1,15 +1,8 @@
 import { Image } from '@/components/ui/image';
-import BackButton from '@/components/ui/back-button';
 import { useTranslation } from 'next-i18next';
-import { useMemo } from 'react';
-import isEqual from 'lodash/isEqual';
-import isEmpty from 'lodash/isEmpty';
 import Truncate from '@/components/ui/truncate';
 import { useRouter } from 'next/router';
-import { ROUTES } from '@/lib/routes';
 import { avatarPlaceholder } from '@/lib/placeholders';
-import { useAtom } from 'jotai';
-import classNames from 'classnames';
 import dayjs from 'dayjs';
 import { useIsRTL } from '@/lib/locals';
 
@@ -17,23 +10,16 @@ type Props = {
   author: any;
 };
 const AuthorDetails: React.FC<Props> = ({ author }) => {
-  const { isRTL } = useIsRTL();
   const { t } = useTranslation('common');
   const {
     name,
     image, //could only had image we need to think it also
     quote,
     bio,
-    slug,
     born,
     death,
     languages,
   } = author ?? {};
-  const router = useRouter();
-
-  const navigate = (path: string) => {
-    router.push(path);
-  };
 
   return (
     <article className="flex flex-col space-y-8 md:space-y-0 md:flex-row md:space-x-10 lg:space-x-14 rtl:space-x-reverse pb-8 lg:pb-20">

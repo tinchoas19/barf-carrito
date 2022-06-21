@@ -282,7 +282,7 @@ export interface AuthResponseData {
   error: string;
 }
 
-export interface AuthRespose {
+export interface AuthResponse {
   data: AuthResponseData;
   status: string;
   status_message: string;

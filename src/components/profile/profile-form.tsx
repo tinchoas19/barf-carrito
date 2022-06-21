@@ -1,8 +1,6 @@
 import Button from '@/components/ui/button';
 import Card from '@/components/ui/cards/card';
-import FileInput from '@/components/ui/forms/file-input';
 import Input from '@/components/ui/forms/input';
-import TextArea from '@/components/ui/forms/text-area';
 import { useTranslation } from 'next-i18next';
 import pick from 'lodash/pick';
 import { Form } from '@/components/ui/forms/form';
@@ -39,9 +37,6 @@ const ProfileForm = ({ user }: { user: User }) => {
         <>
           <div className="mb-8 flex">
             <Card className="w-full">
-              {/* <div className="mb-8">
-                <FileInput control={control} name="profile.avatar" />
-              </div> */}
 
               <div className="mb-6 flex flex-row">
                 <Input

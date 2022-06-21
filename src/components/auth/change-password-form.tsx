@@ -25,7 +25,7 @@ export default function ChangePasswordForm() {
     formError,
   } = useChangePassword();
 
-  function onSubmit({ newPassword, oldPassword, userId }: ChangePasswordUserInput) {
+  function onSubmit({ newPassword, oldPassword}: ChangePasswordUserInput) {
 
 
     me && changePassword({

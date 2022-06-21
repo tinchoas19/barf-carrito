@@ -8,9 +8,6 @@ import { useSettings } from '@/framework/settings';
 
 export default function AddOrUpdateContact() {
   const { t } = useTranslation('common');
-  const {
-    settings: { useOtp },
-  } = useSettings();
   const { closeModal } = useModalAction();
   const [contactNumber, setContactNumber] = useAtom(customerContactAtom);
 

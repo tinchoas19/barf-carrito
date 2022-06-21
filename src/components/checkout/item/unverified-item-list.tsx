@@ -4,7 +4,6 @@ import ItemCard from './item-card';
 import EmptyCartIcon from '@/components/icons/empty-cart';
 import usePrice, { formatPrice } from '@/lib/use-price';
 import { ItemInfoRow } from './item-info-row';
-import { CheckAvailabilityAction } from '@/components/checkout/check-availability-action';
 import PaymentGrid from '../payment/payment-grid';
 import InputGrid from '../contact/input-grid';
 import { SendButton } from '../send-button';
@@ -40,9 +39,6 @@ const UnverifiedItemList = ({ hideTitle = false }: { hideTitle?: boolean }) => {
   }
 
   function getTotal() {
-    console.log({
-      deliveryType,paymentMethod, shippingAddress
-    })
     if (deliveryType.id === 0 || !paymentMethod || (deliveryType.id === 2 && !shippingAddress)) {
       return null
     }

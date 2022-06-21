@@ -1,8 +1,6 @@
 import * as yup from 'yup';
-import type { SubmitHandler } from 'react-hook-form';
 import type {
   ForgotPasswordUserInput,
-  ResetPasswordUserInput,
 } from '@/types';
 import { Form } from '@/components/ui/forms/form';
 import Input from '@/components/ui/forms/input';
@@ -11,19 +9,14 @@ import Button from '@/components/ui/button';
 import {
   StateMachineProvider,
   createStore,
-  useStateMachine,
   GlobalState,
 } from 'little-state-machine';
 import { useModalAction } from '@/components/ui/modal/modal.context';
-import PasswordInput from '@/components/ui/forms/password-input';
 import {
   useForgotPassword,
-  useResetPassword,
 } from '@/framework/user';
 import { useTranslation } from 'next-i18next';
 import Logo from '@/components/ui/logo';
-import Alert from '../ui/alert';
-import { ArrowPrevIcon } from '../icons/arrow-prev';
 import { ArrowNextIcon } from '../icons/arrow-next';
 
 const emailFormValidation = yup.object().shape({
@@ -32,106 +25,6 @@ const emailFormValidation = yup.object().shape({
     .email('error-email-format')
     .required('error-email-required'),
 });
-const tokenFormValidation = yup.object().shape({
-  token: yup.string().required('error-password-required'),
-});
-const passwordFormValidation = yup.object().shape({
-  password: yup.string().required(),
-});
-
-/* function EmailForm({
-  email,
-  onSubmit,
-  isLoading,
-  serverError,
-}: {
-  email: string;
-  onSubmit: SubmitHandler<Pick<ForgotPasswordUserInput, 'email'>>;
-  isLoading: boolean;
-  serverError: any;
-}) {
-  const { t } = useTranslation('common');
-  return (
-    <Form<Pick<ForgotPasswordUserInput, 'email'>>
-      onSubmit={onSubmit}
-      useFormProps={{
-        defaultValues: { email },
-      }}
-      validationSchema={emailFormValidation}
-      serverError={serverError && t(serverError)}
-      className="text-left"
-    >
-      {({ register, formState: { errors } }) => (
-        <>
-          <Input
-            label={t('text-email')}
-            type="email"
-            {...register('email')}
-            error={t(errors.email?.message!)}
-          />
-          <Button
-            type="submit"
-            className="!mt-5 w-full text-sm tracking-[0.2px] lg:!mt-6"
-            loading={isLoading}
-            disabled={isLoading}
-          >
-            {t('text-submit-email')}
-            <ArrowNextIcon className="w-5" />
-          </Button>
-        </>
-      )}
-    </Form>
-  );
-}
-
-
-function PasswordForm({
-  onSubmit,
-  isLoading,
-  handlePrevStep,
-}: {
-  onSubmit: SubmitHandler<Pick<ResetPasswordUserInput, 'password'>>;
-  isLoading: boolean;
-  handlePrevStep: () => void;
-}) {
-  const { t } = useTranslation('common');
-  return (
-    <Form<Pick<ResetPasswordUserInput, 'password'>>
-      onSubmit={onSubmit}
-      useFormProps={{
-        defaultValues: { password: '' },
-      }}
-      validationSchema={passwordFormValidation}
-    >
-      {({ register, formState: { errors } }) => (
-        <>
-          <PasswordInput
-            label={t('text-new-password')}
-            {...register('password')}
-            error={t(errors.password?.message!)}
-          />
-          <div className="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2">
-            <Button
-              onClick={handlePrevStep}
-              className="order-1 w-full !bg-cyan-500 text-sm tracking-[0.2px] hover:!bg-cyan-600"
-            >
-              <ArrowPrevIcon className="w-5" />
-              {t('text-previous-step')}
-            </Button>
-            <Button
-              className="w-full text-sm tracking-[0.2px] sm:order-2"
-              loading={isLoading}
-              disabled={isLoading}
-            >
-              {t('text-reset-password')}
-            </Button>
-          </div>
-        </>
-      )}
-    </Form>
-  );
-}
- */
 
 export const initialState: GlobalState = {
   step: 'Email',

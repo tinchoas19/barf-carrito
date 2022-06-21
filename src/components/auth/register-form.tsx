@@ -9,7 +9,6 @@ import { Form } from '@/components/ui/forms/form';
 import type { RegisterUserInput } from '@/types';
 import * as yup from 'yup';
 import { useRegister } from '@/framework/user';
-import { yupResolver } from '@hookform/resolvers/yup';
 import crypto from 'crypto'
 
 const registerFormSchema = yup.object().shape({

@@ -30,7 +30,7 @@ const DefaultSeo = () => {
         },
       ]}
       title={settings?.seo?.metaTitle}
-      titleTemplate={`${settings?.seo?.metaTitle || settings?.siteTitle || 'E-Commerce'
+      titleTemplate={`${settings?.seo?.metaTitle || settings?.siteTitle || 'BARF'
         } | %s`}
       defaultTitle="BARF"
       description={settings?.seo?.metaDescription || settings?.siteSubtitle}

@@ -1,55 +1,31 @@
 import type {
   PopularProductQueryOptions,
   Product,
-  ProductPaginator,
-  ProductQueryOptions,
 } from '@/types';
-import { useInfiniteQuery, useQuery } from 'react-query';
+import { useState } from 'react';
+import { useMutation, useQuery } from 'react-query';
 import client from './client';
 import { API_ENDPOINTS } from './client/api-endpoints';
-import { mapPaginatorData } from '@/framework/utils/data-mappers';
-import { formatProductsArgs } from '@/framework/utils/format-products-args';
 
-/* export function useProducts(options?: Partial<ProductQueryOptions>) {
-  const formattedOptions = formatProductsArgs(options);
+export function useProducts() {
+  const { mutate: getProducts, isLoading, data } = useMutation(client.products.all, {
+    onSuccess: (data) => {
 
-   const {
-    data,
-    isLoading,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-    isFetchingNextPage,
-  } = useInfiniteQuery<ProductPaginator, Error>(
-    [API_ENDPOINTS.PRODUCTS, formattedOptions],
-    ({ queryKey, pageParam }) =>
-      client.products.all(Object.assign({}, queryKey[1], pageParam)),
-    {
-      getNextPageParam: ({ current_page, last_page }) =>
-        last_page > current_page && { page: current_page + 1 },
-    }
-  );
+    },
+    onError: (error) => {
 
-  function handleLoadMore() {
-    fetchNextPage();
-  }
+    },
+  });
 
   return {
-    products: data?.pages.flatMap((page) => page.data) ?? [],
-    paginatorInfo: Array.isArray(data?.pages)
-      ? mapPaginatorData(data?.pages[data.pages.length - 1])
-      : null,
+    getProducts,
     isLoading,
-    error,
-    isFetching,
-    isLoadingMore: isFetchingNextPage,
-    loadMore: handleLoadMore,
-    hasMore: Boolean(hasNextPage),
+    data
   };
-} 
- */
-export function useProducts(id:number = 0) {
+}
+
+
+/* export function useProducts2(id:number = 0) {
   const { data } = useQuery<Product[], Error>(
     [API_ENDPOINTS.PRODUCTS],
     () => client.products.all(id)
@@ -58,7 +34,7 @@ export function useProducts(id:number = 0) {
     products :data
   };
 }
-
+ */
 export const usePopularProducts = (
   options?: Partial<PopularProductQueryOptions>
 ) => {

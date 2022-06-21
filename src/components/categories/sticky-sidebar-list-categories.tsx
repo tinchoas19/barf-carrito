@@ -1,6 +1,6 @@
 import Scrollbar from '@/components/ui/scrollbar';
 import NotFound from '@/components/ui/not-found';
-import { Category } from '@/framework/types';
+import { Category, } from '@/framework/types';
 import TreeMenu from '@/components/ui/tree-menu';
 import CategoriesLoader from '@/components/ui/loaders/categories-loader';
 import { isMobile } from 'react-device-detect';

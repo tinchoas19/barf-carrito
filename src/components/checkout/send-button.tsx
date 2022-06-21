@@ -14,7 +14,7 @@ export const SendButton: React.FC<{disabled?:boolean, label:string, className?: 
   {disabled, label, getTotal}, rest) => {
     const { t } = useTranslation('common');
     const [checkout] = useAtom(checkoutAtom);
-    const { items, total, isEmpty } = useCart();
+    const { items,  isEmpty } = useCart();
     const {createOrder} = useCreateOrder()
 
     function formatOrder(checkout:any) {
@@ -75,12 +75,9 @@ export const SendButton: React.FC<{disabled?:boolean, label:string, className?: 
     function handleVerifyCheckout() {
       
      const order:CreateOrderInput = formatOrder(checkout)
-     console.log(order)
      const result:boolean = validateOrder(order)
      if (result) {
-       const res = createOrder(order)
-       console.log(res)
-       toast.success(t('send-order-successful'));
+       createOrder(order)
      } else {
        toast.error(t('send-order-error-uncomplete'));
      }

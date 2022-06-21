@@ -18,10 +18,7 @@ const Axios = axios.create({
 Axios.interceptors.request.use(
   (config) => {
     const token = Cookies.get(AUTH_TOKEN_KEY);
-    /* config.headers = {
-      ...config.headers,
-     Authorization: `Bearer ${token ? token : ''}`,
-    }; */
+
     return config;
   }
 );

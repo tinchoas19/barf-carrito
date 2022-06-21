@@ -9,7 +9,6 @@ import dynamic from 'next/dynamic';
 import { authorizationAtom } from '@/store/authorization-atom';
 import { useIsHomePage } from '@/lib/use-is-homepage';
 import { useEffect } from 'react';
-import GroupsDropdownMenu from './menu/groups-menu';
 const Search = dynamic(() => import('@/components/ui/search/search'));
 const AuthorizedMenu = dynamic(() => import('./menu/authorized-menu'), {
   ssr: false,

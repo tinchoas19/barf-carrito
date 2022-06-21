@@ -2,7 +2,6 @@ import ProfileAddressGrid from '@/components/profile/profile-address';
 import Card from '@/components/ui/cards/card';
 import { useTranslation } from 'next-i18next';
 import ProfileForm from '@/components/profile/profile-form';
-import ProfileContact from '@/components/profile/profile-contact';
 import Seo from '@/components/seo/seo';
 import { useUser } from '@/framework/user';
 import DashboardLayout from '@/layouts/_dashboard';

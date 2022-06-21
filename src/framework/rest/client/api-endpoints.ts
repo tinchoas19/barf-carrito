@@ -10,6 +10,7 @@ export const API_ENDPOINTS = {
   UPDATE_CONTACT: '/update-user.php',
   USERS_REGISTER: '/register.php',
   USERS_FORGOT_PASSWORD: '/forget-password.php',
+  VALIDATE_STOCK: 'days-validation.php',
 
   PRODUCTS_POPULAR: '/popular-products',
   CATEGORIES: '/categories',

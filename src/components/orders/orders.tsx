@@ -12,7 +12,6 @@ export default function Orders() {
 
   const [order, setOrder] = useState<any>({});
     useEffect(() => {
-      console.log(orders)
     if (orders) {
       setOrder(orders[0]);
     }

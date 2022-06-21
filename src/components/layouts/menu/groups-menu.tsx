@@ -5,14 +5,12 @@ import { Fragment } from 'react';
 import { getIcon } from '@/lib/get-icon';
 import { CaretDown } from '@/components/icons/caret-down';
 import * as groupIcons from '@/components/icons/groups';
-import { useRouter } from 'next/router';
-import Link from '@/components/ui/link';
 import { ArrowDownIcon } from '@/components/icons/arrow-down';
-import { useTypes } from '@/framework/type';
-import useHomepage from '@/lib/hooks/use-homepage';
 import type { Type } from '@/types';
-import { TYPES_PER_PAGE } from '@/framework/client/variables';
 import { useSettings } from '@/framework/settings';
+import { useAtom } from 'jotai';
+import { categoryNameAtom, categorySlugAtom } from '@/store/category-atom';
+import { scroller } from 'react-scroll';
 
 interface GroupsMenuProps {
   className?: string;
@@ -27,10 +25,21 @@ const GroupsMenu: React.FC<GroupsMenuProps> = ({
   defaultGroup,
   variant = 'colored',
 }) => {
-  const router = useRouter();
+  //const router = useRouter();
+  const [categorySlug, setCategorySlug] = useAtom(categorySlugAtom)
+  const [_, setCategoryName] = useAtom(categoryNameAtom)
 
   
-  const selectedMenu = groups?.find(type => router.asPath.toLowerCase().replace("/?category=", "") === type.slug.toLowerCase()) ?? defaultGroup;
+  const selectedMenu = groups?.find(type => categorySlug === type.slug.toLowerCase()) ?? defaultGroup;
+
+  function handleCategoryChange({slug, name}:{slug:string, name:string}) {
+    setCategorySlug(slug)
+    setCategoryName(name)
+    scroller.scrollTo('grid', {
+      smooth: true,
+      offset: -110,
+    });
+  }
 
   
   return (
@@ -40,7 +49,7 @@ const GroupsMenu: React.FC<GroupsMenuProps> = ({
     >
       <Menu.Button
         className={cn(
-          'flex items-center shrink-0 text-sm md:text-base font-semibold h-11 focus:outline-none text-heading xl:px-4',
+          'flex items-center shrink-0 text-sm md:text-base font-semibold h-11 z-11 focus:outline-none text-heading xl:px-4',
           {
             'bg-gray-50 border border-border-200 rounded-lg px-3':
               variant === 'minimal',
@@ -113,10 +122,10 @@ const GroupsMenu: React.FC<GroupsMenuProps> = ({
             {groups?.map(({ id, name, slug, icon }) => (
               selectedMenu && selectedMenu.slug !== slug && <Menu.Item key={id}>
                 {({ active }) => (
-                  <Link
-                    href={`?category=${slug}`}
+                  <div
+                    onClick={() => handleCategoryChange({slug, name})}
                     className={cn(
-                      'flex space-x-4 rtl:space-x-reverse items-center w-full px-5 py-2.5 text-sm font-semibold capitalize transition duration-200 hover:text-accent focus:outline-none',
+                      'flex space-x-2 w-40  rtl:space-x-reverse items-center w-full px-5 py-2.5 text-sm font-semibold capitalize transition duration-200 hover:text-accent focus:outline-none',
                       active ? 'text-accent' : 'text-body-dark'
                     )}
                   >
@@ -130,7 +139,7 @@ const GroupsMenu: React.FC<GroupsMenuProps> = ({
                       </span>
                     )}
                     <span>{name}</span>
-                  </Link>
+                  </div>
                 )}
               </Menu.Item>
             ))}

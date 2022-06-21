@@ -1,9 +1,6 @@
 import type {
-  Attachment,
 
   AuthResponse,
-  CategoryPaginator,
-  CategoryQueryOptions,
   ChangePasswordUserInput,
   CheckoutVerificationInput,
 
@@ -14,14 +11,10 @@ import type {
   ForgotPasswordUserInput,
   LoginUserInput,
   Order,
-  OrderPaginator,
   OrderQueryOptions,
   OrderStatusPaginator,
   PasswordChangeResponse,
-  PopularProductQueryOptions,
   Product,
-  ProductPaginator,
-  ProductQueryOptions,
   QueryOptions,
   RegisterUserInput,
   ResetPasswordUserInput,
@@ -38,30 +31,8 @@ import { HttpClient } from './http-client';
 import { AUTH_TOKEN_KEY } from '@/lib/constants';
 
 
-class Client {
-/*   productsOld = {
-    all: ({
-      type,
-      categories,
-      name,
-      ...params
-    }: Partial<ProductQueryOptions>) =>
-      HttpClient.get<ProductPaginator>(API_ENDPOINTS.PRODUCTS, {
-        searchJoin: 'and',
-        with: 'type;author',
-        ...params,
-        search: HttpClient.formatSearchParams({
-          type,
-          categories,
-          name,
 
-        }),
-      }),
-    popular: (params: Partial<PopularProductQueryOptions>) =>
-      HttpClient.get<Product[]>(API_ENDPOINTS.PRODUCTS_POPULAR, params),
-    get: (slug: string) =>
-      HttpClient.get<Product>(`${API_ENDPOINTS.PRODUCTS}/${slug}`),
-  }; */
+class Client {
 
 
   types = {
@@ -80,8 +51,8 @@ class Client {
       HttpClient.post<Order>(API_ENDPOINTS.CREATE_ORDER, input),
     statuses: (params: Pick<QueryOptions, 'limit'>) =>
       HttpClient.get<OrderStatusPaginator>(API_ENDPOINTS.ORDERS_STATUS, params),
-
-
+    validateStock : (products: any) => 
+      HttpClient.post<any>(API_ENDPOINTS.VALIDATE_STOCK, products),
     downloadable: (query?: OrderQueryOptions) =>
       HttpClient.get<DownloadableFilePaginator>(
         API_ENDPOINTS.ORDERS_DOWNLOADS,
@@ -149,7 +120,7 @@ class Client {
   };
   products = {
     //FIXME: check this async function
-    all: async (id:number) => HttpClient.get<Product[]>(`${API_ENDPOINTS.PRODUCTS}?id=${id}`),
+    all: async (id:number = 0) => HttpClient.get<Product[]>(`${API_ENDPOINTS.PRODUCTS}?id=${id}`),
   };
 }
 
