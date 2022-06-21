@@ -69,7 +69,7 @@ export function useValidateStock() {
       // checkea stock y errores en products
       const today = new Date()
 
-      if (today.getDay() === 1) {
+      if (today.getDay() === 6) {
         toast.warning(t('text-no-order-today'))
         return
       }
