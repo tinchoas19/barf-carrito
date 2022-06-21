@@ -67,6 +67,12 @@ export function useValidateStock() {
       const pickupDays = data.data.pickupDays
       const deliveryDays = data.data.deliveryDays
       // checkea stock y errores en products
+      const today = new Date()
+
+      if (today.getDay() === 1) {
+        toast.warning(t('text-no-order-today'))
+        return
+      }
       if (products.length !== 0) {
         let errors : string[] = []
         const noStockErrors : string[] = []
