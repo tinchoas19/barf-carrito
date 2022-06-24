@@ -5,7 +5,7 @@ export const siteSettings = {
   logo: {
     url: '/logo.svg',
     alt: 'BARF',
-    href: '/shops/grocery-shop',
+    href: '/',
     width: 128,
     height: 40,
   },

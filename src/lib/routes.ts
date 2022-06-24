@@ -1,5 +1,5 @@
 export const ROUTES = {
-  HOME: '/grocery',
+  HOME: '/',
   CHECKOUT: '/checkout',
   CHECKOUT_DIGITAL: '/checkout/digital',
   GUEST_CHECKOUT: '/checkout/guest',
@@ -16,7 +16,7 @@ export const ROUTES = {
   PRIVACY: '/privacy',
   TERMS: '/terms',
   CONTACT: '/contact',
-  SHOPS: '/shops/grocery-shop',
+  SHOPS: '/',
   DOWNLOADS: '/downloads',
   AUTHORS: '/authors',
   MANUFACTURERS: '/manufacturers',

@@ -9,6 +9,7 @@ interface AddressesProps {
   label: string;
   className?: string;
   userId: string;
+  type?: string;
 }
 
 export const ProfileAddressGrid: React.FC<AddressesProps> = ({
@@ -16,6 +17,7 @@ export const ProfileAddressGrid: React.FC<AddressesProps> = ({
   label,
   className,
   userId,
+  type
 }) => {
   const { openModal } = useModalAction();
   const { t } = useTranslation('common');
@@ -29,7 +31,7 @@ export const ProfileAddressGrid: React.FC<AddressesProps> = ({
   }
   return (
     <div className={className}>
-      <AddressHeader onAdd={onAdd} count={false} label={label} />
+      <AddressHeader onAdd={onAdd} count={false} label={label}  type={type}/>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
         {addresses?.map((address) => (
           <AddressCard

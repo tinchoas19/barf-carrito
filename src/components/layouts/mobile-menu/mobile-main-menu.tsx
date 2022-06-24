@@ -8,7 +8,6 @@ import { useLogout } from '@/framework/user';
 
 const headerLinks = [
   { href: ROUTES.HOME, label: 'nav-menu-shops' },
-  { href: ROUTES.CHECKOUT_DIGITAL, label: 'text-cart' },
   { href: ROUTES.PROFILE, label: 'profile-sidebar-profile' },
   { href: ROUTES.HELP, label: 'text-faq-help' },
   { href: ROUTES.CONTACT, label: 'nav-menu-contact' },

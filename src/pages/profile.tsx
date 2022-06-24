@@ -27,6 +27,7 @@ const ProfilePage = () => {
           <ProfileAddressGrid
             userId={me.id}
             //@ts-ignore
+            type="profile"
             addresses={me.address}
             label={t('text-addresses')}
           />

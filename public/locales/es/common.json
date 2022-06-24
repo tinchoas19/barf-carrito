@@ -394,7 +394,7 @@
   "text-click-here": "haga clic aquí",
   "text-previous-step": "Paso anterior",
   "text-login-code-question" : "Tienes un código?",
-  "text-login-code ": "Código",
+  "text-login-code": "Código de acceso",
   "error-code-login" : "Se requiere un código",
   "text-discount-cash" : "Descuento en efectivo -10%",
   "send-order-error-uncomplete" : "Faltan datos por completar",
