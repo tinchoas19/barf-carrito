@@ -51,6 +51,7 @@ const CategoryFilterView = ({ categories }: Props) => {
                 theme="secondary"
               />
             ))}
+
           </CheckboxGroup>
         </div>
       </Scrollbar>

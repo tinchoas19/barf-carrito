@@ -12,7 +12,7 @@ const Logo: React.FC<React.AnchorHTMLAttributes<{}>> = ({
     settings: { logo, siteTitle },
   } = useSettings();
   return (
-    <Link href="/shops/grocery-shop" className={cn('inline-flex', className)} {...props}>
+    <Link href="/" className={cn('inline-flex', className)} {...props}>
       <span className="relative h-10 w-32 overflow-hidden md:w-40">
         <Image
           src={logoPlaceholder}

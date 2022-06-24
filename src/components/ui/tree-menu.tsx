@@ -8,6 +8,8 @@ import * as groupIcons from '@/components/icons/groups';
 import { useEffect, useState } from 'react';
 import { drawerAtom } from '@/store/drawer-atom';
 import { useAtom } from 'jotai';
+import { categoryNameAtom, categorySlugAtom } from '@/store/category-atom';
+import { scroller } from 'react-scroll';
 
 interface TreeMenuItemProps {
   item: any;
@@ -19,43 +21,31 @@ const TreeMenuItem: React.FC<TreeMenuItemProps> = ({
   item,
   depth = 0,
 }) => {
-  const router = useRouter();
-  const active = router?.query?.category;
+  const [categorySlug, setCategorySlug] = useAtom(categorySlugAtom)
+  const active = categorySlug;
   const isActive =
     active === item.slug ||
     item?.children?.some((_item: any) => _item.slug === active);
   const [isOpen, setOpen] = useState<boolean>(isActive);
+
   useEffect(() => {
     setOpen(isActive);
   }, [isActive]);
 
   const { slug, name, children: items, icon } = item;
-  const [{ display }, setDrawerState] = useAtom(drawerAtom);
 
-  function toggleCollapse() {
-    setOpen((prevValue) => !prevValue);
-  }
 
-  function onClick() {
-    const { pathname, query } = router;
-    const navigate = () =>
-      router.push(
-        {
-          pathname,
-          query: { ...query, category: slug },
-        },
-        undefined,
-        {
-          scroll: false,
-        }
-      );
-    if (Array.isArray(items) && !!items.length) {
-      toggleCollapse();
-      navigate();
-    } else {
-      navigate();
-      display && setDrawerState({ display: false, view: '' });
-    }
+  const [_, setCategoryName] = useAtom(categoryNameAtom)
+
+  
+
+  function handleCategoryChange({slug, name}:{slug:string, name:string}) {
+    setCategorySlug(slug)
+    setCategoryName(name)
+    scroller.scrollTo('grid', {
+      smooth: true,
+      offset: -110,
+    });
   }
 
   let expandIcon;
@@ -72,7 +62,7 @@ const TreeMenuItem: React.FC<TreeMenuItemProps> = ({
       <motion.li
         initial={false}
         animate={{ backgroundColor: '#ffffff' }}
-        onClick={onClick}
+        onClick={() => handleCategoryChange({slug, name})}
         className="py-1 rounded-md"
       >
         <button

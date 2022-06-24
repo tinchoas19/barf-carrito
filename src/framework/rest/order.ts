@@ -156,6 +156,7 @@ export function useCreateOrder() {
 
   const { mutate: createOrder, isLoading } = useMutation(client.orders.create, {
     onSuccess: (data) => {
+      console.log(data)
       if (data.data.success) {
         toast.success(t('send-order-successful'))
         router.push(`${ROUTES.ORDERS}`);
@@ -163,6 +164,7 @@ export function useCreateOrder() {
           resetCart()
         }, 2000)
       } else {
+        router.push('/')
         toast.warning(t('text-checkout-validation-fail'), {
           "closeButton": true,
           progress: 1
