@@ -21,7 +21,7 @@ const nextConfig = {
   },
   ...(process.env.NODE_ENV === 'production' && {
     typescript: {
-      ignoreBuildErrors: true,
+      ignoreBuildErrors: false,
     },
     eslint: {
       ignoreDuringBuilds: true,

@@ -7,7 +7,7 @@
     "clean": "rimraf \"{.next,node_modules,__generated__,.cache,src/framework/graphql/**/*.d.ts}\"",
     "dev:rest": "next dev -p 3003",
     "build": "next build",
-    "start": "next start",
+    "start": "NODE_ENV=production node server.js",
     "lint": "next lint",
     "prepare": "husky install"
   },
