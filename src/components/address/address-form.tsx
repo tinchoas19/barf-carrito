@@ -32,7 +32,7 @@ const addressSchema = yup.object().shape({
     street_number: yup.string().required('error-number-required'),
     wtd: yup.string().required('error-wtd-required'),
     wtd_note: yup.string().required('error-wtd-extra-required'),
-  }), 
+  }),
 });
 
 export const AddressForm: React.FC<any> = ({
@@ -42,20 +42,20 @@ export const AddressForm: React.FC<any> = ({
 }) => {
   const { t } = useTranslation('common');
 
-  const {settings: { zones, cities, wtd }} = useSettings()
+  const { settings: { zones, cities, wtd } } = useSettings()
 
   const [selectedZone, setSelectedZone] = useState('')
   const [citiesToShow, setCitiesToShow] = useState([])
 
-  function getZoneId(name:string) {
-    const finalZone = zones.find(zone => zone.name === name)
+  function getZoneId(name: string) {
+    const finalZone = zones.find((zone: any) => zone.name === name)
     return finalZone?.id
   }
-  
+
   useEffect(() => {
-    const listOfCities = cities.filter(city => { return city.zoneid === getZoneId(selectedZone)})
+    const listOfCities = cities.filter((city: any) => { return city.zoneid === getZoneId(selectedZone) })
     setCitiesToShow(listOfCities)
-  },[selectedZone])
+  }, [selectedZone])
 
 
   return (
@@ -93,7 +93,7 @@ export const AddressForm: React.FC<any> = ({
             error={t(errors.address?.zone?.message!)}
             variant="outline"
             className="col-span-2"
-            options={(zones.map((zone) => {return zone.name}))}
+            options={(zones.map((zone) => { return zone.name }))}
             isParent={true}
             onChange={setSelectedZone}
           />
@@ -105,7 +105,7 @@ export const AddressForm: React.FC<any> = ({
             variant="outline"
             options={citiesToShow}
             disabled={!citiesToShow.length || selectedZone === ''}
-          /> 
+          />
 
           <Input
             label={t('text-address-bell')}
@@ -130,7 +130,7 @@ export const AddressForm: React.FC<any> = ({
             variant="outline"
             className="col-span-2"
             options={wtd}
-          /> 
+          />
 
           <TextArea
             label={t('text-address-wtd-extra')}
@@ -157,16 +157,16 @@ export const AddressForm: React.FC<any> = ({
 export default function CreateOrUpdateAddressForm() {
   const { t } = useTranslation('common');
   const {
-    data: {  address },
+    data: { address },
   } = useModalState();
   const { mutate: updateProfile } = useUpdateUser();
   const { me } = useUser();
 
   function onSubmit(values: FormValues) {
-    const payload = {...me}
+    const payload = { ...me }
     values.address && payload.address.push(values.address)
 
-    updateProfile(payload); 
+    updateProfile(payload);
   }
   return (
     <div className="min-h-screen bg-light p-5 sm:p-8 md:min-h-0 md:rounded-xl">

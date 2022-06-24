@@ -183,7 +183,7 @@ export interface Settings {
   name: string;
   slug: string;
   options: {
-    [key: string]: string;
+    [key: string]: any;
   };
 }
 
@@ -336,7 +336,7 @@ export interface CreateOrderInput {
   payment_id: string;
   note: string;
   products: ConnectProductOrderPivot[] | any;
-  total_price : number | null;
+  total_price: number | null;
 
   //Todo estos campos sobran
   /* customer_contact: string;
