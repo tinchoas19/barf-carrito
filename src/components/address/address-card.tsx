@@ -8,12 +8,14 @@ interface AddressProps {
   checked: boolean;
   onEdit: () => void;
   onDelete?: () => void;
+  parentPage?:string;
 }
 const AddressCard: React.FC<AddressProps> = ({
   checked,
   address,
   onEdit,
   onDelete,
+  parentPage
 }) => {
   const { t } = useTranslation();
   return (

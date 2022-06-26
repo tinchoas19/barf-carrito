@@ -39,6 +39,7 @@ export const ProfileAddressGrid: React.FC<AddressesProps> = ({
             address={address}
             userId={userId}
             key={address.id}
+            parentPage='profile'
           />
         ))}
         {!Boolean(addresses?.length) && (

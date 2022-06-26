@@ -71,16 +71,19 @@ export function useValidateStock() {
       })
       
       const today = new Date(argTime)
-      
+
       if (today.getDay() === 6) {
-        toast.warning(t('text-no-order-today'))
+        toast.warning(t('text-no-order-today'),{
+          "closeButton": true,
+          progress:1
+      })
         return
       }
       // checkea que este iniciado el stock de la semana
        if (data.noInit) {
         toast.error(t('error-something-wrong'))
         return 
-      } 
+      }  
 
       const products = data.data.products
       const pickupDays = data.data.pickupDays
@@ -109,7 +112,10 @@ export function useValidateStock() {
               router.push(ROUTES.CHECKOUT)
               closeSidebar({ display: false, view: '' });
             } else {
-              toast.error(t('error-no-days'));
+              toast.error(t('error-no-days'),{
+                "closeButton": true,
+                progress:1
+            });
             }
         
         } else {
@@ -156,7 +162,6 @@ export function useCreateOrder() {
 
   const { mutate: createOrder, isLoading } = useMutation(client.orders.create, {
     onSuccess: (data) => {
-      console.log(data)
       if (data.data.success) {
         toast.success(t('send-order-successful'))
         router.push(`${ROUTES.ORDERS}`);

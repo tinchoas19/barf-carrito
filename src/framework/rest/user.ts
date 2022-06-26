@@ -73,11 +73,11 @@ export const useUpdateUser = () => {
   return useMutation(client.users.update, {
     onSuccess: (data) => {
       if (data?.data?.success) {
-        toast.success(t('profile-update-successful'));
-        closeModal();
         if (data?.data?.inserted) {
           router.push('/profile')
         }
+        closeModal();
+        toast.success(t('profile-update-successful'));
       }
       
     },
