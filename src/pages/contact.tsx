@@ -41,13 +41,14 @@ export const ContactPage = () => {
                   : t('common:text-no-address')}
               </span>
             </div> */}
-
             <div className="mb-8 flex flex-col">
               <span className="flex mb-3 font-semibold text-heading align-center justify-center ">
+                <a href={settings.waLink ? settings.waLink : ''} target="_blank" rel="noreferrer" >
                 <Button className="font-semibold" size="medium">
                 <Image width={22} height={20}  src={whatsAppLogo} alt='whats-app-logo'/>
                   <span className='ml-2'>{t('text-whatsapp-button')}</span>
                 </Button>
+                </a>
               </span>
 {/*               <span className="text-sm text-body">
                 {settings?.contactNumber

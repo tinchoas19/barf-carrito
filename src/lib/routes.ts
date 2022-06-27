@@ -8,7 +8,7 @@ export const ROUTES = {
   ORDERS: '/orders',
   REFUNDS: '/refunds',
   HELP: '/help',
-  ORDERS_AND_STOCK: '/ordersAndStock',
+  ORDERS_AND_STOCK: '/ordersandstock',
   LOGOUT: '/logout',
   OFFERS: '/offers',
   ORDER_RECEIVED: '/order-received',

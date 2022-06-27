@@ -2,7 +2,6 @@ import type {
   PopularProductQueryOptions,
   Product,
 } from '@/types';
-import { useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import client from './client';
 import { API_ENDPOINTS } from './client/api-endpoints';

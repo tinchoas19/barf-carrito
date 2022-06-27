@@ -145,7 +145,7 @@ export const AddressForm: React.FC<any> = ({
             loading={isLoading}
             disabled={isLoading}
           >
-            {Boolean(defaultValues) ? t('text-update') : t('text-save')}{' '}
+            {Boolean(defaultValues) ? t('text-save') : t('text-save')}{' '}
             {t('text-address')}
           </Button>
         </>
@@ -164,8 +164,13 @@ export default function CreateOrUpdateAddressForm() {
 
   function onSubmit(values: FormValues) {
     const payload = { ...me }
-    values.address && payload.address.push(values.address)
-
+    if (values.address) {
+      if (payload.address) {
+        payload.address.push(values.address)
+      } else {
+        payload.address = [values.address]
+      }
+    }
     updateProfile(payload);
   }
   return (

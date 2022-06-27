@@ -28,7 +28,7 @@ export default function GuidePage() {
         </header>
         {/* End of page header */}
 
-        <div className="flex flex-col md:flex-row">
+        <div className="flex flex-col md:flex-row aling-center">
 {/*           <nav className="mb-8 md:mb-0 md:w-72 xl:w-3/12">
             <ol className="sticky z-10 md:top-16 lg:top-22">
               {content?.map((item) => (
@@ -50,7 +50,7 @@ export default function GuidePage() {
           </nav> */}
           {/* End of section scroll spy menu */}
 
-          <div className="md:w-9/12 md:pb-10 ltr:md:pl-8 rtl:md:pr-8">
+          <div className="md:max-w-[1000px] md:pb-10 ltr:md:pl-8 rtl:md:pr-8">
             {content?.map((item) => (
               <Element
                 key={item.title}

@@ -10,8 +10,7 @@ export { getStaticProps } from '@/framework/general.ssr';
 
 const ProfilePage = () => {
   const { t } = useTranslation('common');
-  const { me } = useUser();
-
+  const { me} = useUser();
 
   if (!me) return null;
   return (

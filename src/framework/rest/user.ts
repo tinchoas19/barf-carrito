@@ -1,6 +1,7 @@
 import { useModalAction } from '@/components/ui/modal/modal.context';
 import { useTranslation } from 'next-i18next';
 import {
+  useInfiniteQuery,
   useMutation,
   useQuery,
   useQueryClient,
@@ -37,17 +38,17 @@ export function useUser() {
       },
     }
   );
-  //TODO: do some improvement here
   return { me: data, isLoading, error, isAuthorized };
 }
 
 export const useDeleteAddress = () => {
+  const { t } = useTranslation();
   const { closeModal } = useModalAction();
   const queryClient = useQueryClient();
   return useMutation(client.users.deleteAddress, {
     onSuccess: (data) => {
-      if (data) {
-        toast.success('successfully-address-deleted');
+      if (data.data.success) {
+        toast.success(t('successfully-address-deleted'));
         closeModal();
         return;
       }
@@ -69,15 +70,13 @@ export const useUpdateUser = () => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   const { closeModal } = useModalAction();
-  const router = useRouter()
   return useMutation(client.users.update, {
     onSuccess: (data) => {
       if (data?.data?.success) {
-        if (data?.data?.inserted) {
-          router.push('/profile')
-        }
         closeModal();
         toast.success(t('profile-update-successful'));
+      } else {
+        toast.error(t('error-something-wrong'));
       }
       
     },

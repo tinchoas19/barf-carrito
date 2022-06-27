@@ -16,12 +16,14 @@ interface StockAuth {
   auth:boolean;
   deliveryDays:any;
   pickupDays:any;
+  me:any
 }
 
 export const defaultStockAuth: StockAuth = {
   auth: false,
   deliveryDays : [],
-  pickupDays : []
+  pickupDays : [],
+  me : []
 };
 
 // Original atom.
@@ -49,5 +51,13 @@ export const stockAuthBooleanAtom = atom(
   (get, set, data: boolean) => {
     const prev = get(stockAuthAtom);
     return set(stockAuthAtom, { ...prev, auth: data });
+  }
+);
+
+export const meAtom = atom(
+  (get) => get(stockAuthAtom).me,
+  (get, set, data: any) => {
+    const prev = get(stockAuthAtom);
+    return set(stockAuthAtom, { ...prev, me: data });
   }
 );

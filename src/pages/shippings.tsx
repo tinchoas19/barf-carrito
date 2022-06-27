@@ -27,7 +27,9 @@ export default function ShippingsPage() {
         <div className="mx-auto w-full max-w-screen-lg">
           <ShippingsSlider/>
         </div>
-        <div className="flex-row md:pb-10 ltr:md:pl-8 rtl:md:pr-8 mt-6 align-center">
+      </section>
+      <section className='flex justify-center pb-8 px-4 lg:pb-10 lg:px-8 xl:pb-14 xl:px-16 2xl:px-20'>
+      <div className="flex-row md:max-w-[1000px] align-center">
             {shippings?.map((item) => (
               <Element
                 key={item.title}
