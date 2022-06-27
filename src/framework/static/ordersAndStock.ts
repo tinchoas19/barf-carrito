@@ -1,18 +1,26 @@
 export const data = [
   {
-    title: 'faq-one-title',
-    content: 'faq-one-content',
+    title: 'os-one-title',
+    content: 'os-one-content',
   },
   {
-    title: 'faq-two-title',
-    content: 'faq-two-content',
+    title: 'os-two-title',
+    content: 'os-two-content',
   },
   {
-    title: 'faq-three-title',
-    content: 'faq-three-content',
+    title: 'os-three-title',
+    content: 'os-three-content',
   },
   {
-    title: 'faq-four-title',
-    content: 'faq-four-content',
+    title: 'os-four-title',
+    content: 'os-four-content',
+  },
+  {
+    title: 'os-five-title',
+    content: 'os-five-content',
+  },
+  {
+    title: 'os-six-title',
+    content: 'os-six-content',
   },
 ];

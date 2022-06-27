@@ -4,9 +4,16 @@ import { GetStaticProps } from 'next';
 import { getLayout } from '@/components/layouts/layout';
 import Seo from '@/components/seo/seo';
 import ShippingsSlider from '@/components/promotions/shippings-slider';
+import {Element } from 'react-scroll';
+import { shippings } from '@/framework/static/shippings';
+
+function makeTitleToDOMId(title: string) {
+  return title.toLowerCase().split(' ').join('_');
+}
+
 
 export default function ShippingsPage() {
-  const { t } = useTranslation();
+  const { t } = useTranslation('shippings');
   return (
     <>
       <Seo title="Shippings" url="shippings" />
@@ -20,17 +27,22 @@ export default function ShippingsPage() {
         <div className="mx-auto w-full max-w-screen-lg">
           <ShippingsSlider/>
         </div>
-        <div className="md:w-9/12 md:pb-10 ltr:md:pl-8 rtl:md:pr-8">
-              <div
-                className="mt-10 mb-10"
+        <div className="flex-row md:pb-10 ltr:md:pl-8 rtl:md:pr-8 mt-6 align-center">
+            {shippings?.map((item) => (
+              <Element
+                key={item.title}
+                name={makeTitleToDOMId(item.title)}
+                className="mb-10"
               >
                 <h2 className="mb-4 text-lg font-bold text-heading md:text-xl lg:text-2xl">
-                  definir titulo aqui
+                  {t(item.title)}
                 </h2>
                 <div
                   className="leading-loose text-body-dark"
-                >Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda distinctio debitis perferendis accusantium, odio libero porro, corporis laboriosam architecto error nostrum vero dicta. Dolore dolorum quis, provident earum ducimus ipsum.</div>
-              </div>
+                  dangerouslySetInnerHTML={{ __html: t(item.content) }}
+                />
+              </Element>
+            ))}
           </div>
       </section>
       

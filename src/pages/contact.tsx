@@ -11,6 +11,7 @@ import Seo from '@/components/seo/seo';
 import { useSettings } from '@/framework/settings';
 export { getStaticProps } from '@/framework/general.ssr';
 import whatsAppLogo from '../assets/whatsapp-logo.png'
+import Button from '@/components/ui/button';
 
 export const ContactPage = () => {
   const { t } = useTranslation('common');
@@ -42,15 +43,17 @@ export const ContactPage = () => {
             </div> */}
 
             <div className="mb-8 flex flex-col">
-              <span className="flex mb-3 font-semibold text-heading align-center ">
+              <span className="flex mb-3 font-semibold text-heading align-center justify-center ">
+                <Button className="font-semibold" size="medium">
                 <Image width={22} height={20}  src={whatsAppLogo} alt='whats-app-logo'/>
-                {t('text-phone')}
+                  <span className='ml-2'>{t('text-whatsapp-button')}</span>
+                </Button>
               </span>
-              <span className="text-sm text-body">
+{/*               <span className="text-sm text-body">
                 {settings?.contactNumber
                   ? settings?.contactNumber
                   : t('text-no-contact')}
-              </span>
+              </span> */}
             </div>
             {/* {settings?.contactDetails?.website && (
               <div className="mb-8 flex flex-col">
