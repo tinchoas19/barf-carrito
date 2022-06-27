@@ -7,6 +7,8 @@ import { Form } from '@/components/ui/forms/form';
 import { useUpdateUser } from '@/framework/user';
 import type { UpdateUserInput, User } from '@/types';
 import * as yup from 'yup';
+import Checkbox from '../ui/forms/checkbox/checkbox';
+import { useState } from 'react';
 
 const profileFormSchema = yup.object().shape({
   name: yup.string().required('error-name-required'),
@@ -23,6 +25,7 @@ const ProfileForm = ({ user }: { user: User }) => {
   const { mutate: updateProfile, isLoading } = useUpdateUser();
 
   function onSubmit(values: UpdateUserInput) {
+    
     if (!user) {
       return false;
     }
@@ -33,6 +36,11 @@ const ProfileForm = ({ user }: { user: User }) => {
       contact: values.contact,
       email: values.email,
     });
+  }
+  
+  const [canEditEmail, setCanEditEmail] = useState(false)
+  function handleEmailCheckbox(value:boolean) {
+    setCanEditEmail(value)
   }
 
   return (
@@ -81,7 +89,15 @@ const ProfileForm = ({ user }: { user: User }) => {
                 />
               </div>
               <div className="mb-6 flex flex-row">
+              <Checkbox 
+              name={'profile-email'}
+              label={t('text-email-checkbox')}
+              callback={handleEmailCheckbox}
+              ></Checkbox>
+              </div>
+              <div className="mb-6 flex flex-row">
               <Input
+                  disabled={!canEditEmail}
                   className="flex-1"
                   label={t('text-email')}
                   {...register('email')}

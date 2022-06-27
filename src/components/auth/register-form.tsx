@@ -146,15 +146,15 @@ export default function RegisterView() {
           onClick={() => handleNavigate('terms')}
           className="mx-1 cursor-pointer text-accent underline hover:no-underline"
         >
-          {t('text-terms')}
+          {t('text-terms-and-conditions')}
         </span>
-        &
+    {/*     &
         <span
           onClick={() => handleNavigate('privacy')}
           className="cursor-pointer text-accent underline hover:no-underline ltr:ml-1 rtl:mr-1"
         >
           {t('text-policy')}
-        </span>
+        </span> */}
       </p>
       <RegisterForm />
     </div>
