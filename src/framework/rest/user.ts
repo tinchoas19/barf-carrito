@@ -121,7 +121,7 @@ export function useLogin() {
 
   const { mutate, isLoading } = useMutation(client.users.login, {
     onSettled: async (res) => {
-      if (data.status === 200) {
+      if (res.status === 200) {
         if (res?.data.token === '' || res?.data.token === null) {
           if (res?.data.errors) {
             res?.data.errors.forEach((err) => {
