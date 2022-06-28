@@ -24,7 +24,7 @@ const AddressCard: React.FC<AddressProps> = ({
       className={classNames(
         'relative p-4 rounded border cursor-pointer group hover:border-accent',
         {
-          'border-accent shadow-sm': checked,
+          'border-accent shadow-sm': checked || isLoading,
           'bg-gray-100 border-transparent': !checked,
         }
       )}
