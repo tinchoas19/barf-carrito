@@ -5,12 +5,17 @@ import ProfileForm from '@/components/profile/profile-form';
 import Seo from '@/components/seo/seo';
 import { useUser } from '@/framework/user';
 import DashboardLayout from '@/layouts/_dashboard';
+import { useEffect } from 'react';
 export { getStaticProps } from '@/framework/general.ssr';
 
 
 const ProfilePage = () => {
   const { t } = useTranslation('common');
-  const { me } = useUser();
+  const { me , refetch} = useUser();
+
+  useEffect(() => {
+    refetch()
+  },[])
 
   if (!me) return null;
   return (

@@ -35,6 +35,7 @@ const ProfileForm = ({ user }: { user: User }) => {
       surname: values.surname,
       contact: values.contact,
       email: values.email,
+      address: user.address
     });
   }
   

@@ -84,6 +84,7 @@ export const AddressForm: React.FC<any> = ({
             error={t(errors.address?.street_number?.message!)}
             variant="outline"
             type='number'
+            min={0}
           />
 
 

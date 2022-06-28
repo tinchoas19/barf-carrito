@@ -59,8 +59,8 @@ export function useValidateStock() {
   const [_2, setPickUpDays] = useAtom(stockPickUpDaysAtom);
   const [_3, setDeliveryDays] = useAtom(stockDeliveryDaysAtom);
   return useMutation(client.orders.validateStock, {
-    onSettled: async (data, err) => {
-      if (!err) {
+    onSettled: async (data) => {
+      if (data.status === 200) {
         // checkea que sea sabado
         const argTime = new Date().toLocaleString('en-US', {
           timeZone: 'America/Argentina/Buenos_Aires',
@@ -134,11 +134,11 @@ export function useValidateStock() {
             }
           }
         }
-      }
+      } else toast.error(t('error-something-wrong'));
     },
     onError: (error) => {
       toast.error(t('error-something-wrong'));
-    },
+    }
   });
 }
 
@@ -149,8 +149,8 @@ export function useCreateOrder() {
   const { resetCart } = useCart();
 
   const { mutate: createOrder, isLoading } = useMutation(client.orders.create, {
-    onSettled: async (data, err) => {
-      if (!err) {
+    onSettled: async (data) => {
+      if (data && data.status === 200) {
         if (data.data.success) {
           toast.success(t('send-order-successful'));
           await router.push(`${ROUTES.ORDERS}`).then(() => {
@@ -165,7 +165,7 @@ export function useCreateOrder() {
             setDrawerView({ display: true, view: 'cart' });
           });
         }
-      }
+      } else toast.error(t('error-something-wrong'));
     },
     onError: (error) => {
       toast.error(t('error-something-wrong'));

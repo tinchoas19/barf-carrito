@@ -32,12 +32,8 @@ const CartSidebarView = () => {
   const { price: totalPrice } = usePrice({
     amount: total,
   });
-  const { isLoading, mutate: validateStock, status, isSuccess, isPaused} = useValidateStock()
+  const { isLoading, mutate: validateStock} = useValidateStock()
   const router = useRouter()
-
-  useEffect(() => {
-    console.log(status, isSuccess, isPaused)
-  },[status, isSuccess,isPaused])
 
   
   function handleCheckout() {
