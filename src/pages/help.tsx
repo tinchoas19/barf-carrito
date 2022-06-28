@@ -18,14 +18,16 @@ export default function HelpPage() {
             {t('common:nav-menu-others-faq')}
           </h1>
         </header> 
-        <div className="mx-auto w-full max-w-screen-lg text-center">
-        <a style={{textDecoration: 'underline'}} href={ROUTES.ORDERS_AND_STOCK}>{t('nav-menu-ordersAndStock')}</a>
-        </div>
-        <div className="mx-auto w-full max-w-screen-lg text-center">
-        <a style={{textDecoration: 'underline'}} href={ROUTES.GUIDE}>{t('nav-menu-guide')}</a>
-        </div>
-        <div className="mx-auto w-full max-w-screen-lg text-center">
-        <a style={{textDecoration: 'underline'}} href={ROUTES.SHIPPINGS}>{t('nav-menu-shippings')}</a>
+        <div className='text-xl'>
+        <p className="mx-auto w-full max-w-screen-lg text-center">
+        <a style={{textDecoration: 'underline'}} className='hover:opacity-80' href={ROUTES.ORDERS_AND_STOCK}>{t('nav-menu-ordersAndStock')}</a>
+        </p>
+        <p className="mx-auto w-full max-w-screen-lg text-center">
+        <a style={{textDecoration: 'underline'}} className='hover:opacity-80' href={ROUTES.GUIDE}>{t('nav-menu-guide')}</a>
+        </p>
+        <p className="mx-auto w-full max-w-screen-lg text-center">
+        <a style={{textDecoration: 'underline'}} className='hover:opacity-80' href={ROUTES.SHIPPINGS}>{t('nav-menu-shippings')}</a>
+        </p>
         </div>
       </section>
       <section className="py-8 px-4 lg:py-10 lg:px-8 xl:py-14 xl:px-16 2xl:px-20">

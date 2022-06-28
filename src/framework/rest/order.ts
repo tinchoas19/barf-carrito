@@ -1,12 +1,5 @@
-import {
-  Order,
-  OrderQueryOptions,
-} from '@/types';
-import {
-  useMutation,
-  useQuery,
-
-} from 'react-query';
+import { Order, OrderQueryOptions } from '@/types';
+import { useMutation, useQuery } from 'react-query';
 
 import { toast } from 'react-toastify';
 
@@ -19,32 +12,35 @@ import { AUTH_TOKEN_KEY } from '@/lib/constants';
 import { useTranslation } from 'next-i18next';
 import { drawerAtom } from '@/store/drawer-atom';
 import { useAtom } from 'jotai';
-import { stockAuthBooleanAtom, stockDeliveryDaysAtom, stockPickUpDaysAtom } from '@/store/authorization-atom';
+import {
+  stockAuthBooleanAtom,
+  stockDeliveryDaysAtom,
+  stockPickUpDaysAtom,
+} from '@/store/authorization-atom';
 import { useCart } from '@/store/quick-cart/cart.context';
 
-
 export function useOrders(options?: Partial<OrderQueryOptions>) {
-
-
   const { data, isLoading, error } = useQuery(
     [API_ENDPOINTS.ORDERS],
     client.orders.all,
     {
-      onError: (err) => {
-      },
+      onError: (err) => {},
     }
   );
-  
+
   return {
     orders: data,
     isLoading,
-    error
+    error,
   };
 }
 
 export function useOrder({ tracking_number }: { tracking_number: string }) {
   const { data, isLoading, error } = useQuery<Order, Error>(
-    [`${API_ENDPOINTS.ORDERS}?id=${Cookies.get(AUTH_TOKEN_KEY)}`, tracking_number],
+    [
+      `${API_ENDPOINTS.ORDERS}?id=${Cookies.get(AUTH_TOKEN_KEY)}`,
+      tracking_number,
+    ],
     () => client.orders.get(tracking_number)
   );
 
@@ -55,127 +51,120 @@ export function useOrder({ tracking_number }: { tracking_number: string }) {
   };
 }
 
-
 export function useValidateStock() {
   const [_, closeSidebar] = useAtom(drawerAtom);
   const router = useRouter();
   const { t } = useTranslation();
-  const [_1, setStockAuth] = useAtom(stockAuthBooleanAtom)
-  const [_2, setPickUpDays] = useAtom(stockPickUpDaysAtom)
-  const [_3, setDeliveryDays] = useAtom(stockDeliveryDaysAtom)
-  const { mutate: validateStock, isLoading } = useMutation(client.orders.validateStock, {
-    onSuccess: (data) => {
-      // checkea que sea sabado
-      const argTime = new Date().toLocaleString('en-US', {
-        timeZone: 'America/Argentina/Buenos_Aires'
-      })
-      
-      const today = new Date(argTime)
+  const [_1, setStockAuth] = useAtom(stockAuthBooleanAtom);
+  const [_2, setPickUpDays] = useAtom(stockPickUpDaysAtom);
+  const [_3, setDeliveryDays] = useAtom(stockDeliveryDaysAtom);
+  return useMutation(client.orders.validateStock, {
+    onSettled: async (data, err) => {
+      if (!err) {
+        // checkea que sea sabado
+        const argTime = new Date().toLocaleString('en-US', {
+          timeZone: 'America/Argentina/Buenos_Aires',
+        });
 
-      if (today.getDay() === 6) {
-        toast.warning(t('text-no-order-today'),{
-          "closeButton": true,
-          progress:1
-      })
-        return
-      }
-      // checkea que este iniciado el stock de la semana
-       if (data.data.noInit) {
-        toast.error(t('error-something-wrong'))
-        return 
-      }  
+        const today = new Date(argTime);
 
-      const products = data.data.products
-      const pickupDays = data.data.pickupDays
-      const deliveryDays = data.data.deliveryDays
-      // checkea stock y errores en products
-      if (products.length !== 0) {
-        let errors : string[] = []
-        const noStockErrors : string[] = []
-        products.forEach((prod:any) => {
-          if (prod.nohabrastock) {
-            noStockErrors.push(`${prod.name}: No hay stock esta semana.`)
-          } else {
-          }
-          errors = [...errors, ...prod.errors]
-        })
-        // checkea que no haya errores
-        if (errors.length === 0 && 
-          noStockErrors.length === 0 
-          //!data.tieneErrores 
+        if (today.getDay() === 6) {
+          toast.warning(t('text-no-order-today'), {
+            closeButton: true,
+            progress: 1,
+          });
+          return;
+        }
+        // checkea que este iniciado el stock de la semana
+        if (data.data.noInit) {
+          toast.error(t('error-something-wrong'));
+          return;
+        }
+
+        const products = data.data.products;
+        const pickupDays = data.data.pickupDays;
+        const deliveryDays = data.data.deliveryDays;
+        // checkea stock y errores en products
+        if (products.length !== 0) {
+          let errors: string[] = [];
+          const noStockErrors: string[] = [];
+          products.forEach((prod: any) => {
+            if (prod.nohabrastock) {
+              noStockErrors.push(`${prod.name}: No hay stock esta semana.`);
+            } else {
+            }
+            errors = [...errors, ...prod.errors];
+          });
+          // checkea que no haya errores
+          if (
+            errors.length === 0 &&
+            noStockErrors.length === 0
+            //!data.tieneErrores
           ) {
             // checkea que haya minimo 1 dia de pickup
             if (pickupDays.length > 0) {
-              setStockAuth(true)
-              setPickUpDays(pickupDays)
-              setDeliveryDays(deliveryDays)
-              router.push(ROUTES.CHECKOUT).then(() => {
+              setStockAuth(true);
+              setPickUpDays(pickupDays);
+              setDeliveryDays(deliveryDays);
+              await router.push(ROUTES.CHECKOUT).then(() => {
                 closeSidebar({ display: false, view: '' });
-              })
+              });
             } else {
-              toast.error(t('error-no-days'),{
-                "closeButton": true,
-                progress:1
-            });
+              toast.error(t('error-no-days'), {
+                closeButton: true,
+                progress: 1,
+              });
             }
-        
-        } else {
-          if (errors.length > 0) {
-            errors.forEach(err => {
-              toast.error(err,{
-                "closeButton": true,
-                progress: 1
-            });
-            })
+          } else {
+            if (errors.length > 0) {
+              errors.forEach((err) => {
+                toast.error(err, {
+                  closeButton: true,
+                  progress: 1,
+                });
+              });
+            }
+            if (noStockErrors.length > 0) {
+              noStockErrors.forEach((err) => {
+                toast.warning(err, {
+                  closeButton: true,
+                  progress: 1,
+                });
+              });
+            }
           }
-          if (noStockErrors.length > 0) {
-            noStockErrors.forEach(err => {
-              toast.warning(err,{
-                "closeButton": true,
-                progress:1
-            });
-            })
-          }
-        
         }
       }
     },
     onError: (error) => {
-      toast.error(t('error-something-wrong'))
+      toast.error(t('error-something-wrong'));
     },
   });
-
-  return {
-    validateStock,
-    isLoading
-  };
 }
-
-
-
-
 
 export function useCreateOrder() {
   const { t } = useTranslation();
   const router = useRouter();
   const [_, setDrawerView] = useAtom(drawerAtom);
-  const { resetCart} = useCart();
+  const { resetCart } = useCart();
 
   const { mutate: createOrder, isLoading } = useMutation(client.orders.create, {
-    onSuccess: (data) => {
-      if (data.data.success) {
-        toast.success(t('send-order-successful'))
-        router.push(`${ROUTES.ORDERS}`).then(() => {
-          resetCart() 
-        })
-      } else {
-        router.push('/').then(() => {
-          toast.warning(t('text-checkout-validation-fail'), {
-            "closeButton": true,
-            progress: 1
-          })
-          setDrawerView({ display: true, view:'cart' });
-        })
+    onSettled: async (data, err) => {
+      if (!err) {
+        if (data.data.success) {
+          toast.success(t('send-order-successful'));
+          await router.push(`${ROUTES.ORDERS}`).then(() => {
+            resetCart();
+          });
+        } else {
+          await router.push('/').then(() => {
+            toast.warning(t('text-checkout-validation-fail'), {
+              closeButton: true,
+              progress: 1,
+            });
+            setDrawerView({ display: true, view: 'cart' });
+          });
+        }
       }
     },
     onError: (error) => {
@@ -188,4 +177,3 @@ export function useCreateOrder() {
     isLoading,
   };
 }
-

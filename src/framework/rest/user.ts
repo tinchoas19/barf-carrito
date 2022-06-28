@@ -13,10 +13,7 @@ import { useAtom } from 'jotai';
 import { useToken } from '@/lib/hooks/use-token';
 import { API_ENDPOINTS } from './client/api-endpoints';
 import { useState } from 'react';
-import {
-  RegisterUserInput,
-  ChangePasswordUserInput,
-} from '@/types';
+import { RegisterUserInput, ChangePasswordUserInput } from '@/types';
 import { useStateMachine } from 'little-state-machine';
 import {
   initialState,
@@ -27,7 +24,6 @@ import { Router, useRouter } from 'next/router';
 import { useCart } from '@/store/quick-cart/cart.context';
 import { ROUTES } from '@/lib/routes';
 
-
 export function useUser() {
   const [isAuthorized] = useAtom(authorizationAtom);
   const { data, isLoading, error } = useQuery(
@@ -35,8 +31,7 @@ export function useUser() {
     client.users.me,
     {
       enabled: isAuthorized,
-      onError: (err) => {
-      },
+      onError: (err) => {},
     }
   );
   return { me: data, isLoading, error, isAuthorized };
@@ -45,14 +40,17 @@ export function useUser() {
 export const useDeleteAddress = () => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
-  const router = useRouter()
+  const router = useRouter();
   return useMutation(client.users.deleteAddress, {
-    onSuccess: (data) => {
-      if (data.data.success) {
-        router.push(ROUTES.PROFILE).then(() => {
-          toast.success(t('successfully-address-deleted'));
-        })
-        return;
+    onSettled: async (data, err) => {
+      queryClient.invalidateQueries('/me');
+      if (!err) {
+        if (data.data.success) {
+          await router.push(ROUTES.PROFILE).then(() => {
+            toast.success(t('successfully-address-deleted'));
+          });
+          return;
+        }
       }
     },
     onError: (error) => {
@@ -62,9 +60,6 @@ export const useDeleteAddress = () => {
 
       toast.error(data?.message);
     },
-    onSettled: () => {
-      queryClient.invalidateQueries('/me');
-    },
   });
 };
 
@@ -72,30 +67,28 @@ export const useUpdateUser = () => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   const { closeModal } = useModalAction();
-  const router = useRouter()
+  const router = useRouter();
   return useMutation(client.users.update, {
-    onSuccess: (data) => {
-      if (data?.data?.success) {
-        if (data.data.inserted) {
-          router.push(ROUTES.PROFILE).then(() => {
+    onSettled: async (data, err) => {
+      queryClient.invalidateQueries('/me');
+      if (!err) {
+        if (data?.data?.success) {
+          if (data.data.inserted) {
+            await router.push(ROUTES.PROFILE).then(() => {
+              toast.success(t('profile-update-successful'));
+              closeModal();
+            });
+          } else {
             toast.success(t('profile-update-successful'));
-            closeModal()
-          })
+            closeModal();
+          }
         } else {
-          toast.success(t('profile-update-successful'));
-          closeModal()
+          toast.error(t('error-something-wrong'));
         }
-        
-      } else {
-        toast.error(t('error-something-wrong'));
       }
-      
     },
     onError: (error) => {
       toast.error(t('error-something-wrong'));
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries('/me');
     },
   });
 };
@@ -123,28 +116,29 @@ export function useLogin() {
   const { closeModal } = useModalAction();
   const { setToken } = useToken();
   let [serverError, setServerError] = useState<string | null>(null);
-  const router = useRouter()
+  const router = useRouter();
 
   const { mutate, isLoading } = useMutation(client.users.login, {
-    onSuccess: (res) => {
-      if (res?.data.token === '' || res?.data.token === null) {
-        if (res?.data.errors) {
-          res?.data.errors.forEach(err => {
-            toast.error(err)
-          })
-        } else {
-          setServerError('error-credential-wrong');
+    onSettled: async (res, err) => {
+      if (!err) {
+        if (res?.data.token === '' || res?.data.token === null) {
+          if (res?.data.errors) {
+            res?.data.errors.forEach((err) => {
+              toast.error(err);
+            });
+          } else {
+            setServerError('error-credential-wrong');
+          }
+          return;
         }
-        return;
+        setToken(res?.data.token);
+        setAuthorized(true);
+        await router.push('/').then(() => {
+          closeModal();
+        });
       }
-      setToken(res?.data.token);
-      setAuthorized(true);
-      router.push('/').then(() => {
-        closeModal();
-      })
     },
-    onError: (error: Error) => {
-    },
+    onError: (error: Error) => {},
   });
 
   return { mutate, isLoading, serverError, setServerError };
@@ -158,22 +152,22 @@ export function useRegister() {
   let [formError, setFormError] = useState<Partial<RegisterUserInput> | null>(
     null
   );
-  const router = useRouter()
+  const router = useRouter();
   const { mutate, isLoading } = useMutation(client.users.register, {
-    onSuccess: (data) => {
-      if (data?.data?.token && data?.status_message === 'autenticado') {
-        setToken(data?.data?.token);
-        setAuthorized(true);
-        router.push('/').then(() => {
-          closeModal();
-          toast.success(t('text-register-success'))
-        })
-        return;
-      }
-      if (!data?.data?.token) {
-        data?.data?.errors.forEach((err:string) => 
-          toast.error(t(err))
-          )
+    onSettled: async (data, err) => {
+      if (!err) {
+        if (data?.data?.token && data?.status_message === 'autenticado') {
+          setToken(data?.data?.token);
+          setAuthorized(true);
+          await router.push('/').then(() => {
+            closeModal();
+            toast.success(t('text-register-success'));
+          });
+          return;
+        }
+        if (!data?.data?.token) {
+          data?.data?.errors.forEach((err: string) => toast.error(t(err)));
+        }
       }
     },
     onError: (error) => {
@@ -195,16 +189,16 @@ export function useLogout() {
   const { openModal } = useModalAction();
   const { items, clearItemFromCart } = useCart();
   const mutate = function () {
-    items.forEach(item => {
-      if (item.isPersonalized) clearItemFromCart(item.id)
-    })
+    items.forEach((item) => {
+      if (item.isPersonalized) clearItemFromCart(item.id);
+    });
     setToken('');
     setAuthorized(false);
     resetCheckout();
     openModal('LOGIN_VIEW');
-  }
-  return {mutate}
-/*   const queryClient = useQueryClient();
+  };
+  return { mutate };
+  /*   const queryClient = useQueryClient();
   const { setToken } = useToken();
   const [_, setAuthorized] = useAtom(authorizationAtom);
   const [_r, resetCheckout] = useAtom(clearCheckoutAtom);
@@ -227,27 +221,28 @@ export function useChangePassword() {
   const { t } = useTranslation('common');
   let [formError, setFormError] =
     useState<Partial<ChangePasswordUserInput> | null>(null);
-  const router = useRouter()
+  const router = useRouter();
   const { mutate, isLoading } = useMutation(client.users.changePassword, {
-    onSuccess: (data) => {
-
-      if (!data.data?.success) {
-        setFormError({
-          oldPassword: data?.message ?? '',
+    onSettled: async (data, err) => {
+      if (!err) {
+        if (!data.data?.success) {
+          setFormError({
+            oldPassword: data?.message ?? '',
+          });
+          toast.error(t('error-change-password'));
+          return;
+        }
+        await router.push('/').then(() => {
+          toast.success(t('password-successful'));
         });
-        toast.error(t('error-change-password'))
-        return;
       }
-      router.push('/').then(() => {
-        toast.success(t('password-successful'));
-      })
     },
     onError: (error) => {
       const {
         response: { data },
       }: any = error ?? {};
       setFormError(data);
-      toast.error(t('error-change-password'))
+      toast.error(t('error-change-password'));
     },
   });
 
@@ -303,4 +298,3 @@ export function useResetPassword() {
     },
   });
 }
-
