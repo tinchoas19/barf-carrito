@@ -9,12 +9,14 @@ interface AddressProps {
   onEdit: () => void;
   onDelete?: () => void;
   parentPage?:string;
+  isLoading?:boolean;
 }
 const AddressCard: React.FC<AddressProps> = ({
   checked,
   address,
   onEdit,
-  onDelete
+  onDelete,
+  isLoading
 }) => {
   const { t } = useTranslation();
   return (
@@ -45,8 +47,11 @@ const AddressCard: React.FC<AddressProps> = ({
         )}
         {onDelete && (
           <button
-            className="flex items-center justify-center w-5 h-5 rounded-full bg-red-600 text-light hover:opacity-85"
+            className={"flex items-center justify-center w-5 h-5 rounded-full text-light hover:opacity-80 " +
+          (isLoading ? 'bg-gray-600' : "bg-red-600")
+          }
             onClick={onDelete}
+            disabled={isLoading}
           >
             <span className="sr-only">{t('text-delete')}</span>
             <CloseIcon className="w-3 h-3" />

@@ -159,7 +159,7 @@ export default function CreateOrUpdateAddressForm() {
   const {
     data: { address },
   } = useModalState();
-  const { mutate: updateProfile } = useUpdateUser();
+  const { mutate: updateProfile, isLoading } = useUpdateUser();
   const { me } = useUser();
 
   function onSubmit(values: FormValues) {
@@ -180,6 +180,7 @@ export default function CreateOrUpdateAddressForm() {
       </h1>
       <AddressForm
         onSubmit={onSubmit}
+        isLoading={isLoading}
         defaultValues={{
           address: {
             ...address?.address,

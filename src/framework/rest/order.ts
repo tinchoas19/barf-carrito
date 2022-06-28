@@ -80,7 +80,7 @@ export function useValidateStock() {
         return
       }
       // checkea que este iniciado el stock de la semana
-       if (data.noInit) {
+       if (data.data.noInit) {
         toast.error(t('error-something-wrong'))
         return 
       }  
@@ -109,8 +109,9 @@ export function useValidateStock() {
               setStockAuth(true)
               setPickUpDays(pickupDays)
               setDeliveryDays(deliveryDays)
-              router.push(ROUTES.CHECKOUT)
-              closeSidebar({ display: false, view: '' });
+              router.push(ROUTES.CHECKOUT).then(() => {
+                closeSidebar({ display: false, view: '' });
+              })
             } else {
               toast.error(t('error-no-days'),{
                 "closeButton": true,
@@ -164,17 +165,17 @@ export function useCreateOrder() {
     onSuccess: (data) => {
       if (data.data.success) {
         toast.success(t('send-order-successful'))
-        router.push(`${ROUTES.ORDERS}`);
-        setTimeout(() => {
-          resetCart()
-        }, 2000)
+        router.push(`${ROUTES.ORDERS}`).then(() => {
+          resetCart() 
+        })
       } else {
-        router.push('/')
-        toast.warning(t('text-checkout-validation-fail'), {
-          "closeButton": true,
-          progress: 1
-      })
-        setDrawerView({ display: true, view:'cart' });
+        router.push('/').then(() => {
+          toast.warning(t('text-checkout-validation-fail'), {
+            "closeButton": true,
+            progress: 1
+          })
+          setDrawerView({ display: true, view:'cart' });
+        })
       }
     },
     onError: (error) => {

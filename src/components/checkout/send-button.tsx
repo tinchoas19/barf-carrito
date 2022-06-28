@@ -15,7 +15,7 @@ export const SendButton: React.FC<{disabled?:boolean, label:string, className?: 
     const { t } = useTranslation('common');
     const [checkout] = useAtom(checkoutAtom);
     const { items,  isEmpty } = useCart();
-    const {createOrder} = useCreateOrder()
+    const {createOrder, isLoading} = useCreateOrder()
 
     function formatOrder(checkout:any) {
       const {
@@ -89,6 +89,7 @@ export const SendButton: React.FC<{disabled?:boolean, label:string, className?: 
         className={classNames('mt-5 w-full')}
         disabled={disabled}
         onClick={handleVerifyCheckout}
+        isLoading={isLoading}
         {...rest}
       >
         {label}

@@ -139,8 +139,9 @@ export function useLogin() {
       }
       setToken(res?.data.token);
       setAuthorized(true);
-      closeModal();
-      router.push('/')
+      router.push('/').then(() => {
+        closeModal();
+      })
     },
     onError: (error: Error) => {
     },
@@ -163,9 +164,10 @@ export function useRegister() {
       if (data?.data?.token && data?.status_message === 'autenticado') {
         setToken(data?.data?.token);
         setAuthorized(true);
-        closeModal();
-        toast.success(t('text-register-success'))
-        router.push('/')
+        router.push('/').then(() => {
+          closeModal();
+          toast.success(t('text-register-success'))
+        })
         return;
       }
       if (!data?.data?.token) {
@@ -236,8 +238,9 @@ export function useChangePassword() {
         toast.error(t('error-change-password'))
         return;
       }
-      toast.success(t('password-successful'));
-      router.push('/')
+      router.push('/').then(() => {
+        toast.success(t('password-successful'));
+      })
     },
     onError: (error) => {
       const {

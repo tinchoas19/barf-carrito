@@ -64,9 +64,12 @@ const CartSidebarView = () => {
         <button
           onClick={() =>{ 
             if (window.location.pathname === '/checkout') {
-              router.push('/')
+              router.push('/').then(() => {
+                closeSidebar({ display: false, view: '' })
+              })
+            } else {
+              closeSidebar({ display: false, view: '' })
             }
-            closeSidebar({ display: false, view: '' })
           }}
           className="w-7 h-7 ltr:ml-3 rtl:mr-3 ltr:-mr-2 rtl:-ml-2 flex items-center justify-center rounded-full text-muted bg-gray-100 transition-all duration-200 focus:outline-none hover:bg-accent focus:bg-accent hover:text-light focus:text-light"
         >
@@ -106,8 +109,11 @@ const CartSidebarView = () => {
       {/* <footer className="sticky ltr:left-0 rtl:right-0 bottom-0 w-full py-5 px-6 z-10 bg-light"> */}
       <footer className="fixed bottom-0 w-full max-w-md py-5 px-6 z-10 bg-light">
       {(items.length !== 0 && isAuthorize) ? <button
-          className="flex justify-between w-full h-12 md:h-14 p-1 text-sm font-bold bg-accent rounded-full shadow-700 transition-colors focus:outline-none hover:bg-accent-hover focus:bg-accent-hover"
+          className={!isLoading ? 
+            "flex justify-between w-full h-12 md:h-14 p-1 text-sm font-bold bg-accent rounded-full shadow-700 transition-colors focus:outline-none hover:bg-accent-hover focus:bg-accent-hover" : 
+            "flex justify-between w-full h-12 md:h-14 p-1 text-sm font-bold bg-gray-300 rounded-full shadow-700 transition-colors focus:outline-none"}
           onClick={handleCheckout}
+          disabled={isLoading}
         >
           <span className="flex flex-1 items-center h-full px-5 text-light">
             {t('text-checkout')}
@@ -123,6 +129,7 @@ const CartSidebarView = () => {
             "flex justify-between w-full h-12 md:h-14 p-1 text-sm font-bold bg-gray-300 rounded-full shadow-700 transition-colors focus:outline-none"}
           disabled={!isAuthorize ? false : true}
           onClick={() => openModal('LOGIN_VIEW')}
+
         >
           <span className="flex flex-1 items-center h-full px-5 text-light justify-center">
             {isAuthorize ? t('text-no-items-cart') :  t('text-need-to-login')}

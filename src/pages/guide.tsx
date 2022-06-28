@@ -14,7 +14,6 @@ function makeTitleToDOMId(title: string) {
 export default function GuidePage() {
   const { t } = useTranslation('terms');
   const {settings} = useSettings()
-  console.log(settings)
 
   return (
     <>

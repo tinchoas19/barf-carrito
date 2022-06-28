@@ -20,7 +20,7 @@ export const ProfileAddressGrid: React.FC<AddressesProps> = ({
   userId,
   type
 }) => {
-  const {mutate:deleteAddress} = useDeleteAddress()
+  const {mutate:deleteAddress, isLoading} = useDeleteAddress()
   const { openModal } = useModalAction();
   const { t } = useTranslation('common');
 
@@ -47,6 +47,7 @@ export const ProfileAddressGrid: React.FC<AddressesProps> = ({
             key={address.id}
             parentPage='profile'
             onDelete={() => onDelete(address)}
+            isLoading={isLoading}
           />)
           })}
         {!Boolean(addresses?.length) && (
