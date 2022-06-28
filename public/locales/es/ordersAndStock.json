@@ -1,0 +1,14 @@
+{
+  "os-one-title": "¿Qué días debería hacer mi pedido?",
+  "os-one-content": "Idealmente desde el Domingo hasta el Martes por la tarde. En éste plazo de tiempo podemos hacer que el pedido entre en producción dentro de la misma semana. A partir del Miercoles, ya no tenemos la posibilidad de agregar, por ejemplo, una dieta personalizada a producción.",
+  "os-two-title": "¿Qué pasa si pido a partir del Miercoles?",
+  "os-two-content": "Lo que tengas que pedir queda a disponibilidad del stock. Cuando selecciones los productos que necesitás, el sistema te va a indicar su disponibilidad.",
+  "os-three-title": "¿El stock es ilimitado?",
+  "os-three-content": "No, el stock es limitado. Por eso asegurate el mismo, haciendo tu pedido a tiempo, de esa manera nunca te quedarás sin el mismo.",
+  "os-four-title": "¿Puedo pedir para la próxima semana?",
+  "os-four-content": "Por el momento no, ya que el sistema se actualiza semanalmente.",
+  "os-five-title" : "Si pido siempre lo mismo, ¿tengo que confirmar mi pedido cada semana?",
+  "os-five-content": "Sí, por el momento es necesario ingresar cada semana tu pedido. Estamos trabajando en una suscripción, apenas podamos lo actualizaremos!",
+  "os-six-title" : "¿Cuanto tiempo antes del envío tengo que hacer el pedido?",
+  "os-six-content": "Hasta el dia previo al envío, a las 12hs."
+}

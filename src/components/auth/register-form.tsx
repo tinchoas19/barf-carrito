@@ -18,7 +18,7 @@ const registerFormSchema = yup.object().shape({
     .string()
     .email('error-email-format')
     .required('error-email-required'),
-  contact: yup.string().required('error-contact-required') ,
+  contact: yup.string().test('len','error-contact-required', val => val?.length === 10) ,
   password: yup.string().required('error-password-required'),
   repeatPassword: yup.string()
   .oneOf([yup.ref('password'), null], 'error-repeat-password')
@@ -74,9 +74,11 @@ function RegisterForm() {
               label={t('text-contact')}
               {...register('contact')}
               type="number"
+              min={0}
               variant="outline"
               className="mb-5"
               error={t(errors.contact?.message!)}
+              example='1122223333'
             />
             <PasswordInput
               label={t('text-password')}
@@ -144,15 +146,15 @@ export default function RegisterView() {
           onClick={() => handleNavigate('terms')}
           className="mx-1 cursor-pointer text-accent underline hover:no-underline"
         >
-          {t('text-terms')}
+          {t('text-terms-and-conditions')}
         </span>
-        &
+    {/*     &
         <span
           onClick={() => handleNavigate('privacy')}
           className="cursor-pointer text-accent underline hover:no-underline ltr:ml-1 rtl:mr-1"
         >
           {t('text-policy')}
-        </span>
+        </span> */}
       </p>
       <RegisterForm />
     </div>

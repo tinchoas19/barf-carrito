@@ -84,6 +84,7 @@ export const AddressForm: React.FC<any> = ({
             error={t(errors.address?.street_number?.message!)}
             variant="outline"
             type='number'
+            min={0}
           />
 
 
@@ -145,7 +146,7 @@ export const AddressForm: React.FC<any> = ({
             loading={isLoading}
             disabled={isLoading}
           >
-            {Boolean(defaultValues) ? t('text-update') : t('text-save')}{' '}
+            {Boolean(defaultValues) ? t('text-save') : t('text-save')}{' '}
             {t('text-address')}
           </Button>
         </>
@@ -159,13 +160,18 @@ export default function CreateOrUpdateAddressForm() {
   const {
     data: { address },
   } = useModalState();
-  const { mutate: updateProfile } = useUpdateUser();
+  const { mutate: updateProfile, isLoading } = useUpdateUser();
   const { me } = useUser();
 
   function onSubmit(values: FormValues) {
     const payload = { ...me }
-    values.address && payload.address.push(values.address)
-
+    if (values.address) {
+      if (payload.address) {
+        payload.address.push(values.address)
+      } else {
+        payload.address = [values.address]
+      }
+    }
     updateProfile(payload);
   }
   return (
@@ -175,6 +181,7 @@ export default function CreateOrUpdateAddressForm() {
       </h1>
       <AddressForm
         onSubmit={onSubmit}
+        isLoading={isLoading}
         defaultValues={{
           address: {
             ...address?.address,

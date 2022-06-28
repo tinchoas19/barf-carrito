@@ -3,13 +3,15 @@ import ContactForm from '@/components/settings/contact-form';
 import { Image } from '@/components/ui/image';
 import contactIllustration from '@/assets/contact-illustration.svg';
 import { getLayout } from '@/components/layouts/layout';
-import { formatAddress } from '@/lib/format-address';
+/* import { formatAddress } from '@/lib/format-address';
 import { getIcon } from '@/lib/get-icon';
 import isEmpty from 'lodash/isEmpty';
-import * as socialIcons from '@/components/icons/social';
+import * as socialIcons from '@/components/icons/social'; */
 import Seo from '@/components/seo/seo';
 import { useSettings } from '@/framework/settings';
 export { getStaticProps } from '@/framework/general.ssr';
+import whatsAppLogo from '../assets/whatsapp-logo.png'
+import Button from '@/components/ui/button';
 
 export const ContactPage = () => {
   const { t } = useTranslation('common');
@@ -28,7 +30,7 @@ export const ContactPage = () => {
                 className="h-auto w-full"
               />
             </div>
-
+{/* 
             <div className="mb-8 flex flex-col">
               <span className="mb-3 font-semibold text-heading">
                 {t('text-address')}
@@ -38,19 +40,23 @@ export const ContactPage = () => {
                   ? formatAddress(settings?.contactDetails?.location)
                   : t('common:text-no-address')}
               </span>
-            </div>
-
+            </div> */}
             <div className="mb-8 flex flex-col">
-              <span className="mb-3 font-semibold text-heading">
-                {t('text-phone')}
+              <span className="flex mb-3 font-semibold text-heading align-center justify-center ">
+                <a href={settings.waLink ? settings.waLink : ''} target="_blank" rel="noreferrer" >
+                <Button className="font-semibold" size="medium">
+                <Image width={22} height={20}  src={whatsAppLogo} alt='whats-app-logo'/>
+                  <span className='ml-2'>{t('text-whatsapp-button')}</span>
+                </Button>
+                </a>
               </span>
-              <span className="text-sm text-body">
-                {settings?.contactDetails?.contact
-                  ? settings?.contactDetails?.contact
+{/*               <span className="text-sm text-body">
+                {settings?.contactNumber
+                  ? settings?.contactNumber
                   : t('text-no-contact')}
-              </span>
+              </span> */}
             </div>
-            {settings?.contactDetails?.website && (
+            {/* {settings?.contactDetails?.website && (
               <div className="mb-8 flex flex-col">
                 <span className="mb-3 font-semibold text-heading">
                   {t('text-website')}
@@ -69,9 +75,9 @@ export const ContactPage = () => {
                   </a>
                 </div>
               </div>
-            )}
+            )} */}
 
-            <div className="mb-8 flex flex-col">
+ {/*            <div className="mb-8 flex flex-col">
               <span className="mb-4 font-semibold text-heading">
                 {t('text-follow-us')}
               </span>
@@ -94,7 +100,7 @@ export const ContactPage = () => {
                   )
                 )}
               </div>
-            </div>
+            </div> */}
           </div>
 
           {/* Contact form */}

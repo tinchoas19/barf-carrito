@@ -1,4 +1,5 @@
 import cn from 'classnames';
+import { useTranslation } from 'next-i18next';
 import React, { InputHTMLAttributes } from 'react';
 
 export interface Props extends InputHTMLAttributes<HTMLInputElement> {
@@ -12,6 +13,7 @@ export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   variant?: 'normal' | 'solid' | 'outline' | 'line';
   dimension?: 'small' | 'medium' | 'big';
   callback?: Function;
+  example?:string;
 }
 
 const variantClasses = {
@@ -44,10 +46,12 @@ const Input = React.forwardRef<HTMLInputElement, Props>(
       type = 'text',
       inputClassName,
       callback = () => {},
+      example,
       ...rest
     },
     ref
   ) => {
+    const {t} = useTranslation('common')
     return (
       <div className={className}>
         {label && (
@@ -64,7 +68,7 @@ const Input = React.forwardRef<HTMLInputElement, Props>(
           type={type}
           ref={ref}
           className={cn(
-            'flex w-full appearance-none items-center px-4 text-sm text-heading transition duration-300 ease-in-out focus:outline-none focus:ring-0',
+            'flex w-full appearance-none mozappearance-none items-center px-4 text-sm text-heading transition duration-300 ease-in-out focus:outline-none focus:ring-0',
             shadow && 'focus:shadow',
             variantClasses[variant],
             sizeClasses[dimension],
@@ -80,6 +84,7 @@ const Input = React.forwardRef<HTMLInputElement, Props>(
           onChange={e => callback(e.target.value)}
           {...rest}
         />
+        {example && <p className="mt-2 text-xs text-gray-500">{t('text-example')+example}</p>}
         {error && <p className="mt-2 text-xs text-red-500">{error}</p>}
       </div>
     );

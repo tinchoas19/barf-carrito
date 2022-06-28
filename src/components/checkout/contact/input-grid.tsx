@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { AddressHeader } from '@/components/address/address-header';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 
 interface InputProps {
     contact: string | undefined | null;
@@ -18,13 +19,13 @@ const InputGrid = ({
     label,
     count = null,
     className,
-    gridClassName,
     type,
     isDisabled,
     data
 }: InputProps) => {
     const router = useRouter();
     const [contactNumber, setContactNumber] = useState('');
+    const {t} = useTranslation('common')
 
     useEffect(() => {
         if (contact) {
@@ -42,7 +43,7 @@ const InputGrid = ({
         }
             <div className="grid grid-cols-1 gap-4">
                 <span className="relative px-5 py-3 text-base text-center bg-gray-100 border rounded border-border-200">
-                    {contactNumber.length > 0 && contactNumber}
+                    {contactNumber.length > 10000 ? contactNumber : t('text-need-contact-number')}
                     {data && data.map(text => {
                         return (<p key={text}>{text}</p>)
                     })}

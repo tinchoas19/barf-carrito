@@ -38,7 +38,7 @@ const HeaderMinimal = ({ layout }: { layout: string }) => {
           }
         )}
       >
-        <div className="flex items-center w-full lg:w-auto">
+        <div className="flexs items-center w-full lg:w-auto">
           <Logo className="mx-auto lg:mx-0" />
 
           <ul className="items-center hidden ltr:ml-10 rtl:mr-10 ltr:mr-auto rtl:ml-auto lg:flex shrink-0 space-x-7 2xl:space-x-10 rtl:space-x-reverse">

@@ -96,8 +96,8 @@ class Client {
         input
       ),
     logout: () => HttpClient.post<boolean>(API_ENDPOINTS.USERS_LOGOUT, {}),
-    deleteAddress: ({ id }: { id: string }) =>
-      HttpClient.delete<boolean>(`${API_ENDPOINTS.USERS_ADDRESS}/${id}`),
+    deleteAddress: (input : {id:string}) =>
+      HttpClient.post<boolean>(`${API_ENDPOINTS.DELETE_ADDRESS}`, input),
     subscribe: (input: { email: string }) =>
       HttpClient.post<any>(API_ENDPOINTS.USERS_SUBSCRIBE_TO_NEWSLETTER, input),
     contactUs: (input: CreateContactUsInput) =>
