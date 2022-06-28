@@ -41,7 +41,7 @@ export default function ShippingsPage() {
                 </h2>
                 <div
                   className="leading-loose text-body-dark"
-                  dangerouslySetInnerHTML={{ __html: t(item.content) }}
+                  dangerouslySetInnerHTML={{ __html: t(item.content)}}
                 />
               </Element>
             ))}

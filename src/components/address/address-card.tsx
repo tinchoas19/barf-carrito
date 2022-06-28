@@ -14,8 +14,7 @@ const AddressCard: React.FC<AddressProps> = ({
   checked,
   address,
   onEdit,
-  onDelete,
-  parentPage
+  onDelete
 }) => {
   const { t } = useTranslation();
   return (
@@ -34,7 +33,7 @@ const AddressCard: React.FC<AddressProps> = ({
       <p className="text-sm text-sub-heading">
         {address?.city_name}
       </p>
-      <div className="absolute top-4 ltr:right-4 rtl:left-4 flex space-x-2 rtl:space-x-reverse opacity-0 group-hover:opacity-100">
+      <div className="absolute top-4 ltr:right-4 rtl:left-4 flex space-x-2 rtl:space-x-reverse  opacity-0 group-hover:opacity-100">
         {onEdit && (
           <button
             className="flex items-center justify-center w-5 h-5 rounded-full bg-accent text-light"
@@ -46,7 +45,7 @@ const AddressCard: React.FC<AddressProps> = ({
         )}
         {onDelete && (
           <button
-            className="flex items-center justify-center w-5 h-5 rounded-full bg-red-600 text-light"
+            className="flex items-center justify-center w-5 h-5 rounded-full bg-red-600 text-light hover:opacity-85"
             onClick={onDelete}
           >
             <span className="sr-only">{t('text-delete')}</span>

@@ -23,8 +23,9 @@ import {
   updateFormState,
 } from '@/components/auth/forgot-password';
 import { clearCheckoutAtom } from '@/store/checkout';
-import { useRouter } from 'next/router';
+import { Router, useRouter } from 'next/router';
 import { useCart } from '@/store/quick-cart/cart.context';
+import { ROUTES } from '@/lib/routes';
 
 
 export function useUser() {
@@ -43,13 +44,14 @@ export function useUser() {
 
 export const useDeleteAddress = () => {
   const { t } = useTranslation();
-  const { closeModal } = useModalAction();
   const queryClient = useQueryClient();
+  const router = useRouter()
   return useMutation(client.users.deleteAddress, {
     onSuccess: (data) => {
       if (data.data.success) {
-        toast.success(t('successfully-address-deleted'));
-        closeModal();
+        router.push(ROUTES.PROFILE).then(() => {
+          toast.success(t('successfully-address-deleted'));
+        })
         return;
       }
     },
@@ -70,11 +72,20 @@ export const useUpdateUser = () => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   const { closeModal } = useModalAction();
+  const router = useRouter()
   return useMutation(client.users.update, {
     onSuccess: (data) => {
       if (data?.data?.success) {
-        closeModal();
-        toast.success(t('profile-update-successful'));
+        if (data.data.inserted) {
+          router.push(ROUTES.PROFILE).then(() => {
+            toast.success(t('profile-update-successful'));
+            closeModal()
+          })
+        } else {
+          toast.success(t('profile-update-successful'));
+          closeModal()
+        }
+        
       } else {
         toast.error(t('error-something-wrong'));
       }

@@ -5,6 +5,7 @@ import { useTranslation } from 'next-i18next';
 import { GetStaticProps } from 'next';
 import { getLayout } from '@/components/layouts/layout';
 import Seo from '@/components/seo/seo';
+import { useSettings } from '@/framework/settings';
 
 function makeTitleToDOMId(title: string) {
   return title.toLowerCase().split(' ').join('_');
@@ -12,46 +13,22 @@ function makeTitleToDOMId(title: string) {
 
 export default function GuidePage() {
   const { t } = useTranslation('terms');
-  const content = [{title: 'titulo', description:'<p>description</p>'}]
+  const {settings} = useSettings()
+  console.log(settings)
 
   return (
     <>
       <Seo title="Guide" url="guide" />
-      <section className="mx-auto w-full max-w-1920 bg-light py-8 px-4 lg:py-10 lg:px-8 xl:py-14 xl:px-16 2xl:px-20">
-        <header className="mb-10 sm:mt-2 lg:mb-14 xl:mt-4">
-          <h1 className="mb-4 text-xl font-bold text-heading sm:mb-5 sm:text-3xl md:text-2xl 2xl:mb-7 2xl:text-4xl">
+      <section className="py-8 px-4 lg:py-10 lg:px-8 xl:py-14 xl:px-16 2xl:px-20">
+        <header className="mb-8 text-center">
+          <h1 className="text-xl font-bold md:text-2xl xl:text-3xl">
             {t('nav-menu-guide')}
           </h1>
-          <p className="px-0.5 text-sm text-body-dark md:text-base 2xl:text-lg">
-            
-          </p>
         </header>
-        {/* End of page header */}
-
-        <div className="flex flex-col md:flex-row aling-center">
-{/*           <nav className="mb-8 md:mb-0 md:w-72 xl:w-3/12">
-            <ol className="sticky z-10 md:top-16 lg:top-22">
-              {content?.map((item) => (
-                <li key={item.title}>
-                  <Link
-                    spy={true}
-                    offset={-120}
-                    smooth={true}
-                    duration={500}
-                    to={makeTitleToDOMId(item.title)}
-                    activeClass="text-sm lg:text-base text-heading font-semibold"
-                    className="inline-flex cursor-pointer py-3 uppercase text-sub-heading"
-                  >
-                    {t(item.title)}
-                  </Link>
-                </li>
-              ))}
-            </ol>
-          </nav> */}
-          {/* End of section scroll spy menu */}
-
-          <div className="md:max-w-[1000px] md:pb-10 ltr:md:pl-8 rtl:md:pr-8">
-            {content?.map((item) => (
+      </section>
+      <section className='flex justify-center pb-8 px-4 lg:pb-10 lg:px-8 xl:pb-14 xl:px-16 2xl:px-20'>
+        <div className="flex-row md:max-w-[1000px] align-center">
+            {settings.guideContent?.map((item) => (
               <Element
                 key={item.title}
                 name={makeTitleToDOMId(item.title)}
@@ -62,14 +39,12 @@ export default function GuidePage() {
                 </h2>
                 <div
                   className="leading-loose text-body-dark"
-                  dangerouslySetInnerHTML={{ __html: t(item.description) }}
+                  dangerouslySetInnerHTML={{ __html: t(item.content) }}
                 />
               </Element>
             ))}
           </div>
-          {/* End of content */}
-        </div>
-      </section>
+        </section>
     </>
   );
 }

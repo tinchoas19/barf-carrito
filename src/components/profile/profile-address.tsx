@@ -4,7 +4,6 @@ import { AddressHeader } from '@/components/address/address-header';
 import { useTranslation } from 'next-i18next';
 import { AddressType } from '@/framework/utils/constants';
 import { useDeleteAddress } from '@/framework/user';
-import { useState } from 'react';
 
 interface AddressesProps {
   addresses: any[] | undefined;
