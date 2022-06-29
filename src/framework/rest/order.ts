@@ -61,6 +61,7 @@ export function useValidateStock() {
   return useMutation(client.orders.validateStock, {
     onSettled: async (data) => {
       if (data.status === 200) {
+        
         // checkea que sea sabado
         const argTime = new Date().toLocaleString('en-US', {
           timeZone: 'America/Argentina/Buenos_Aires',
@@ -77,6 +78,7 @@ export function useValidateStock() {
         }
         // checkea que este iniciado el stock de la semana
         if (data.data.noInit) {
+          
           toast.error(t('error-something-wrong'));
           return;
         }
@@ -137,6 +139,7 @@ export function useValidateStock() {
       } else toast.error(t('error-something-wrong'));
     },
     onError: (error) => {
+      console.log(error)
       toast.error(t('error-something-wrong'));
     }
   });

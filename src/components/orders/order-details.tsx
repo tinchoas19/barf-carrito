@@ -4,16 +4,16 @@ import { formatAddress } from '@/lib/format-address';
 import { useTranslation } from 'next-i18next';
 import { OrderItems } from './order-items';
 import isEmpty from 'lodash/isEmpty';
-import { useModalAction } from '@/components/ui/modal/modal.context';
-import { SadFaceIcon } from '@/components/icons/sad-face';
-import Badge from '@/components/ui/badge';
+//import { useModalAction } from '@/components/ui/modal/modal.context';
+//import { SadFaceIcon } from '@/components/icons/sad-face';
+//import Badge from '@/components/ui/badge';
 import { Order } from '@/framework/types';
-import usePrice from '@/lib/use-price';
+//import usePrice from '@/lib/use-price';
 
 interface Props {
   order: Order;
 }
-const RenderStatusBadge: React.FC<{ status: string }> = ({ status }) => {
+/* const RenderStatusBadge: React.FC<{ status: string }> = ({ status }) => {
   const { t } = useTranslation('common');
 
   switch (status.toLowerCase()) {
@@ -52,8 +52,8 @@ const RenderStatusBadge: React.FC<{ status: string }> = ({ status }) => {
         />
       );
   }
-};
-function RefundView({ status, orderId }: { status: string; orderId: string }) {
+}; */
+/* function RefundView({ status, orderId }: { status: string; orderId: string }) {
   const { t } = useTranslation('common');
   const { openModal } = useModalAction();
 
@@ -73,7 +73,7 @@ function RefundView({ status, orderId }: { status: string; orderId: string }) {
       )}
     </>
   );
-}
+} */
 
 const OrderDetails = ({ order }: Props) => {
   const { t } = useTranslation('common');
@@ -140,7 +140,7 @@ const OrderDetails = ({ order }: Props) => {
                 </span>
                 <span className="text-sm text-heading">{f(parseInt(shipping_address.delivery_fee))}</span>
               </div>}
-              {payment_method.id === '1' &&  <div className="mb-3 flex justify-between">
+              {payment_method.id === '2' &&  <div className="mb-3 flex justify-between">
                 <span className="text-sm text-body">{t('text-private-discount')}</span>
                 <span className="text-sm text-heading">{f(total / 10)}</span>
               </div>}
@@ -151,7 +151,7 @@ const OrderDetails = ({ order }: Props) => {
                 </span>
                 <span className="text-sm font-bold text-heading">{f(
                   total
-                  - (payment_method.id === '1' ?( total / 10) : 0)
+                  - (payment_method.id === '2' ?( total / 10) : 0)
                   + (delivery_type.id === '2' ? parseInt((shipping_address.delivery_fee ? shipping_address.delivery_fee : 0)) : 0)
                 )}</span>
               </div>
