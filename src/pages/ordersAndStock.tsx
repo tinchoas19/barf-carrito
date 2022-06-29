@@ -10,7 +10,7 @@ export default function OrdersAndStock() {
   const { t } = useTranslation();
   return (
     <>
-      <Seo title="Orders & Stock" url="ordersAndStock" />
+      <Seo title="Orders & Stock" url="ordersandstock" />
       <section className="py-8 px-4 lg:py-10 lg:px-8 xl:py-14 xl:px-16 2xl:px-20">
         <header className="mb-8 text-center">
           <h1 className="text-xl font-bold md:text-2xl xl:text-3xl">
