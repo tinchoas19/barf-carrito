@@ -65,13 +65,15 @@ const UnverifiedItemList = ({ hideTitle = false }: { hideTitle?: boolean }) => {
     <div className="w-full">
        <PaymentGrid getValue={getPaymentValue} />
        {selectedPayment === 'STRIPE' && 
-        <InputGrid
-        className="p-5 bg-light shadow-700 md:p-8 mb-5"
-        label={'Datos Bancarios'}
-        type='data'
-        count={null}
-        data={bankData}
-        />
+       bankData.map(bData => <InputGrid
+       key={bData[0]}
+       className="p-5 bg-light shadow-700 md:p-8 mb-5"
+       label={bData[0]}
+       type='data'
+       count={null}
+       data={bData.slice(1)}
+       />)
+        
       }
       {!hideTitle && (
         <div className="flex flex-col items-center mb-4 space-x-4 rtl:space-x-reverse">
