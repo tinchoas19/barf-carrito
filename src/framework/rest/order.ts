@@ -60,6 +60,7 @@ export function useValidateStock() {
   const [_3, setDeliveryDays] = useAtom(stockDeliveryDaysAtom);
   return useMutation(client.orders.validateStock, {
     onSettled: async (data) => {
+      try {
       if (data.status === 200) {
         
         // checkea que sea sabado
@@ -137,6 +138,9 @@ export function useValidateStock() {
           }
         }
       } else toast.error(t('error-something-wrong'));
+    } catch {
+      toast.error(t('error-something-wrong'));
+    }
     },
     onError: (error) => {
       console.log(error)
@@ -153,6 +157,7 @@ export function useCreateOrder() {
 
   const { mutate: createOrder, isLoading } = useMutation(client.orders.create, {
     onSettled: async (data) => {
+      try {
       if (data && data.status === 200) {
         if (data.data.success) {
           toast.success(t('send-order-successful'));
@@ -169,6 +174,9 @@ export function useCreateOrder() {
           });
         }
       } else toast.error(t('error-something-wrong'));
+    } catch {
+      toast.error(t('error-something-wrong'));
+    }
     },
     onError: (error) => {
       toast.error(t('error-something-wrong'));

@@ -45,6 +45,7 @@ export const useDeleteAddress = () => {
   const {refetch} = useUser()
   return useMutation(client.users.deleteAddress, {
     onSettled: async (data) => {
+      try {
       queryClient.invalidateQueries('/me');
       if (data.status === 200) {
         if (data.data.success) {
@@ -53,6 +54,9 @@ export const useDeleteAddress = () => {
           return;
         }
       } else toast.error(t('error-something-wrong'));
+    } catch {
+      toast.error(t('error-something-wrong'));
+    }
     },
     onError: (error) => {
       const {
@@ -72,6 +76,7 @@ export const useUpdateUser = () => {
   const {refetch} = useUser()
   return useMutation(client.users.update, {
     onSettled: async (data) => {
+      try {
       queryClient.invalidateQueries('/me');
       if (data.status === 200) {
         if (data?.data?.success) {
@@ -87,6 +92,9 @@ export const useUpdateUser = () => {
           toast.error(t('error-something-wrong'));
         }
       } else toast.error(t('error-something-wrong'));
+    } catch {
+      toast.error(t('error-something-wrong'));
+    }
     },
     onError: (error) => {
       toast.error(t('error-something-wrong'));
@@ -121,6 +129,7 @@ export function useLogin() {
 
   const { mutate, isLoading } = useMutation(client.users.login, {
     onSettled: async (res) => {
+      try {
       if (res.status === 200) {
         if (res?.data.token === '' || res?.data.token === null) {
           if (res?.data.errors) {
@@ -138,6 +147,9 @@ export function useLogin() {
           closeModal();
         });
       } else toast.error(t('error-something-wrong'));
+    } catch {
+      toast.error(t('error-something-wrong'));
+    }
     },
     onError: (error: Error) => {},
   });
@@ -156,6 +168,7 @@ export function useRegister() {
   const router = useRouter();
   const { mutate, isLoading } = useMutation(client.users.register, {
     onSettled: async (data) => {
+      try {
       if (data.status === 200) {
         if (data?.data?.token && data?.status_message === 'autenticado') {
           setToken(data?.data?.token);
@@ -170,6 +183,9 @@ export function useRegister() {
           data?.data?.errors.forEach((err: string) => toast.error(t(err)));
         }
       } else toast.error(t('error-something-wrong'));
+    } catch {
+      toast.error(t('error-something-wrong'));
+    }
     },
     onError: (error) => {
       const {
@@ -225,6 +241,7 @@ export function useChangePassword() {
   const router = useRouter();
   const { mutate, isLoading } = useMutation(client.users.changePassword, {
     onSettled: async (data) => {
+      try {
       if (data.status === 200) {
         if (!data.data?.success) {
           setFormError({
@@ -237,6 +254,9 @@ export function useChangePassword() {
           toast.success(t('password-successful'));
         });
       } else toast.error(t('error-something-wrong'));
+    } catch {
+      toast.error(t('error-something-wrong'));
+    }
     },
     onError: (error) => {
       const {
