@@ -58,7 +58,7 @@ export default function PromotionSlider() {
           id="offer"
           loop={true}
           breakpoints={offerSliderBreakpoints}
-          modules={[Autoplay]}
+          modules={[Autoplay,Navigation]}
           navigation={{
             nextEl: '.next',
             prevEl: '.prev',

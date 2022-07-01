@@ -41,7 +41,7 @@ export default function ShippingsSlider() {
           autoplay={{delay:6000}}
           loop={true}
           breakpoints={offerSliderBreakpoints}
-          modules={[Autoplay]}
+          modules={[Autoplay,Navigation]}
           navigation={{
             nextEl: '.next',
             prevEl: '.prev',
