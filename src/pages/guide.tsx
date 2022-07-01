@@ -13,6 +13,7 @@ function makeTitleToDOMId(title: string) {
 
 export default function GuidePage() {
   const { t } = useTranslation('terms');
+  const { t : tTitle } = useTranslation('common');
   const {settings} = useSettings()
 
   return (
@@ -21,7 +22,7 @@ export default function GuidePage() {
       <section className="py-8 px-4 lg:py-10 lg:px-8 xl:py-14 xl:px-16 2xl:px-20">
         <header className="mb-8 text-center">
           <h1 className="text-xl font-bold md:text-2xl xl:text-3xl">
-            {t('nav-menu-guide')}
+            {tTitle('nav-menu-guide')}
           </h1>
         </header>
       </section>

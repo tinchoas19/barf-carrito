@@ -36,9 +36,9 @@ export default function ShippingsPage() {
                 name={makeTitleToDOMId(item.title)}
                 className="mb-10"
               >
-                <h2 className="mb-4 text-lg font-bold text-heading md:text-xl lg:text-2xl">
+                {item.title !== '' && <h2 className="mb-4 text-lg font-bold text-heading md:text-xl lg:text-2xl">
                   {t(item.title)}
-                </h2>
+                </h2>}
                 <div
                   className="leading-loose text-body-dark"
                   dangerouslySetInnerHTML={{ __html: t(item.content)}}

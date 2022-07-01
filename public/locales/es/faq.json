@@ -1,10 +1,16 @@
 {
-  "faq-one-title": "¿Cómo ponerse en contacto con el servicio de atención al cliente?",
-  "faq-one-content": "Nuestro equipo de experiencia del cliente está disponible los 7 días de la semana y ofrecemos 2 formas de ponerse en contacto: correo electrónico y chat. Intentamos responder rápidamente, por lo que no necesita esperar demasiado para recibir una respuesta.",
-  "faq-two-title": "Falló la instalación de la aplicación, ¿cómo actualizar la información del sistema?",
-  "faq-two-content": "Lea la documentación detenidamente. También tenemos algunos videos tutoriales en línea sobre este tema. Si el problema persiste, abra un ticket en el foro de soporte",
-  "faq-three-title": "La respuesta del sitio web tarda, ¿cómo mejorar?",
-  "faq-three-content": "Al principio, compruebe su conexión a Internet. También tenemos algunos videos tutoriales en línea sobre este tema. Si el problema persiste, abra un ticket en el foro de soporte.",
-  "faq-four-title": "¿Cómo creo una cuenta?",
-  "faq-four-content": "Si desea abrir una cuenta para uso personal, puede hacerlo por teléfono o en línea. Abrir una cuenta en línea solo debería tomar unos minutos."
+  "faq-one-title": "¿Cómo empiezo con éste tipo de alimentación?",
+  "faq-one-content": "A través de lo que llamamos “transición”. Es básicamente un proceso para incorporar una dieta natural sin generar problemas digestivos. Tenemos mas info en “Guías + Info Barfera”",
+  "faq-two-title": "¿Puedo dar mitad BARF mitad balanceado?",
+  "faq-two-content": "Si. Ésto se llama “Dieta Mixta” y para ésto solo recomendamos usar las dietas de Transición, y tiene un par de cosas a tener en cuenta: No mezclar balanceado y dieta natural en el mismo plato (dar siempre en tomas por separado, dejando unas 4hs entre cada alimento mínimo), no dar dietas que contengan huesos, y como siempre, incorporar la nueva dieta siguiendo el proceso de transición. ",
+  "faq-three-title": "¿Hacen dietas para animales alérgicos?",
+  "faq-three-content": "Si, tenemos dietas monoproteicas, y también hacemos dietas personalizadas.",
+  "faq-four-title": "¿Hacen dietas personalizadas?",
+  "faq-four-content": "Si, para armarte el presupuesto envianos tu formulación!",
+  "faq-five-title": "¿Las dietas son completas? ¿Les tengo que agregar algo?",
+  "faq-five-content": "Siempre recomendamos suplementar. Hay muchísimos suplementos, algunos  básicos universales (huevo, Omega 3, probióticos, caldo de huesos) y otros con un fin mucho mas específico.",
+  "faq-six-title": "¿Cómo doy los suplementos que vienen en pote?",
+  "faq-six-content": "Podes sacar el pote del freezer y dejarlo a temperatura ambiente. En semi-congelado, servis la cantidad que precisás, y volves a guardarlo en el freezer.\nSi lo descongelas entero lo podes porcionar en cubetera para volver a congelarlo, o conservarlo en heladera hasta 1 semana en perfecto estado.",
+  "faq-seven-title": "¿Qué cantidad debería darle a mi perro o gato?",
+  "faq-seven-content": "Tenemos una tabla en “Guías + Info Barfera” para que puedas calcularlo!"
 }

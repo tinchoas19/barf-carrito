@@ -18,6 +18,7 @@ import { ArrowNextIcon } from '../icons/arrow-next';
 import { useModalAction } from '../ui/modal/modal.context';
 import { authorizationAtom, stockAuthBooleanAtom } from '@/store/authorization-atom';
 import { useEffect } from 'react';
+import { ROUTES } from '@/lib/routes';
 
 
 const CartSidebarView = () => {
@@ -49,6 +50,9 @@ const CartSidebarView = () => {
   useEffect(() => {
     if (window.location.pathname === '/checkout') {
       setStockAuth(false)
+      router.push(ROUTES.HOME).then(() => {
+      })
+      
     }
   },[])
 

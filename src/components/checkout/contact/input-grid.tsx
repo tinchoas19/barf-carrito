@@ -43,7 +43,7 @@ const InputGrid = ({
         }
             <div className="grid grid-cols-1 gap-4">
                 <span className="relative px-5 py-3 text-base text-center bg-gray-100 border rounded border-border-200">
-                    {type === 'contact' && ((contactNumber.length > 10000) ? contactNumber : t('text-need-contact-number'))}
+                    {type === 'contact' && ((contactNumber) ? contactNumber : t('text-need-contact-number'))}
                     {data && data.map(text => {
                         return (<p key={text}>{text}</p>)
                     })}
