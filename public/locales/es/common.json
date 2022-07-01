@@ -56,6 +56,7 @@
   "text-address": "Dirección",
   "text-address-wtd-extra":"Especificar por favor",
   "text-address-wtd-extra-example":"Ejemplo: Si no estoy, dejar en el 4°B",
+  "error-no-days": "No hay dias disponibles para enviar/retirar esta semana. ",
   "text-delivery-method":"Metodo De Envío",
   "text-send-button":"Enviar pedido",
   "text-address-number": "Altura",

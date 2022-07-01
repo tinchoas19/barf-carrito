@@ -61,6 +61,7 @@ export function useValidateStock() {
   return useMutation(client.orders.validateStock, {
     onSettled: async (data) => {
       try {
+        console.log(data)
       if (data.status === 200) {
         
         // checkea que sea sabado
@@ -94,13 +95,13 @@ export function useValidateStock() {
           products.forEach((prod: any) => {
             if (prod.nohabrastock) {
               noStockErrors.push(`${prod.name}: No hay stock esta semana.`);
-            } else {
-            }
+            } 
             errors = [...errors, ...prod.errors];
           });
           // checkea que no haya errores
+          
           if (
-            errors.length === 0 &&
+            //errors.length === 0 &&
             noStockErrors.length === 0
             //!data.tieneErrores
           ) {
