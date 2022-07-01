@@ -65,7 +65,7 @@ export default function PromotionSlider() {
           }}
         >
           {sliders.map((slider,i) =>
-          <SwiperSlide key={i}>
+          <SwiperSlide key={i} style={{cursor:'pointer'}}>
             <Link href={slider.route} passHref={true}>
             <Image
               className="w-full h-auto"

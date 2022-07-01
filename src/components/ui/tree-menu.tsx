@@ -71,11 +71,11 @@ const TreeMenuItem: React.FC<TreeMenuItemProps> = ({
             className ? className : 'text-sm'
           )}
         >
-          {icon && (
+          {(
             <span className="flex w-5 h-5 ltr:mr-4 rtl:ml-4 items-center justify-center">
               {getIcon({
-                iconList: groupIcons,
-                iconName: 'FruitsVegetable',
+                iconList: categoryIcons,
+                iconName: 'MeatFish',
                 className: 'h-full w-full',
               })}
             </span>
