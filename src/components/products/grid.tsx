@@ -96,7 +96,7 @@ export default function ProductsGrid({
   variables,
   column = 'auto',
 }: ProductsGridProps) {
-  const { products, loadMore, isLoadingMore, isLoading, hasMore, error } =
+  const { data:products, loadMore, isLoadingMore, isLoading, hasMore, error } =
     useProducts(variables);
 
   return (

@@ -99,7 +99,6 @@ const Details: React.FC<Props> = ({
             {backBtn && <BackButton />}
 
           </div>
-
           <div className="h-full product-gallery">
             <ThumbsCarousel
               gallery={previewImages}
