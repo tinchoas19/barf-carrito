@@ -9,6 +9,7 @@ import {CreateOrderInput} from './../../types/index'
 import { toast } from 'react-toastify';
 import { useTranslation } from 'next-i18next';
 import { useCreateOrder } from '@/framework/order';
+import { useState } from 'react';
 
 export const SendButton: React.FC<{disabled?:boolean, label:string, className?: string, getTotal:Function}> = (
   {disabled, label, getTotal}, rest) => {
@@ -16,6 +17,7 @@ export const SendButton: React.FC<{disabled?:boolean, label:string, className?: 
     const [checkout] = useAtom(checkoutAtom);
     const { items,  isEmpty } = useCart();
     const {createOrder, isLoading} = useCreateOrder()
+    const [endTransaction, setEndTransaction] = useState(false)
 
     function formatOrder(checkout:any) {
       const {
@@ -34,7 +36,7 @@ export const SendButton: React.FC<{disabled?:boolean, label:string, className?: 
         delivery_day: {delivery_time: delivery_time || null, pickup_time: pickup_time || null}  || null,
         payment_id: payment_method?.id  || null,
         note: note || null,
-        delivery_fee: shipping_address.delivery_fee,
+        delivery_fee: shipping_address ? parseInt(shipping_address.delivery_fee) : 0,
         products : items?.map((item:any) => formatOrderedProduct(item))  || null,
         total_price : getTotal()
       } 
@@ -75,7 +77,7 @@ export const SendButton: React.FC<{disabled?:boolean, label:string, className?: 
     }
 
     function handleVerifyCheckout() {
-      
+      setEndTransaction(true)
      const order:CreateOrderInput = formatOrder(checkout)
      const result:boolean = validateOrder(order)
      if (result) {
@@ -89,9 +91,9 @@ export const SendButton: React.FC<{disabled?:boolean, label:string, className?: 
     <>
       <Button
         className={classNames('mt-5 w-full')}
-        disabled={disabled}
+        disabled={disabled || endTransaction}
         onClick={handleVerifyCheckout}
-        isLoading={isLoading}
+        isLoading={isLoading || endTransaction}
         {...rest}
       >
         {label}

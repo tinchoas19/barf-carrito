@@ -138,7 +138,7 @@ const OrderDetails = ({ order }: Props) => {
                 <span className="text-sm text-body">
                   {t('text-delivery-fee')}
                 </span>
-                <span className="text-sm text-heading">{f(parseInt(shipping_address.delivery_fee))}</span>
+                <span className="text-sm text-heading">{parseInt(shipping_address.delivery_fee) > 0 ? f(parseInt(shipping_address.delivery_fee)) : '???'}</span>
               </div>}
               {payment_method.id === '2' &&  <div className="mb-3 flex justify-between">
                 <span className="text-sm text-body">{t('text-private-discount')}</span>

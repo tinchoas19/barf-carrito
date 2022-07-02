@@ -62,7 +62,6 @@ export function useValidateStock() {
     onSettled: async (data) => {
       try {
       if (data.status === 200) {
-        
         // checkea que sea sabado
         const argTime = new Date().toLocaleString('en-US', {
           timeZone: 'America/Argentina/Buenos_Aires',
@@ -70,13 +69,13 @@ export function useValidateStock() {
 
         const today = new Date(argTime);
 
-         if (today.getDay() === 6) {
+       /*   if (today.getDay() === 6) {
           toast.warning(t('text-no-order-today'), {
             closeButton: true,
             progress: 1,
           });
           return;
-        } 
+        }  */
         // checkea que este iniciado el stock de la semana
         if (data.data.noInit) {
           
@@ -162,7 +161,7 @@ export function useCreateOrder() {
   const [_, setDrawerView] = useAtom(drawerAtom);
   const { resetCart } = useCart();
 
-  const { mutate: createOrder, isLoading } = useMutation(client.orders.create, {
+  const { mutate: createOrder, isLoading , data} = useMutation(client.orders.create, {
     onSettled: async (data) => {
       try {
       if (data && data.status === 200) {
