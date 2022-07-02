@@ -275,6 +275,8 @@ export function useForgotPassword() {
   let [message, setMessage] = useState<string | null>(null);
   let [formError, setFormError] = useState<any>(null);
   const { t } = useTranslation();
+  const router = useRouter()
+  const { openModal } = useModalAction();
 
   const { mutate, isLoading } = useMutation(client.users.forgotPassword, {
     onSuccess: (data) => {
@@ -285,7 +287,8 @@ export function useForgotPassword() {
         toast.error(t('error-forget-password'));
         return;
       }
-      toast.success(t('text-forget-password-success'));
+        toast.success(t('text-forget-password-success'));
+        openModal('LOGIN_VIEW');
       /* setMessage(data?.message!);
       actions.updateFormState({
         email: variables.email,
