@@ -70,13 +70,13 @@ export function useValidateStock() {
 
         const today = new Date(argTime);
 
-       /*  if (today.getDay() === 6) {
+         if (today.getDay() === 6) {
           toast.warning(t('text-no-order-today'), {
             closeButton: true,
             progress: 1,
           });
           return;
-        } */
+        } 
         // checkea que este iniciado el stock de la semana
         if (data.data.noInit) {
           
