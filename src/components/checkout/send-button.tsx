@@ -34,6 +34,7 @@ export const SendButton: React.FC<{disabled?:boolean, label:string, className?: 
         delivery_day: {delivery_time: delivery_time || null, pickup_time: pickup_time || null}  || null,
         payment_id: payment_method?.id  || null,
         note: note || null,
+        delivery_fee: shipping_address.delivery_fee,
         products : items?.map((item:any) => formatOrderedProduct(item))  || null,
         total_price : getTotal()
       } 
@@ -47,6 +48,7 @@ export const SendButton: React.FC<{disabled?:boolean, label:string, className?: 
         shipping_address_id,
         delivery_day,
         payment_id,
+        delivery_fee,
         note,
         products,
         total_price
