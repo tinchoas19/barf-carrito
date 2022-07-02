@@ -11,6 +11,7 @@ interface ScheduleProps {
   className?: string;
   count?: number;
   isPickup?: boolean;
+  hasInnerHTML?: boolean;
 }
 
 export const ScheduleGrid: React.FC<ScheduleProps> = ({
@@ -18,7 +19,8 @@ export const ScheduleGrid: React.FC<ScheduleProps> = ({
   className,
   count,
   isPickup,
-  schedules
+  schedules,
+  hasInnerHTML
 }) => {
   const { t } = useTranslation('common');
   //const schedules = isPickup ? pickup : deliveryTime
@@ -50,7 +52,7 @@ export const ScheduleGrid: React.FC<ScheduleProps> = ({
             {schedules?.map((schedule: any, idx: number) => (
               <RadioGroup.Option value={schedule} key={idx}>
                 {({ checked }) => (
-                  <ScheduleCard checked={checked} schedule={schedule} />
+                  <ScheduleCard checked={checked} schedule={schedule} hasInnerHTML={true}/>
                 )}
               </RadioGroup.Option>
             ))}

@@ -59,7 +59,7 @@ const OrderCard: React.FC<OrderCardProps> = ({ onClick, order, isActive }) => {
           <span className="ltr:mr-auto rtl:ml-auto">:</span>
           <span className="ltr:ml-1 rtl:mr-1">{f(
                   total
-                  - (payment_method.id === '1' ?( total / 10) : 0)
+                  - (payment_method.id === '2' ?( total / 10) : 0)
                   + (delivery_type.id === '2' ? parseInt((shipping_address.delivery_fee ? shipping_address.delivery_fee : 0)) : 0)
                 )}</span>
         </p>

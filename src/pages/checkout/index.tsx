@@ -139,6 +139,7 @@ export default function CheckoutPage() {
               label={t('text-delivery-schedule')}
               count={4}
               schedules={deliveryDays}
+              hasInnerHTML={true}
               /> :
               <InputGrid
             className="p-5 bg-light shadow-700 md:p-8"

@@ -185,8 +185,10 @@ const Details: React.FC<Props> = ({
               </div>
             </div>
           </Waypoint>
-
         </div>
+          <div className='w-full h-22 bg-white z-100 fixed transparent'  style={{background:'linear-gradient(to top, rgba(255,0,0,0), white)', zIndex:100, opacity:0.8}}/>
+          <div className='w-full h-14 bg-white z-100 fixed transparent'  style={{background:'linear-gradient(to top, rgba(255,0,0,0), white)', zIndex:100, opacity:0.8}}/>
+          <div className='w-full h-8 bg-white z-100 fixed transparent'  style={{background:'linear-gradient(to top, rgba(255,0,0,0), white)', zIndex:100, opacity:0.8}}/>
       </div>
 
 

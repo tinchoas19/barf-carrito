@@ -1,7 +1,7 @@
 import { Order, OrderQueryOptions } from '@/types';
 import { useMutation, useQuery } from 'react-query';
 
-import { toast } from 'react-toastify';
+import { toast} from 'react-toastify';
 
 import { API_ENDPOINTS } from './client/api-endpoints';
 import client from './client';
@@ -71,13 +71,13 @@ export function useValidateStock() {
 
         const today = new Date(argTime);
 
-        if (today.getDay() === 6) {
+       /*  if (today.getDay() === 6) {
           toast.warning(t('text-no-order-today'), {
             closeButton: true,
             progress: 1,
           });
           return;
-        }
+        } */
         // checkea que este iniciado el stock de la semana
         if (data.data.noInit) {
           
@@ -90,20 +90,28 @@ export function useValidateStock() {
         const deliveryDays = data.data.deliveryDays;
         // checkea stock y errores en products
         if (products.length !== 0) {
+          let moreThanStockLimit = false
           let errors: string[] = [];
           const noStockErrors: string[] = [];
           products.forEach((prod: any) => {
             if (prod.nohabrastock) {
-              noStockErrors.push(`${prod.name}: No hay stock esta semana.`);
+              // si no tiene errores es que no hay nada de stock en toda la semana
+              if (prod.errors.length === 0) {
+                console.log(prod)
+                noStockErrors.push(`${prod.name}: No hay stock esta semana.`);
+              // sino significa que tiene stcok pero no el suficiente para la cantidad seleccionada
+              } else {
+                moreThanStockLimit = true
+              } 
             } 
             errors = [...errors, ...prod.errors];
           });
+
           // checkea que no haya errores
-          
           if (
             //errors.length === 0 &&
+            !moreThanStockLimit &&
             noStockErrors.length === 0
-            //!data.tieneErrores
           ) {
             // checkea que haya minimo 1 dia de pickup
             if (pickupDays.length > 0) {
@@ -120,14 +128,6 @@ export function useValidateStock() {
               });
             }
           } else {
-            if (errors.length > 0) {
-              errors.forEach((err) => {
-                toast.error(err, {
-                  closeButton: true,
-                  progress: 1,
-                });
-              });
-            }
             if (noStockErrors.length > 0) {
               noStockErrors.forEach((err) => {
                 toast.warning(err, {
@@ -136,6 +136,15 @@ export function useValidateStock() {
                 });
               });
             }
+            else if (errors.length > 0) {
+              errors.forEach((err) => {
+                toast.error(err, {
+                  closeButton: true,
+                  progress: 1,
+                });
+              });
+            }
+            
           }
         }
       } else toast.error(t('error-something-wrong'));
