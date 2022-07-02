@@ -9,10 +9,10 @@ import { AttributesProvider } from './attributes.context';
 import { Product } from '@/types';
 import {UserIcon as PersonalizedIcon }from '@/components/icons/user-icon';
 
-const RelatedProducts = dynamic(() => import('./related-products'));
+/* const RelatedProducts = dynamic(() => import('./related-products'));
 interface ProductPopupProps {
   product: Product;
-}
+} */
 const Popup: React.FC<ProductPopupProps> = ({ product }) => {
   const { t } = useTranslation('common');
   const [showStickyShortDetails] = useAtom(stickyShortDetailsAtom);

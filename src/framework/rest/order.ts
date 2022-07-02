@@ -61,7 +61,6 @@ export function useValidateStock() {
   return useMutation(client.orders.validateStock, {
     onSettled: async (data) => {
       try {
-        console.log(data)
       if (data.status === 200) {
         
         // checkea que sea sabado
@@ -97,7 +96,6 @@ export function useValidateStock() {
             if (prod.nohabrastock) {
               // si no tiene errores es que no hay nada de stock en toda la semana
               if (prod.errors.length === 0) {
-                console.log(prod)
                 noStockErrors.push(`${prod.name}: No hay stock esta semana.`);
               // sino significa que tiene stcok pero no el suficiente para la cantidad seleccionada
               } else {
@@ -153,7 +151,6 @@ export function useValidateStock() {
     }
     },
     onError: (error) => {
-      console.log(error)
       toast.error(t('error-something-wrong'));
     }
   });
