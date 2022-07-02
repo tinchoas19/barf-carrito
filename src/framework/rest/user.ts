@@ -72,14 +72,14 @@ export const useUpdateUser = () => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   const { closeModal } = useModalAction();
-  const router = useRouter();
   const {refetch} = useUser()
   return useMutation(client.users.update, {
     onSettled: async (data) => {
       try {
+        console.log(data)
       queryClient.invalidateQueries('/me');
       if (data.status === 200) {
-        if (data?.data?.success) {
+        if (data?.data?.success && data.data.errors?.length === 0) {
           if (data.data.inserted) {
             refetch()
             toast.success(t('profile-update-successful'));
@@ -89,7 +89,9 @@ export const useUpdateUser = () => {
             closeModal();
           }
         } else {
-          toast.error(t('error-something-wrong'));
+          data?.data.errors.map((err) => {
+            toast.error(err);
+          })
         }
       } else toast.error(t('error-something-wrong'));
     } catch {
@@ -205,14 +207,17 @@ export function useLogout() {
   const [_r, resetCheckout] = useAtom(clearCheckoutAtom);
   const { openModal } = useModalAction();
   const { items, clearItemFromCart } = useCart();
+  const router = useRouter()
   const mutate = function () {
-    items.forEach((item) => {
-      if (item.isPersonalized) clearItemFromCart(item.id);
-    });
-    setToken('');
-    setAuthorized(false);
-    resetCheckout();
-    openModal('LOGIN_VIEW');
+    router.push(ROUTES.HOME).then(() => {
+      items.forEach((item) => {
+        if (item.isPersonalized) clearItemFromCart(item.id);
+      });
+      setToken('');
+      setAuthorized(false);
+      resetCheckout();
+      openModal('LOGIN_VIEW');
+    })
   };
   return { mutate };
   /*   const queryClient = useQueryClient();

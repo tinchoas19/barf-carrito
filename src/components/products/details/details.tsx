@@ -170,7 +170,7 @@ const Details: React.FC<Props> = ({
               ) : (
                 <span className="flex items-center my-5 md:my-10">
                   <ins className="text-2xl font-semibold no-underline md:text-3xl text-accent">
-                    {formatPrice({amount:price, locale:'ES', currencyCode:'ARS'})}
+                    {formatPrice({amount:price, locale:'ES', currencyCode:'ARS'})}<span className='text-lg text-gray-500'> x Kg</span>
                   </ins>
 
                 </span>

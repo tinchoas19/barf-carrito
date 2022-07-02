@@ -36,6 +36,8 @@ const OrderItemList = (_: any, record: any) => {
           <span className="text-sm text-heading font-semibold truncate inline-block overflow-hidden">
             {record.quantity}
           </span>
+          <div className="text-sm text-body inline-block overflow-hidden">&nbsp;Kg{record.quantity > 1 && 's'}
+          </div>
         </div>
         <span className="text-sm text-accent font-semibold mb-1 truncate inline-block overflow-hidden">
           {price}

@@ -59,6 +59,7 @@
   "error-no-days": "No hay dias disponibles para envio/retiro esta semana.",
   "text-delivery-method":"Metodo De Envío",
   "text-send-button":"Enviar pedido",
+  "error-change-password":"La contraseña anterior es invalida.",
   "text-address-number": "Altura",
   "text-address-zone": "Zona",
   "text-address-location": "Localidad",

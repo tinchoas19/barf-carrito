@@ -41,7 +41,7 @@ const CartItem = ({ item, notAvailable }: Props) => {
               notAvailable ? 'text-red-500' : 'text-gray-500'
             )}
           >
-            X {item.quantity}
+            Xs {item.quantity}
           </span>
           {/* <span>{item.name}</span> | <span>{item.unit}</span> */}
         </p>
