@@ -47,9 +47,6 @@ const Details: React.FC<Props> = ({
   const [_, setShowStickyShortDetails] = useAtom(stickyShortDetailsAtom);
   const{width: innerWidth} =useWindowDimensions()
 
-  useEffect(() => {
-    console.log(innerWidth)
-  },[innerWidth])
 
   const router = useRouter();
   const { closeModal } = useModalAction();

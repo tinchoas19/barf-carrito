@@ -76,7 +76,6 @@ export const useUpdateUser = () => {
   return useMutation(client.users.update, {
     onSettled: async (data) => {
       try {
-        console.log(data)
       queryClient.invalidateQueries('/me');
       if (data.status === 200) {
         if (data?.data?.success && data.data.errors?.length === 0) {
