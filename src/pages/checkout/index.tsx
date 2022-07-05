@@ -48,7 +48,7 @@ export default function CheckoutPage() {
   const router = useRouter()
   
   useEffect(() => {
-    if (!stockAuth) router.push('/')
+    if (!stockAuth) router.push('/#')
     setCustomer(me)
   },[])
 

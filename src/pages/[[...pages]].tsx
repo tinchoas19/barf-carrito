@@ -4,7 +4,7 @@ import Seo from '@/components/seo/seo';
 import { useWindowSize } from '@/lib/use-window-size';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { scroller } from 'react-scroll';
 import { getStaticPaths, getStaticProps } from '@/framework/home-pages.ssr';
 import { InferGetStaticPropsType } from 'next';
@@ -27,9 +27,16 @@ const Home: NextPageWithLayout<
   const { width } = useWindowSize();
   // const { layout, page } = useLayout();
 
+  const [redirect, setRedirect] = useState(true)
   const router = useRouter()
   useEffect(() => {
-      router.push('/#')
+    if(router.asPath === '/' && redirect) {
+        setRedirect(false)
+        router.push('/#').then(() => {
+          
+          router.push('/#')
+        })
+      } 
   },[])
 
   useEffect(() => {

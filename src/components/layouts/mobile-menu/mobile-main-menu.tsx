@@ -5,6 +5,7 @@ import DrawerWrapper from '@/components/ui/drawer/drawer-wrapper';
 import { useAtom } from 'jotai';
 import { drawerAtom } from '@/store/drawer-atom';
 import { useLogout } from '@/framework/user';
+import { useEffect } from 'react';
 
 const headerLinks = [
   { href: ROUTES.HOME, label: 'nav-menu-shops' },
@@ -18,7 +19,7 @@ export default function MobileMainMenu() {
   const { mutate: logout } = useLogout();
   const { t } = useTranslation('common');
   const router = useRouter();
-  const [_, closeSidebar] = useAtom(drawerAtom);
+  const [sideBar, closeSidebar] = useAtom(drawerAtom);
 
   function handleClick(path: string) {
     if (path === '/logout') {
@@ -29,6 +30,22 @@ export default function MobileMainMenu() {
     }
     closeSidebar({ display: false, view: '' });
   }
+
+  useEffect(()=> {
+    
+    if (sideBar.display) {
+      router.beforePopState((e) => {
+          window.history.go(1)
+          closeSidebar({ display: false, view: '' })
+        return true
+      })
+    } else {
+    router.beforePopState(() => {
+      return true
+    })
+    }
+   
+  },[sideBar])
 
   return (
     <DrawerWrapper>

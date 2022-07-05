@@ -85,7 +85,7 @@ const CartSidebarView = () => {
         <button
           onClick={() =>{ 
             if (window.location.pathname === '/checkout') {
-              router.push('/').then(() => {
+              router.push('/#').then(() => {
                 closeSidebar({ display: false, view: '' })
               })
             } else {

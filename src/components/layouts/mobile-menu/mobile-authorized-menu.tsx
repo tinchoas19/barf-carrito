@@ -5,12 +5,31 @@ import DrawerWrapper from '@/components/ui/drawer/drawer-wrapper';
 import { useAtom } from 'jotai';
 import { drawerAtom } from '@/store/drawer-atom';
 import { useUser , useLogout} from '@/framework/user';
+import { useEffect } from 'react';
 
 export default function MobileAuthorizedMenu() {
   const { mutate: logout } = useLogout();
   const { t } = useTranslation('common');
   const router = useRouter();
-  const [_, closeSidebar] = useAtom(drawerAtom);
+  const [sideBar, closeSidebar] = useAtom(drawerAtom);
+
+  useEffect(()=> {
+    
+    if (sideBar.display) {
+      router.beforePopState((e) => {
+          window.history.go(1)
+          closeSidebar({ display: false, view: '' })
+        return true
+      })
+    } else {
+    router.beforePopState(() => {
+      return true
+    })
+    }
+   
+  },[sideBar])
+
+  
   function handleClick(path: string) {
 
     if (path === '/logout') {

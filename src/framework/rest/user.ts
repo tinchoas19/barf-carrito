@@ -144,7 +144,7 @@ export function useLogin() {
         }
         setToken(res?.data.token);
         setAuthorized(true);
-        await router.push('/').then(() => {
+        await router.push('/#').then(() => {
           closeModal();
         });
       } else toast.error(t('error-something-wrong'));
@@ -174,7 +174,7 @@ export function useRegister() {
         if (data?.data?.token && data?.status_message === 'autenticado') {
           setToken(data?.data?.token);
           setAuthorized(true);
-          await router.push('/').then(() => {
+          await router.push('/#').then(() => {
             closeModal();
             toast.success(t('text-register-success'));
           });
@@ -254,7 +254,7 @@ export function useChangePassword() {
           toast.error(t('error-change-password'));
           return;
         }
-        await router.push('/').then(() => {
+        await router.push('/#').then(() => {
           toast.success(t('password-successful'));
         });
       } else toast.error(t('error-something-wrong'));

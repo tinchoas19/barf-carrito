@@ -128,18 +128,20 @@ export function useValidateStock() {
             if (noStockErrors.length > 0) {
               noStockErrors.forEach((err, i) => {
                 setTimeout(() => {
-                  toast.error(err);
+                  toast.error(err, {
+                    closeButton: true,
+                    progress: 1,
+                  });
                 },(i * 400))
               });
             }
             else if (errors.length > 0) {
               errors.forEach((err,i) => {
-                /* toast.warning(err, {
-                  closeButton: true,
-                  progress: 1,
-                }); */
                 setTimeout(() => {
-                  toast.warning(err);
+                  toast.warning(err, {
+                    closeButton: true,
+                    progress: 1,
+                  });
                 },(i * 400))
               });
             }
@@ -173,7 +175,7 @@ export function useCreateOrder() {
             resetCart();
           });
         } else {
-          await router.push('/').then(() => {
+          await router.push('/#').then(() => {
             toast.warning(t('text-checkout-validation-fail'), {
               closeButton: true,
               progress: 1,
