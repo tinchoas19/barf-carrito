@@ -8,9 +8,6 @@ import { useEffect, useState } from 'react';
 import { scroller } from 'react-scroll';
 import { getStaticPaths, getStaticProps } from '@/framework/home-pages.ssr';
 import { InferGetStaticPropsType } from 'next';
-import { useUser } from '@/framework/user';
-import { useAtom } from 'jotai';
-import { stockAuthBooleanAtom } from '@/store/authorization-atom';
 export { getStaticPaths, getStaticProps };
 const CartCounterButton = dynamic(
   () => import('@/components/cart/cart-counter-button'),
@@ -49,7 +46,8 @@ const Home: NextPageWithLayout<
   
   useEffect(() => {
     initRouter()
-    if(initPage && router.asPath === '/') {
+    console.log(router)
+    if(initPage && router.asPath === '/' && false) {
       setInitPage(false)
         router.push('/#')
           .then(() => {

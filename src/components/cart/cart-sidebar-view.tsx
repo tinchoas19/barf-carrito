@@ -28,6 +28,7 @@ const CartSidebarView = () => {
   const [sideBar, closeSidebar] = useAtom(drawerAtom);
   const {me} = useUser();
   const [isAuthorize] = useAtom(authorizationAtom);
+  const [stockAuth, setStockAuth] = useAtom(stockAuthBooleanAtom)
 
   const { price: totalPrice } = usePrice({
     amount: total,
@@ -47,18 +48,32 @@ const CartSidebarView = () => {
       })
   }
 
+  function handleOnClose() {
+    
+    if (window.location.pathname === '/checkout') {
+      setStockAuth(false)
+      router.push('/').then(() => {
+        closeSidebar({ display: false, view: '' })
+      })
+    } else {
+      closeSidebar({ display: false, view: '' })
+    }
+  }
+
 
   useEffect(()=> {
+    
     if (sideBar.display && sideBar.view === 'cart') {
       
       router.beforePopState((e) => {
-          
+        
           window.history.go(1)
           closeSidebar({ display: false, view: '' })
         return true
       })
     } else {
       router.beforePopState((e) => {
+        
         if (e.url === '/#') {
           router.back()
           router.back()
@@ -80,15 +95,7 @@ const CartSidebarView = () => {
           </span>
         </div>
         <button
-          onClick={() =>{ 
-            if (window.location.pathname === '/checkout' ) {
-              router.push('/').then(() => {
-                closeSidebar({ display: false, view: '' })
-              })
-            } else {
-              closeSidebar({ display: false, view: '' })
-            }
-          }}
+          onClick={handleOnClose}
           className="w-7 h-7 ltr:ml-3 rtl:mr-3 ltr:-mr-2 rtl:-ml-2 flex items-center justify-center rounded-full text-muted bg-gray-100 transition-all duration-200 focus:outline-none hover:bg-accent focus:bg-accent hover:text-light focus:text-light"
         >
           <span className="sr-only">{t('text-close')}</span>

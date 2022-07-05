@@ -14,6 +14,7 @@ import { CartProvider } from '@/store/quick-cart/cart.context';
 import { NextPageWithLayout } from '@/types';
 import QueryProvider from '@/framework/client/query-provider';
 
+
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
@@ -24,6 +25,7 @@ function CustomApp({
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page);
   const authenticationRequired = Component.authenticationRequired ?? false;
+
 
   return (
     <SessionProvider session={session}>

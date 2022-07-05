@@ -1,7 +1,9 @@
 import MobileCategoryMenu from '@/components/layouts/mobile-menu/mobile-category-menu';
+import { stockAuthBooleanAtom } from '@/store/authorization-atom';
 import { drawerAtom } from '@/store/drawer-atom';
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 import Drawer from './drawer';
 const CartSidebarView = dynamic(
   () => import('@/components/cart/cart-sidebar-view')
@@ -18,10 +20,22 @@ const SearchFilterView = dynamic(
 
 export default function ManagedDrawer() {
   const [{ display, view, data }, setDrawerState] = useAtom(drawerAtom);
+  const router = useRouter()
+  const [stockAuth, setStockAuth] = useAtom(stockAuthBooleanAtom)
   return (
     <Drawer
       open={display}
-      onClose={() => setDrawerState({ display: false, view: '' })}
+      onClose={() => {
+      
+        if (view === 'cart' && window.location.pathname === '/checkout') {
+          setStockAuth(false)
+          router.push('/').then(() => {
+            setDrawerState({ display: false, view: '' })
+          })
+        } else {
+          setDrawerState({ display: false, view: '' })
+        }
+      }}
       variant={
         [
           'FILTER_VIEW',

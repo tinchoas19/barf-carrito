@@ -48,7 +48,6 @@ export default function CheckoutPage() {
   const [deliveryDays, setDeliveryDays] = useState([])
   const [shippingAddress] = useAtom(shippingAddressAtom)
   const router = useRouter()
-  const [sideBar] = useAtom(drawerAtom);
   
   useEffect(() => {
     if (!stockAuth) router.push('/')
@@ -69,11 +68,12 @@ export default function CheckoutPage() {
     }
   },[])
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (sideBar.display && sideBar.view === 'cart') {
+      console.log('redirect')
       router.push(ROUTES.HOME)
     }
-  },[sideBar])
+  },[sideBar]) */
 
 
   function handleDeliveryType(data:any) {
