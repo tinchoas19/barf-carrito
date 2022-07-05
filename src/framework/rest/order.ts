@@ -51,6 +51,7 @@ export function useOrder({ tracking_number }: { tracking_number: string }) {
   };
 }
 
+
 export function useValidateStock() {
   const [_, closeSidebar] = useAtom(drawerAtom);
   const router = useRouter();
@@ -175,7 +176,7 @@ export function useCreateOrder() {
             resetCart();
           });
         } else {
-          await router.push('/#').then(() => {
+          await router.push('/').then(() => {
             toast.warning(t('text-checkout-validation-fail'), {
               closeButton: true,
               progress: 1,
@@ -192,6 +193,8 @@ export function useCreateOrder() {
       toast.error(t('error-something-wrong'));
     },
   });
+
+
 
   return {
     createOrder,

@@ -54,7 +54,7 @@ export default function MobileNavigation({
 
         <motion.button
           whileTap={{ scale: 0.88 }}
-          onClick={() => router.push('/#')}
+          onClick={() => router.push('/')}
           className="flex items-center justify-center h-full p-2 focus:outline-none focus:text-accent"
         >
           <span className="sr-only">{t('text-home')}</span>

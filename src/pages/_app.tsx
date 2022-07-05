@@ -27,7 +27,7 @@ function CustomApp({
 
   return (
     <SessionProvider session={session}>
-      <QueryProvider pageProps={pageProps}>
+      <QueryProvider pageProps={pageProps} >
         <SearchProvider>
           <ModalProvider>
             <CartProvider>
@@ -38,7 +38,7 @@ function CustomApp({
                     {getLayout(<Component {...pageProps} id='body-container' />)}
                   </PrivateRoute>
                 ) : (
-                  getLayout(<Component {...pageProps} id='body-container'/>)
+                  getLayout(<Component {...pageProps} id='body-container'  />)
                 )}
                 <ManagedModal />
                 <ManagedDrawer />

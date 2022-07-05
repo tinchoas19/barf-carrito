@@ -10,6 +10,8 @@ import { useSettings } from '@/framework/settings';
 import { useAtom } from 'jotai';
 import { stockAuthBooleanAtom, stockDeliveryDaysAtom, stockPickUpDaysAtom } from '@/store/authorization-atom';
 import { useRouter } from 'next/router';
+import { drawerAtom } from '@/store/drawer-atom';
+import { ROUTES } from '@/lib/routes';
 export { getStaticProps } from '@/framework/general.ssr';
 
 const ScheduleGrid = dynamic(
@@ -46,12 +48,12 @@ export default function CheckoutPage() {
   const [deliveryDays, setDeliveryDays] = useState([])
   const [shippingAddress] = useAtom(shippingAddressAtom)
   const router = useRouter()
+  const [sideBar] = useAtom(drawerAtom);
   
   useEffect(() => {
-    if (!stockAuth) router.push('/#')
+    if (!stockAuth) router.push('/')
     setCustomer(me)
   },[])
-
   useEffect(() => {
     let result = null
      if (allDeliveryDays && allDeliveryDays.length && shippingAddress) {
@@ -66,6 +68,12 @@ export default function CheckoutPage() {
       setStockAuth(false)
     }
   },[])
+
+  useEffect(() => {
+    if (sideBar.display && sideBar.view === 'cart') {
+      router.push(ROUTES.HOME)
+    }
+  },[sideBar])
 
 
   function handleDeliveryType(data:any) {

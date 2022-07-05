@@ -8,6 +8,9 @@ import { useEffect, useState } from 'react';
 import { scroller } from 'react-scroll';
 import { getStaticPaths, getStaticProps } from '@/framework/home-pages.ssr';
 import { InferGetStaticPropsType } from 'next';
+import { useUser } from '@/framework/user';
+import { useAtom } from 'jotai';
+import { stockAuthBooleanAtom } from '@/store/authorization-atom';
 export { getStaticPaths, getStaticProps };
 const CartCounterButton = dynamic(
   () => import('@/components/cart/cart-counter-button'),
@@ -25,19 +28,21 @@ const Home: NextPageWithLayout<
 > = ({ variables, layout }) => {
   const { query } = useRouter();
   const { width } = useWindowSize();
-  // const { layout, page } = useLayout();
-
-  const [redirect, setRedirect] = useState(true)
   const router = useRouter()
+
+  const [initPage, setInitPage] = useState(true)
+
+
   useEffect(() => {
-    if(router.asPath === '/' && redirect) {
-        setRedirect(false)
-        router.push('/#').then(() => {
-          
-          router.push('/#')
-        })
+    if(initPage && router.asPath === '/') {
+      setInitPage(false)
+         router.push('/#').then(() => {
+          router.push('/')
+        }) 
       } 
   },[])
+
+
 
   useEffect(() => {
     if (query.text || query.category) {

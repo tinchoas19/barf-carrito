@@ -28,7 +28,6 @@ const CartSidebarView = () => {
   const [sideBar, closeSidebar] = useAtom(drawerAtom);
   const {me} = useUser();
   const [isAuthorize] = useAtom(authorizationAtom);
-  const [stockAuth, setStockAuth] = useAtom(stockAuthBooleanAtom)
 
   const { price: totalPrice } = usePrice({
     amount: total,
@@ -42,24 +41,18 @@ const CartSidebarView = () => {
     const itemsToValidate = items.map(item => {
       return {id: item.id, quantity: item.quantity, name:item.name}
     })
-    validateStock({
-      products: itemsToValidate,
-      userId: me.id
-    })
+      validateStock({
+        products: itemsToValidate,
+        userId: me.id
+      })
   }
 
-  useEffect(() => {
-    if (window.location.pathname === '/checkout') {
-      setStockAuth(false)
-      router.push(ROUTES.HOME).then(() => {
-      })
-      
-    }
-  },[])
 
   useEffect(()=> {
-    if (sideBar.display) {
+    if (sideBar.display && sideBar.view === 'cart') {
+      
       router.beforePopState((e) => {
+          
           window.history.go(1)
           closeSidebar({ display: false, view: '' })
         return true
@@ -84,8 +77,8 @@ const CartSidebarView = () => {
         </div>
         <button
           onClick={() =>{ 
-            if (window.location.pathname === '/checkout') {
-              router.push('/#').then(() => {
+            if (window.location.pathname === '/checkout' ) {
+              router.push('/').then(() => {
                 closeSidebar({ display: false, view: '' })
               })
             } else {
@@ -95,7 +88,7 @@ const CartSidebarView = () => {
           className="w-7 h-7 ltr:ml-3 rtl:mr-3 ltr:-mr-2 rtl:-ml-2 flex items-center justify-center rounded-full text-muted bg-gray-100 transition-all duration-200 focus:outline-none hover:bg-accent focus:bg-accent hover:text-light focus:text-light"
         >
           <span className="sr-only">{t('text-close')}</span>
-          {window.location.pathname === '/checkout' ?
+          {window.location.pathname === '/checkout'  ?
             <HomeIcon className="w-3 h-3" /> :
             <CloseIcon className="w-3 h-3" />
           }
