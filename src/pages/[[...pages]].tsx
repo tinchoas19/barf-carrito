@@ -31,12 +31,10 @@ const Home: NextPageWithLayout<
 
   const [initPage, setInitPage] = useState(true)
 
-
   function initRouter() {
 
     router.beforePopState((e) => {
       if (e.url === '/#') {
-        router.back()
         router.back()
       }
       return true
@@ -46,7 +44,6 @@ const Home: NextPageWithLayout<
   
   useEffect(() => {
     initRouter()
-    console.log(router)
     if(initPage && router.asPath === '/') {
       setInitPage(false)
         router.push('/#')

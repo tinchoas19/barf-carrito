@@ -52,7 +52,6 @@ export default function Modal({ open, onClose, children }: any) {
       router.beforePopState((e) => {
         if (e.url === '/#') {
           router.back()
-          router.back()
         }
         return true
       })

@@ -43,7 +43,6 @@ export default function MobileMainMenu() {
       router.beforePopState((e) => {
         if (e.url === '/#') {
           router.back()
-          router.back()
         }
         return true
       })

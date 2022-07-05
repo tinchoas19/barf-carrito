@@ -18,7 +18,6 @@ import { ArrowNextIcon } from '../icons/arrow-next';
 import { useModalAction } from '../ui/modal/modal.context';
 import { authorizationAtom, stockAuthBooleanAtom } from '@/store/authorization-atom';
 import { useEffect } from 'react';
-import { ROUTES } from '@/lib/routes';
 
 
 const CartSidebarView = () => {
@@ -73,9 +72,8 @@ const CartSidebarView = () => {
       })
     } else {
       router.beforePopState((e) => {
-        
+        console.log('back')
         if (e.url === '/#') {
-          router.back()
           router.back()
         }
         return true

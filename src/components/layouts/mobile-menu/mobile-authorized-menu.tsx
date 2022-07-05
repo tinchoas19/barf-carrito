@@ -25,7 +25,6 @@ export default function MobileAuthorizedMenu() {
       router.beforePopState((e) => {
         if (e.url === '/#') {
           router.back()
-          router.back()
         }
         return true
       })

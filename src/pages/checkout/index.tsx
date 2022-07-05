@@ -70,7 +70,6 @@ export default function CheckoutPage() {
 
   /* useEffect(() => {
     if (sideBar.display && sideBar.view === 'cart') {
-      console.log('redirect')
       router.push(ROUTES.HOME)
     }
   },[sideBar]) */
