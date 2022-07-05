@@ -40,9 +40,13 @@ export default function MobileMainMenu() {
         return true
       })
     } else {
-    router.beforePopState(() => {
-      return true
-    })
+      router.beforePopState((e) => {
+        if (e.url === '/#') {
+          router.back()
+          router.back()
+        }
+        return true
+      })
     }
    
   },[sideBar])

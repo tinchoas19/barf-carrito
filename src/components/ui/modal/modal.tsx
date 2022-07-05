@@ -49,9 +49,13 @@ export default function Modal({ open, onClose, children }: any) {
         return true
       })
     } else {
-    router.beforePopState(() => {
-      return true
-    })
+      router.beforePopState((e) => {
+        if (e.url === '/#') {
+          router.back()
+          router.back()
+        }
+        return true
+      })
     }
    
   },[open])

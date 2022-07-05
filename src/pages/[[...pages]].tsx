@@ -19,6 +19,8 @@ const CartCounterButton = dynamic(
 const Classic = dynamic(() => import('@/components/layouts/classic'));
 
 
+
+
 const MAP_LAYOUT_TO_GROUP: Record<string, any> = {
   classic: Classic,
   default: Classic,
@@ -33,12 +35,27 @@ const Home: NextPageWithLayout<
   const [initPage, setInitPage] = useState(true)
 
 
+  function initRouter() {
+
+    router.beforePopState((e) => {
+      if (e.url === '/#') {
+        router.back()
+        router.back()
+      }
+      return true
+    })
+
+  } 
+  
   useEffect(() => {
+    initRouter()
     if(initPage && router.asPath === '/') {
       setInitPage(false)
-         router.push('/#').then(() => {
-          router.push('/')
-        }) 
+        router.push('/#')
+          .then(() => {
+            router.push('/')
+            .then(() => {initRouter()})
+          }) 
       } 
   },[])
 
