@@ -2,6 +2,7 @@ import { CloseIcon } from '@/components/icons/close-icon';
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'next-i18next';
+import { useRouter } from 'next/router';
 
 export function useWindowDimensions() {
 
@@ -28,13 +29,33 @@ export function useWindowDimensions() {
     }
   }, [hasWindow]);
 
+
   return windowDimensions;
 }
+
+
 
 export default function Modal({ open, onClose, children }: any) {
   const cancelButtonRef = useRef(null);
   const { t } = useTranslation('common');
   const { width:innerWidth } = useWindowDimensions();
+  const router = useRouter()
+
+  useEffect(()=> {
+    if (open) {
+      router.beforePopState((e) => {
+          window.history.go(1)
+          onClose()
+        return true
+      })
+    } else {
+    router.beforePopState(() => {
+      return true
+    })
+    }
+   
+  },[open])
+
 
   return (
     <Transition show={open} as={Fragment}>

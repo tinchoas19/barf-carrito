@@ -126,19 +126,21 @@ export function useValidateStock() {
             }
           } else {
             if (noStockErrors.length > 0) {
-              noStockErrors.forEach((err) => {
-                toast.warning(err, {
-                  closeButton: true,
-                  progress: 1,
-                });
+              noStockErrors.forEach((err, i) => {
+                setTimeout(() => {
+                  toast.error(err);
+                },(i * 400))
               });
             }
             else if (errors.length > 0) {
-              errors.forEach((err) => {
-                toast.error(err, {
+              errors.forEach((err,i) => {
+                /* toast.warning(err, {
                   closeButton: true,
                   progress: 1,
-                });
+                }); */
+                setTimeout(() => {
+                  toast.warning(err);
+                },(i * 400))
               });
             }
             

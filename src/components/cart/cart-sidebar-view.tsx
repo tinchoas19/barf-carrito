@@ -25,7 +25,7 @@ const CartSidebarView = () => {
   const { openModal } = useModalAction();
   const { t } = useTranslation('common');
   const { items, totalUniqueItems, total } = useCart();
-  const [_, closeSidebar] = useAtom(drawerAtom);
+  const [sideBar, closeSidebar] = useAtom(drawerAtom);
   const {me} = useUser();
   const [isAuthorize] = useAtom(authorizationAtom);
   const [stockAuth, setStockAuth] = useAtom(stockAuthBooleanAtom)
@@ -36,6 +36,7 @@ const CartSidebarView = () => {
   const { isLoading, mutate: validateStock} = useValidateStock()
   const router = useRouter()
 
+  
   
   function handleCheckout() {
     const itemsToValidate = items.map(item => {
@@ -55,6 +56,22 @@ const CartSidebarView = () => {
       
     }
   },[])
+
+  useEffect(()=> {
+    if (sideBar.display) {
+      router.beforePopState((e) => {
+          window.history.go(1)
+          closeSidebar({ display: false, view: '' })
+        return true
+      })
+    } else {
+    router.beforePopState(() => {
+      return true
+    })
+    }
+   
+  },[sideBar])
+
 
   return (
     <section className="flex flex-col h-full relative">

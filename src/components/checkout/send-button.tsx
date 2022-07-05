@@ -77,10 +77,10 @@ export const SendButton: React.FC<{disabled?:boolean, label:string, className?: 
     }
 
     function handleVerifyCheckout() {
-      setEndTransaction(true)
-     const order:CreateOrderInput = formatOrder(checkout)
-     const result:boolean = validateOrder(order)
-     if (result) {
+      const order:CreateOrderInput = formatOrder(checkout)
+      const result:boolean = validateOrder(order)
+      if (result) {
+       setEndTransaction(true)
        createOrder(order)
      } else {
        toast.error(t('send-order-error-uncomplete'));

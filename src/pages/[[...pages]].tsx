@@ -27,6 +27,11 @@ const Home: NextPageWithLayout<
   const { width } = useWindowSize();
   // const { layout, page } = useLayout();
 
+  const router = useRouter()
+  useEffect(() => {
+      router.push('/#')
+  },[])
+
   useEffect(() => {
     if (query.text || query.category) {
       scroller.scrollTo('grid', {
