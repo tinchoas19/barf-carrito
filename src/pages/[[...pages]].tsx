@@ -47,7 +47,7 @@ const Home: NextPageWithLayout<
   useEffect(() => {
     initRouter()
     console.log(router)
-    if(initPage && router.asPath === '/' && false) {
+    if(initPage && router.asPath === '/') {
       setInitPage(false)
         router.push('/#')
           .then(() => {
