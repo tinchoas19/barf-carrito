@@ -37,7 +37,7 @@ export default function ShippingsSlider() {
     <div className="px-6 py-5 border-t md:p-8 border-border-200 bg-light">
       <div className="relative">
         <Swiper
-          id="offer"
+          id="shipping"
           autoplay={{delay:6000}}
           loop={true}
           breakpoints={offerSliderBreakpoints}

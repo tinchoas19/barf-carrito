@@ -32,7 +32,7 @@ const offerSliderBreakpoints = {
 export default function PromotionSlider() {
   const { t } = useTranslation();
 
-  const sliders = [
+  const sliders2 = [
     {
       img: shippings,
       route: ROUTES.SHIPPINGS
@@ -64,8 +64,8 @@ export default function PromotionSlider() {
             prevEl: '.prev',
           }}
         >
-          {sliders.map((slider,i) =>
-          <SwiperSlide key={i} style={{cursor:'pointer'}}>
+          {sliders2.map((slider,i) =>
+          <SwiperSlide key={'slider'+i} id={'slider'+i} style={{cursor:'pointer'}}>
             <Link href={slider.route} passHref={true}>
             <Image
               className="w-full h-auto"

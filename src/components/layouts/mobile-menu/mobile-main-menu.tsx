@@ -4,7 +4,7 @@ import { useTranslation } from 'next-i18next';
 import DrawerWrapper from '@/components/ui/drawer/drawer-wrapper';
 import { useAtom } from 'jotai';
 import { drawerAtom } from '@/store/drawer-atom';
-import { useLogout } from '@/framework/user';
+import { useLogout, useUser } from '@/framework/user';
 import { useEffect } from 'react';
 
 const headerLinks = [
@@ -15,7 +15,14 @@ const headerLinks = [
   { href: ROUTES.LOGOUT, label: 'auth-menu-logout' },
 ];
 
+const unHeaderLinks = [
+  { href: ROUTES.HOME, label: 'nav-menu-shops' },
+  { href: ROUTES.HELP, label: 'text-faq-help' },
+  { href: ROUTES.CONTACT, label: 'nav-menu-contact' },
+];
+
 export default function MobileMainMenu() {
+  const {isAuthorized} = useUser()
   const { mutate: logout } = useLogout();
   const { t } = useTranslation('common');
   const router = useRouter();
@@ -53,7 +60,7 @@ export default function MobileMainMenu() {
   return (
     <DrawerWrapper>
       <ul className="flex-grow">
-        {headerLinks.map(({ href, label }) => (
+        {(isAuthorized ? headerLinks : unHeaderLinks).map(({ href, label }) => (
           <li key={`${href}${label}`}>
             <button
               onClick={() => handleClick(href)}

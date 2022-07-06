@@ -145,6 +145,7 @@ export function useLogin() {
         setToken(res?.data.token);
         setAuthorized(true);
         await router.push('/').then(() => {
+          toast.success(t('text-welcome'))
           closeModal();
         });
       } else toast.error(t('error-something-wrong'));
