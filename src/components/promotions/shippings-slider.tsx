@@ -1,5 +1,5 @@
 import { ArrowNext, ArrowPrev } from '@/components/icons';
-import { Swiper, SwiperSlide, Navigation } from '@/components/ui/slider';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import { Image } from '@/components/ui/image';
 import { useTranslation } from 'next-i18next';
 import caba1 from '../../assets/shippings/1.png'
@@ -8,7 +8,10 @@ import zn1 from '../../assets/shippings/3.png'
 import zn2 from '../../assets/shippings/4.png'
 import sur from '../../assets/shippings/5.png'
 import oeste from '../../assets/shippings/6.png'
-import { Autoplay } from 'swiper';
+import { Autoplay, Navigation } from 'swiper';
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/autoplay'
 
 const offerSliderBreakpoints = {
   320: {
@@ -38,10 +41,10 @@ export default function ShippingsSlider() {
       <div className="relative">
         <Swiper
           id="shipping"
-          autoplay={{delay:6000}}
-          loop={true}
+          //autoplay={{delay:6000}}
+          //loop={true}
           breakpoints={offerSliderBreakpoints}
-          modules={[Autoplay,Navigation]}
+          modules={[Navigation]}
           navigation={{
             nextEl: '.next',
             prevEl: '.prev',

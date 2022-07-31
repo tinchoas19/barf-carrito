@@ -1,5 +1,5 @@
 import { ArrowNext, ArrowPrev } from '@/components/icons';
-import { Swiper, SwiperSlide, Navigation } from '@/components/ui/slider';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import { Image } from '@/components/ui/image';
 import { useTranslation } from 'next-i18next';
 import shippings from '../../assets/home/1.png'
@@ -8,7 +8,10 @@ import help from '../../assets/home/3.png'
 import guide from '../../assets/home/4.png'
 import { ROUTES } from '@/lib/routes';
 import Link from 'next/link';
-import { Autoplay } from 'swiper';
+import { Autoplay, Navigation } from 'swiper';
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/autoplay'
 
 const offerSliderBreakpoints = {
   320: {
@@ -54,17 +57,17 @@ export default function PromotionSlider() {
     <div className="px-6 py-5 border-t md:p-8 border-border-200 bg-light">
       <div className="relative">
         <Swiper
-          autoplay={{delay:6000}}
+          //autoplay={{delay:6000}}
           id="offer"
-          loop={true}
+          //loop={true}
           breakpoints={offerSliderBreakpoints}
-          modules={[Autoplay,Navigation]}
+          modules={[Navigation]}
           navigation={{
             nextEl: '.next',
             prevEl: '.prev',
           }}
         >
-          {sliders2.map((slider,i) =>
+           {sliders2.map((slider,i) =>
           <SwiperSlide key={'slider'+i} id={'slider'+i} style={{cursor:'pointer'}}>
             <Link href={slider.route} passHref={true}>
             <Image
@@ -77,9 +80,7 @@ export default function PromotionSlider() {
             />
           </Link>
         </SwiperSlide>
-          )}
-
-
+          )} 
         </Swiper>
 
         <div

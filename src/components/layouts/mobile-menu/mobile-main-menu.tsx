@@ -7,6 +7,7 @@ import { drawerAtom } from '@/store/drawer-atom';
 import { useLogout, useUser } from '@/framework/user';
 import { useEffect } from 'react';
 
+
 const headerLinks = [
   { href: ROUTES.HOME, label: 'nav-menu-shops' },
   { href: ROUTES.PROFILE, label: 'profile-sidebar-profile' },
