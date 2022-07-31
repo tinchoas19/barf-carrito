@@ -13,7 +13,8 @@ import { useRouter } from 'next/router';
 import { ROUTES } from '@/lib/routes';
 import Checkbox from '../ui/forms/checkbox/checkbox';
 import { useState } from 'react';
-import crypto from 'crypto'
+import crypto from 'crypto';
+import { useSettings } from '@/framework/settings';
 
 const loginFormSchema = yup.object().shape({
   email: yup
@@ -37,12 +38,13 @@ function LoginForm() {
   const { openModal } = useModalAction();
   const isCheckout = router.pathname.includes('checkout');
   const { mutate: login, isLoading, serverError, setServerError } = useLogin();
+  const { settings: { registerActive } } = useSettings()
 
-  function onSubmit({ email, password, codasoc}: LoginUserInput) {
+  function onSubmit({ email, password, codasoc }: LoginUserInput) {
     login({
       email,
-      password : crypto.createHash('md5').update(password).digest('hex'),
-      codasoc : haveCode ? codasoc : ''
+      password: crypto.createHash('md5').update(password).digest('hex'),
+      codasoc: haveCode ? codasoc : ''
     });
   }
 
@@ -108,16 +110,17 @@ function LoginForm() {
           </>
         )}
       </Form>
-      
-      <div className="text-center text-sm text-body sm:text-base">
-        {t('text-no-account')}{' '}
-        <button
-          onClick={() => openModal('REGISTER')}
-          className="font-semibold text-accent underline transition-colors duration-200 hover:text-accent-hover hover:no-underline focus:text-accent-hover focus:no-underline focus:outline-none ltr:ml-1 rtl:mr-1"
-        >
-          {t('text-register')}
-        </button>
-      </div>
+      {registerActive &&
+        <div className="text-center text-sm text-body sm:text-base">
+          {t('text-no-account')}{' '}
+          <button
+            onClick={() => openModal('REGISTER')}
+            className="font-semibold text-accent underline transition-colors duration-200 hover:text-accent-hover hover:no-underline focus:text-accent-hover focus:no-underline focus:outline-none ltr:ml-1 rtl:mr-1"
+          >
+            {t('text-register')}
+          </button>
+        </div>
+      }
     </>
   );
 }
