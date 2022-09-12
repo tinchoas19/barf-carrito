@@ -37,6 +37,10 @@ export default function PromotionSlider() {
 
   const sliders2 = [
     {
+      img: guide,
+      route: ROUTES.GUIDE
+    },
+    {
       img: shippings,
       route: ROUTES.SHIPPINGS
     },
@@ -48,10 +52,7 @@ export default function PromotionSlider() {
       img: help,
       route: ROUTES.HELP
     },
-    {
-      img: guide,
-      route: ROUTES.GUIDE
-    },
+    
   ]
   return (
     <div className="px-6 py-5 border-t md:p-8 border-border-200 bg-light">

@@ -52,7 +52,7 @@ export const ScheduleGrid: React.FC<ScheduleProps> = ({
             {schedules?.map((schedule: any, idx: number) => (
               <RadioGroup.Option value={schedule} key={idx}>
                 {({ checked }) => (
-                  <ScheduleCard checked={checked} schedule={schedule} hasInnerHTML={true}/>
+                  <ScheduleCard checked={schedules.length === 1 ? true : checked} schedule={schedule} hasInnerHTML={true}/>
                 )}
               </RadioGroup.Option>
             ))}
