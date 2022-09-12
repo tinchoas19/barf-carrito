@@ -139,6 +139,7 @@ export const AddressForm: React.FC<any> = ({
             error={t(errors.address?.wtd_note?.message!)}
             variant="outline"
             className="col-span-2"
+            example={t('text-address-wtd-extra-example')}
           />
 
           <Button

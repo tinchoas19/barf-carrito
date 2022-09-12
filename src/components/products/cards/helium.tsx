@@ -64,7 +64,7 @@ const Helium: React.FC<HeliumProps> = ({ product, className }) => {
        onClick={handleProductQuickView}>
         <div className="flex items-center mb-2">
           <span className="text-sm md:text-base text-heading font-semibold">
-            {formatPrice({amount : price, currencyCode: 'ARS',locale: 'ES'})}
+            {formatPrice({amount : price, currencyCode: 'ARS',locale: 'ES'})}<span className='text-sm text-gray-500'> x Kg</span>
           </span>
 
         </div>

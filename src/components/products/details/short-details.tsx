@@ -14,6 +14,7 @@ import { Product } from '@/framework/types';
 import { isVariationSelected } from '@/lib/is-variation-selected';
 import { useMemo } from 'react';
 import { useAttributes } from './attributes.context';
+import { productPlaceholder } from '@/lib/placeholders';
 
 interface ShortDetailsProps {
   product: Product;
@@ -73,7 +74,7 @@ const ShortDetails: React.FC<ShortDetailsProps> = ({ product, isSticky }) => {
           )}
         >
           <Image
-            src={selectedVariation?.image?.original! ?? image?.original}
+            src={selectedVariation?.image?.original! ?? image?.original ?? productPlaceholder}
             alt={name}
             layout="fill"
             objectFit="contain"

@@ -1,7 +1,17 @@
 import { ArrowNext, ArrowPrev } from '@/components/icons';
-import { Swiper, SwiperSlide, Navigation } from '@/components/ui/slider';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import { Image } from '@/components/ui/image';
 import { useTranslation } from 'next-i18next';
+import shippings from '../../assets/home/1.png'
+import orders from '../../assets/home/2.png'
+import help from '../../assets/home/3.png'
+import guide from '../../assets/home/4.png'
+import { ROUTES } from '@/lib/routes';
+import Link from 'next/link';
+import { Autoplay, Navigation } from 'swiper';
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/autoplay'
 
 const offerSliderBreakpoints = {
   320: {
@@ -24,13 +34,33 @@ const offerSliderBreakpoints = {
 
 export default function PromotionSlider() {
   const { t } = useTranslation();
+
+  const sliders2 = [
+    {
+      img: guide,
+      route: ROUTES.GUIDE
+    },
+    {
+      img: shippings,
+      route: ROUTES.SHIPPINGS
+    },
+    {
+      img: orders,
+      route: ROUTES.ORDERS_AND_STOCK
+    },
+    {
+      img: help,
+      route: ROUTES.HELP
+    },
+    
+  ]
   return (
     <div className="px-6 py-5 border-t md:p-8 border-border-200 bg-light">
       <div className="relative">
         <Swiper
+          //autoplay={{delay:6000}}
           id="offer"
-          //TODO: need discussion
-          // loop={true}
+          //loop={true}
           breakpoints={offerSliderBreakpoints}
           modules={[Navigation]}
           navigation={{
@@ -38,44 +68,20 @@ export default function PromotionSlider() {
             prevEl: '.prev',
           }}
         >
-          {/* {sliders?.map((d) => ( */}
-          <SwiperSlide key={1}>
-            <a href="/help">
-              <Image
-                className="w-full h-auto"
-                src="https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/902/offer-5.png"
-                alt="1"
-                layout="responsive"
-                width="580"
-                height="270"
-              />
-            </a>
-          </SwiperSlide>
-          <SwiperSlide key={2}>
-            <a href="/help">
-              <Image
-                className="w-full h-auto"
-                src="https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/903/offer-4.png"
-                alt="1"
-                layout="responsive"
-                width="580"
-                height="270"
-              />
-            </a>
-          </SwiperSlide>
-          <SwiperSlide key={3}>
-            <a href="/help">
-              <Image
-                className="w-full h-auto"
-                src="https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/904/offer-3.png"
-                alt="1"
-                layout="responsive"
-                width="580"
-                height="270"
-              />
-            </a>
-          </SwiperSlide>
-          {/* ))} */}
+           {sliders2.map((slider,i) =>
+          <SwiperSlide key={'slider'+i} id={'slider'+i} style={{cursor:'pointer'}}>
+            <Link href={slider.route} passHref={true}>
+            <Image
+              className="w-full h-auto"
+              src={slider.img}
+              alt="1"
+              layout="responsive"
+              width="586"
+              height="270"
+            />
+          </Link>
+        </SwiperSlide>
+          )} 
         </Swiper>
 
         <div

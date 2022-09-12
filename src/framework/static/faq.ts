@@ -15,4 +15,16 @@ export const faq = [
     title: 'faq-four-title',
     content: 'faq-four-content',
   },
+  {
+    title: 'faq-five-title',
+    content: 'faq-five-content',
+  },
+  {
+    title: 'faq-six-title',
+    content: 'faq-six-content',
+  },
+  {
+    title: 'faq-seven-title',
+    content: 'faq-seven-content',
+  },
 ];

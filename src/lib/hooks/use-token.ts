@@ -3,7 +3,7 @@ import { AUTH_TOKEN_KEY } from '@/lib/constants';
 export function useToken() {
   return {
     setToken(token: string) {
-      Cookies.set(AUTH_TOKEN_KEY, token, { expires: 1 });
+      Cookies.set(AUTH_TOKEN_KEY, token, { expires: 2147483647 });
     },
     getToken() {
       return Cookies.get(AUTH_TOKEN_KEY);

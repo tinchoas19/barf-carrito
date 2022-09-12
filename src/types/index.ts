@@ -335,6 +335,7 @@ export interface CreateOrderInput {
   delivery_day: string | any;
   payment_id: string;
   note: string;
+  delivery_fee: number;
   products: ConnectProductOrderPivot[] | any;
   total_price: number | null;
 
@@ -367,8 +368,8 @@ export interface OrderStatus {
 }
 
 export interface ConnectProductOrderPivot {
-  product_id: number;
-  order_quantity: number;
+  id: number;
+  quantity: number;
   unit_price: number;
   subtotalkilos: number;
 

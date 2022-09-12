@@ -10,13 +10,19 @@ export function formatPrice({
   amount: number;
   currencyCode: string;
   locale: string;
-}) {
+}) 
+{
+
+  if (currencyCode === 'ARS') {
+    return '$' + amount.toLocaleString('es-AR')
+  }
+
   const formatCurrency = new Intl.NumberFormat(locale, {
     style: 'currency',
     currency: currencyCode,
   });
 
-  return formatCurrency.format(amount);
+  return  formatCurrency.format(amount);
 }
 
 export function formatVariantPrice({

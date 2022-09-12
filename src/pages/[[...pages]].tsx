@@ -4,7 +4,7 @@ import Seo from '@/components/seo/seo';
 import { useWindowSize } from '@/lib/use-window-size';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { scroller } from 'react-scroll';
 import { getStaticPaths, getStaticProps } from '@/framework/home-pages.ssr';
 import { InferGetStaticPropsType } from 'next';
@@ -16,6 +16,8 @@ const CartCounterButton = dynamic(
 const Classic = dynamic(() => import('@/components/layouts/classic'));
 
 
+
+
 const MAP_LAYOUT_TO_GROUP: Record<string, any> = {
   classic: Classic,
   default: Classic,
@@ -25,7 +27,34 @@ const Home: NextPageWithLayout<
 > = ({ variables, layout }) => {
   const { query } = useRouter();
   const { width } = useWindowSize();
-  // const { layout, page } = useLayout();
+  const router = useRouter()
+
+  const [initPage, setInitPage] = useState(true)
+
+  function initRouter() {
+
+    router.beforePopState((e) => {
+      if (e.url === '/#') {
+        router.back()
+      }
+      return true
+    })
+
+  } 
+  
+  useEffect(() => {
+    initRouter()
+    if(initPage && router.asPath === '/') {
+      setInitPage(false)
+        router.push('/#')
+          .then(() => {
+            router.push('/')
+            .then(() => {initRouter()})
+          }) 
+      } 
+  },[])
+
+
 
   useEffect(() => {
     if (query.text || query.category) {

@@ -4,7 +4,9 @@ import { useTranslation } from 'next-i18next';
 import DrawerWrapper from '@/components/ui/drawer/drawer-wrapper';
 import { useAtom } from 'jotai';
 import { drawerAtom } from '@/store/drawer-atom';
-import { useLogout } from '@/framework/user';
+import { useLogout, useUser } from '@/framework/user';
+import { useEffect } from 'react';
+
 
 const headerLinks = [
   { href: ROUTES.HOME, label: 'nav-menu-shops' },
@@ -14,11 +16,18 @@ const headerLinks = [
   { href: ROUTES.LOGOUT, label: 'auth-menu-logout' },
 ];
 
+const unHeaderLinks = [
+  { href: ROUTES.HOME, label: 'nav-menu-shops' },
+  { href: ROUTES.HELP, label: 'text-faq-help' },
+  { href: ROUTES.CONTACT, label: 'nav-menu-contact' },
+];
+
 export default function MobileMainMenu() {
+  const {isAuthorized} = useUser()
   const { mutate: logout } = useLogout();
   const { t } = useTranslation('common');
   const router = useRouter();
-  const [_, closeSidebar] = useAtom(drawerAtom);
+  const [sideBar, closeSidebar] = useAtom(drawerAtom);
 
   function handleClick(path: string) {
     if (path === '/logout') {
@@ -30,10 +39,29 @@ export default function MobileMainMenu() {
     closeSidebar({ display: false, view: '' });
   }
 
+  useEffect(()=> {
+    
+    if (sideBar.display) {
+      router.beforePopState((e) => {
+          window.history.go(1)
+          closeSidebar({ display: false, view: '' })
+        return true
+      })
+    } else {
+      router.beforePopState((e) => {
+        if (e.url === '/#') {
+          router.back()
+        }
+        return true
+      })
+    }
+   
+  },[sideBar])
+
   return (
     <DrawerWrapper>
       <ul className="flex-grow">
-        {headerLinks.map(({ href, label }) => (
+        {(isAuthorized ? headerLinks : unHeaderLinks).map(({ href, label }) => (
           <li key={`${href}${label}`}>
             <button
               onClick={() => handleClick(href)}

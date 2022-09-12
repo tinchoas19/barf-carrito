@@ -14,6 +14,7 @@ import { CartProvider } from '@/store/quick-cart/cart.context';
 import { NextPageWithLayout } from '@/types';
 import QueryProvider from '@/framework/client/query-provider';
 
+
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
@@ -25,9 +26,10 @@ function CustomApp({
   const getLayout = Component.getLayout ?? ((page) => page);
   const authenticationRequired = Component.authenticationRequired ?? false;
 
+
   return (
     <SessionProvider session={session}>
-      <QueryProvider pageProps={pageProps}>
+      <QueryProvider pageProps={pageProps} >
         <SearchProvider>
           <ModalProvider>
             <CartProvider>
@@ -38,7 +40,7 @@ function CustomApp({
                     {getLayout(<Component {...pageProps} id='body-container' />)}
                   </PrivateRoute>
                 ) : (
-                  getLayout(<Component {...pageProps} id='body-container'/>)
+                  getLayout(<Component {...pageProps} id='body-container'  />)
                 )}
                 <ManagedModal />
                 <ManagedDrawer />

@@ -9,6 +9,7 @@ export interface Props extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   error?: string;
   shadow?: boolean;
   variant?: 'normal' | 'solid' | 'outline';
+  example?:string;
 }
 
 const variantClasses = {
@@ -28,6 +29,7 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
     variant = 'normal',
     shadow = false,
     inputClassName,
+    example,
     ...rest
   } = props;
   return (
@@ -55,6 +57,7 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
         spellCheck="false"
         rows={4}
         ref={ref}
+        placeholder={example ? example : ''}
         {...rest}
       />
       {error && <p className="my-2 text-xs text-red-500">{error}</p>}

@@ -64,7 +64,7 @@ const CartItem = ({ item }: CartItemProps) => {
         <h3 className="font-bold text-heading">{item.name} </h3>
         <p className="my-2.5 font-semibold text-accent">{price}</p>
         <span className="text-xs text-body">
-          {item.quantity} X {item.unit}
+          {item.quantity} Kg{item.quantity > 1 && 's'} {item.unit}
         </span>
       </div>
       <span className="ltr:ml-auto rtl:mr-auto font-bold text-heading">

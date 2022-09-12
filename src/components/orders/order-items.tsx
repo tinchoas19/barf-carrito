@@ -31,14 +31,16 @@ const OrderItemList = (_: any, record: any) => {
       <div className="flex flex-col ltr:ml-4 rtl:mr-4 overflow-hidden">
         <div className="flex mb-1">
           <span className="text-sm text-body truncate inline-block overflow-hidden">
-            {name} x&nbsp; 
+            {name}
           </span>
-          <span className="text-sm text-heading font-semibold truncate inline-block overflow-hidden">
-            {record.quantity}
-          </span>
+
         </div>
         <span className="text-sm text-accent font-semibold mb-1 truncate inline-block overflow-hidden">
           {price}
+          <span className="text-sm text-body font-light overflow-hidden">&nbsp;x 
+            <span className='font-semibold text-heading '>&nbsp;{record.quantity}&nbsp;</span> 
+            Kg{record.quantity > 1 && 's'}
+          </span>
         </span>
       </div>
     </div>

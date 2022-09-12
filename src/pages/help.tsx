@@ -6,6 +6,7 @@ import { GetStaticProps } from 'next';
 import { getLayout } from '@/components/layouts/layout';
 import Seo from '@/components/seo/seo';
 import { ROUTES } from '@/lib/routes';
+import { formatPrice } from '@/lib/use-price';
 
 export default function HelpPage() {
   const { t } = useTranslation();

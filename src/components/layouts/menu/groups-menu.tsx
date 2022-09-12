@@ -5,6 +5,7 @@ import { Fragment } from 'react';
 import { getIcon } from '@/lib/get-icon';
 import { CaretDown } from '@/components/icons/caret-down';
 import * as groupIcons from '@/components/icons/groups';
+import * as categoryIcons from '@/components/icons/category';
 import { ArrowDownIcon } from '@/components/icons/arrow-down';
 import type { Type } from '@/types';
 import { useSettings } from '@/framework/settings';
@@ -61,11 +62,11 @@ const GroupsMenu: React.FC<GroupsMenuProps> = ({
       >
         {({ open }) => (
           <>
-            {variant === 'colored' && selectedMenu?.icon && (
+            {variant === 'colored' && (
               <span className="flex items-center justify-center w-5 h-5 ltr:mr-2 rtl:ml-2">
                 {getIcon({
-                  iconList: groupIcons,
-                  iconName: selectedMenu?.icon,
+                  iconList: categoryIcons,
+                  iconName: 'MeatFish',
                   className: 'max-h-full max-w-full',
                 })}
               </span>
@@ -132,8 +133,8 @@ const GroupsMenu: React.FC<GroupsMenuProps> = ({
                     {icon && variant === 'colored' && (
                       <span className="flex items-center justify-center w-5 h-5">
                         {getIcon({
-                          iconList: groupIcons,
-                          iconName: icon,
+                          iconList: categoryIcons,
+                          iconName: 'MeatFish',
                           className: 'max-h-full max-w-full',
                         })}
                       </span>

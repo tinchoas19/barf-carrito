@@ -1,7 +1,7 @@
 import { Order, OrderQueryOptions } from '@/types';
 import { useMutation, useQuery } from 'react-query';
 
-import { toast } from 'react-toastify';
+import { toast} from 'react-toastify';
 
 import { API_ENDPOINTS } from './client/api-endpoints';
 import client from './client';
@@ -51,6 +51,7 @@ export function useOrder({ tracking_number }: { tracking_number: string }) {
   };
 }
 
+
 export function useValidateStock() {
   const [_, closeSidebar] = useAtom(drawerAtom);
   const router = useRouter();
@@ -60,6 +61,7 @@ export function useValidateStock() {
   const [_3, setDeliveryDays] = useAtom(stockDeliveryDaysAtom);
   return useMutation(client.orders.validateStock, {
     onSettled: async (data) => {
+      try {
       if (data.status === 200) {
         // checkea que sea sabado
         const argTime = new Date().toLocaleString('en-US', {
@@ -68,15 +70,16 @@ export function useValidateStock() {
 
         const today = new Date(argTime);
 
-        if (today.getDay() === 6) {
+         if (today.getDay() === 6) {
           toast.warning(t('text-no-order-today'), {
             closeButton: true,
             progress: 1,
           });
           return;
-        }
+        }  
         // checkea que este iniciado el stock de la semana
         if (data.data.noInit) {
+          
           toast.error(t('error-something-wrong'));
           return;
         }
@@ -86,20 +89,27 @@ export function useValidateStock() {
         const deliveryDays = data.data.deliveryDays;
         // checkea stock y errores en products
         if (products.length !== 0) {
+          let moreThanStockLimit = false
           let errors: string[] = [];
           const noStockErrors: string[] = [];
           products.forEach((prod: any) => {
             if (prod.nohabrastock) {
-              noStockErrors.push(`${prod.name}: No hay stock esta semana.`);
-            } else {
-            }
+              // si no tiene errores es que no hay nada de stock en toda la semana
+              if (prod.errors.length === 0) {
+                noStockErrors.push(`${prod.name}: No hay stock esta semana.`);
+              // sino significa que tiene stcok pero no el suficiente para la cantidad seleccionada
+              } else {
+                moreThanStockLimit = true
+              } 
+            } 
             errors = [...errors, ...prod.errors];
           });
+
           // checkea que no haya errores
           if (
-            errors.length === 0 &&
+            //errors.length === 0 &&
+            !moreThanStockLimit &&
             noStockErrors.length === 0
-            //!data.tieneErrores
           ) {
             // checkea que haya minimo 1 dia de pickup
             if (pickupDays.length > 0) {
@@ -116,25 +126,33 @@ export function useValidateStock() {
               });
             }
           } else {
-            if (errors.length > 0) {
-              errors.forEach((err) => {
-                toast.error(err, {
-                  closeButton: true,
-                  progress: 1,
-                });
-              });
-            }
             if (noStockErrors.length > 0) {
-              noStockErrors.forEach((err) => {
-                toast.warning(err, {
-                  closeButton: true,
-                  progress: 1,
-                });
+              noStockErrors.forEach((err, i) => {
+                setTimeout(() => {
+                  toast.error(err, {
+                    closeButton: true,
+                    progress: 1,
+                  });
+                },(i * 400))
               });
             }
+            else if (errors.length > 0) {
+              errors.forEach((err,i) => {
+                setTimeout(() => {
+                  toast.warning(err, {
+                    closeButton: true,
+                    progress: 1,
+                  });
+                },(i * 400))
+              });
+            }
+            
           }
         }
       } else toast.error(t('error-something-wrong'));
+    } catch {
+      toast.error(t('error-something-wrong'));
+    }
     },
     onError: (error) => {
       toast.error(t('error-something-wrong'));
@@ -148,8 +166,9 @@ export function useCreateOrder() {
   const [_, setDrawerView] = useAtom(drawerAtom);
   const { resetCart } = useCart();
 
-  const { mutate: createOrder, isLoading } = useMutation(client.orders.create, {
+  const { mutate: createOrder, isLoading , data} = useMutation(client.orders.create, {
     onSettled: async (data) => {
+      try {
       if (data && data.status === 200) {
         if (data.data.success) {
           toast.success(t('send-order-successful'));
@@ -166,11 +185,16 @@ export function useCreateOrder() {
           });
         }
       } else toast.error(t('error-something-wrong'));
+    } catch {
+      toast.error(t('error-something-wrong'));
+    }
     },
     onError: (error) => {
       toast.error(t('error-something-wrong'));
     },
   });
+
+
 
   return {
     createOrder,

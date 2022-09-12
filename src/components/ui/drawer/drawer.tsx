@@ -44,6 +44,8 @@ const Drawer: React.FC<DrawerProps> = ({
     return () => {
       clearAllBodyScrollLocks();
     };
+
+    
   }, [open]);
 
   // useEffect(() => {

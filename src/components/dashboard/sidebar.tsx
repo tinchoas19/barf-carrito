@@ -3,8 +3,8 @@ import { siteSettings } from '@/settings/site';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import classNames from 'classnames';
-import { useLogout, useUser } from '@/framework/user';
-import Button from '@/components/ui/button';
+import { useLogout } from '@/framework/user';
+
 
 type DashboardSidebarProps = {
   className?: string;

@@ -10,6 +10,8 @@ import { useSettings } from '@/framework/settings';
 import { useAtom } from 'jotai';
 import { stockAuthBooleanAtom, stockDeliveryDaysAtom, stockPickUpDaysAtom } from '@/store/authorization-atom';
 import { useRouter } from 'next/router';
+import { drawerAtom } from '@/store/drawer-atom';
+import { ROUTES } from '@/lib/routes';
 export { getStaticProps } from '@/framework/general.ssr';
 
 const ScheduleGrid = dynamic(
@@ -51,7 +53,6 @@ export default function CheckoutPage() {
     if (!stockAuth) router.push('/')
     setCustomer(me)
   },[])
-
   useEffect(() => {
     let result = null
      if (allDeliveryDays && allDeliveryDays.length && shippingAddress) {
@@ -66,6 +67,12 @@ export default function CheckoutPage() {
       setStockAuth(false)
     }
   },[])
+
+  /* useEffect(() => {
+    if (sideBar.display && sideBar.view === 'cart') {
+      router.push(ROUTES.HOME)
+    }
+  },[sideBar]) */
 
 
   function handleDeliveryType(data:any) {
@@ -139,6 +146,7 @@ export default function CheckoutPage() {
               label={t('text-delivery-schedule')}
               count={4}
               schedules={deliveryDays}
+              hasInnerHTML={true}
               /> :
               <InputGrid
             className="p-5 bg-light shadow-700 md:p-8"

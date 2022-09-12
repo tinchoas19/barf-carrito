@@ -1,7 +1,17 @@
 import { ArrowNext, ArrowPrev } from '@/components/icons';
-import { Swiper, SwiperSlide, Navigation } from '@/components/ui/slider';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import { Image } from '@/components/ui/image';
 import { useTranslation } from 'next-i18next';
+import caba1 from '../../assets/shippings/1.png'
+import caba2 from '../../assets/shippings/2.png'
+import zn1 from '../../assets/shippings/3.png'
+import zn2 from '../../assets/shippings/4.png'
+import sur from '../../assets/shippings/5.png'
+import oeste from '../../assets/shippings/6.png'
+import { Autoplay, Navigation } from 'swiper';
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/autoplay'
 
 const offerSliderBreakpoints = {
   320: {
@@ -24,13 +34,15 @@ const offerSliderBreakpoints = {
 
 export default function ShippingsSlider() {
   const { t } = useTranslation();
+
+  const images = [caba1,caba2,zn1,zn2,sur,oeste]
   return (
     <div className="px-6 py-5 border-t md:p-8 border-border-200 bg-light">
       <div className="relative">
         <Swiper
-          id="offer"
-          //TODO: need discussion
-          // loop={true}
+          id="shipping"
+          //autoplay={{delay:6000}}
+          //loop={true}
           breakpoints={offerSliderBreakpoints}
           modules={[Navigation]}
           navigation={{
@@ -38,44 +50,20 @@ export default function ShippingsSlider() {
             prevEl: '.prev',
           }}
         >
-          {/* {sliders?.map((d) => ( */}
-          <SwiperSlide key={1}>
-            <a href="/help">
-              <Image
-                className="w-full h-auto"
-                src="https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/902/offer-5.png"
-                alt="1"
-                layout="responsive"
-                width="580"
-                height="270"
-              />
-            </a>
-          </SwiperSlide>
-          <SwiperSlide key={2}>
-            <a href="/help">
-              <Image
-                className="w-full h-auto"
-                src="https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/903/offer-4.png"
-                alt="1"
-                layout="responsive"
-                width="580"
-                height="270"
-              />
-            </a>
-          </SwiperSlide>
-          <SwiperSlide key={3}>
-            <a href="/help">
-              <Image
-                className="w-full h-auto"
-                src="https://pickbazarlaravel.s3.ap-southeast-1.amazonaws.com/904/offer-3.png"
-                alt="1"
-                layout="responsive"
-                width="580"
-                height="270"
-              />
-            </a>
-          </SwiperSlide>
-          {/* ))} */}
+          {
+            images.map((img,i) => 
+            <SwiperSlide key={i}>
+            <Image
+              className="w-full h-auto"
+              src={img}
+              alt="zona de envio"
+              layout="responsive"
+              width="343"
+              height="257"
+            />
+            </SwiperSlide>)
+          }
+              
         </Swiper>
 
         <div

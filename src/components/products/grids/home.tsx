@@ -23,6 +23,7 @@ export default function ProductGridHome({
   const [categorySlug, setCategorySlug] = useAtom(categorySlugAtom)
   const [_, setCategoryName] = useAtom(categoryNameAtom)
   const [filteredProducts, setFilteredProducts] = useState(null)
+  const [refetch, setRefetch] = useState(true)
 
   function handleGetProducts() {
     if (isAuthorize) {
@@ -39,23 +40,42 @@ export default function ProductGridHome({
       setCategoryName('Todos')
   }
     handleGetProducts()
-
   },[])
+
+  useEffect(() => {
+    if (refetch) {
+      setRefetch(false)
+      setTimeout(() => {
+        setRefetch(true)
+        handleGetProducts()
+      },300000)
+    }
+  },[refetch])
     
   useEffect(() => {
     handleGetProducts()
   },[isAuthorize])
 
   useEffect(() => {
-    if (categorySlug === '') setFilteredProducts(null)
+    if (categorySlug === '') setFilteredProducts(products)
     else if (products && products.length > 0) {
       let result = products.filter(product => 
         !!(product.categories.find(category => category.slug === categorySlug)
       ))
-      
       setFilteredProducts(result)
     }
-  },[categorySlug])
+  },[categorySlug, products]) 
+
+/*   function filterProducts(prods:any) {
+    if (categorySlug === '') return prods
+    else if (prods && prods.length > 0) {
+      let result = prods.filter(product => 
+        !!(product.categories.find(category => category.slug === categorySlug)
+      ))
+      
+      return prods
+    }
+  } */
 
   return (
       <Grid

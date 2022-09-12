@@ -5,14 +5,22 @@ import { Element } from 'react-scroll';
 import FilterBar from './filter-bar';
 import ProductGridHome from '@/components/products/grids/home';
 import type { HomePageProps } from '@/types';
+import { useEffect, useState } from 'react';
 
 export default function ClassicLayout({ variables }: HomePageProps) {
+ 
+  const [showSlider, setShowSlider] = useState(false)
 
+  useEffect(() => {
+    setTimeout(() => {
+      setShowSlider(true)
+    },500)
+  }) 
 
   return (
     <>
       <Banner layout="classic" variables={variables.types} />
-      <PromotionSliders variables={variables.types} />
+      {showSlider && <PromotionSliders variables={variables.types} />}
       
       <FilterBar variables={variables.categories} />
       
