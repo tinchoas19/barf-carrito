@@ -39,12 +39,13 @@ const Header = ({ layout }: { layout: string }) => {
     >
       <div
         className={cn(
-          'fixed flex justify-between items-center w-full h-14 md:h-16 lg:h-22 px-4 lg:px-8 py-5 z-50 bg-light border-b border-border-200 shadow-sm transition-transform duration-300 transform-gpu',
+          'fixed top-0 flex justify-between items-center w-full h-14 md:h-16 lg:h-22 px-4 lg:px-8 py-5 z-50 bg-light border-b border-border-200 shadow-sm transition-transform duration-300 transform-gpu',
           {
-            'lg:sticky lg:bg-transparent lg:shadow-none lg:border-0 lg:t-0':
+            'lg:sticky top-0 lg:bg-transparent lg:shadow-none lg:border-0 lg:t-0':
               isFlattenHeader,
           }
         )}
+        style={{zIndex:50, top: 0}}
       >
         <div className="flex items-center w-full lg:w-auto">
           <Logo className="mx-auto lg:mx-0" />

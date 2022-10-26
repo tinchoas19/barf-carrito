@@ -270,5 +270,9 @@
   a {
     @apply no-underline;
   }
+  header {
+    position:absolute;
+    top: 0;
+  }
 }
 @import './custom-plugins.css';
