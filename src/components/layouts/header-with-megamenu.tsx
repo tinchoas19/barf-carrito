@@ -47,17 +47,17 @@ const HeaderWithMegaMenu: React.FC<MenuProps> = ({ data, className }) => {
     <>
       <header
         className={cn(
-          'site-header-with-search w-full h-auto z-50 fixed shadow-sm'
+          'top-0 site-header-with-search w-full h-auto z-50 fixed shadow-sm'
         )}
       >
         <div
           className={cn(
-            'flex justify-between items-center w-full h-14 md:h-16 lg:h-22 px-4 ltr:lg:pl-16 rtl:lg:pr-16 ltr:lg:pr-16 rtl:lg:pl-16 py-5 bg-light transition-transform duration-300 relative z-10'
+            'top-0 flex justify-between items-center w-full h-14 md:h-16 lg:h-22 px-4 ltr:lg:pl-16 rtl:lg:pr-16 ltr:lg:pr-16 rtl:lg:pl-16 py-5 bg-light transition-transform duration-300 relative z-10'
           )}
         >
           <div className="flex items-center w-full">
-            <Logo className="mx-auto lg:mx-0" />
-
+         {/*    <Logo className="mx-auto lg:mx-0" /> */}
+         <div>MEGAMENU</div>
             <div className="hidden lg:block w-full xl:w-11/12 2xl:w-10/12 max-w-screen-md mx-auto px-10 overflow-hidden">
               <Search label={t('text-search-label')} variant="minimal" />
             </div>
