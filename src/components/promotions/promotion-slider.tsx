@@ -5,7 +5,7 @@ import { useTranslation } from 'next-i18next';
 import shippings from '../../assets/home/1.png'
 import orders from '../../assets/home/2.png'
 import help from '../../assets/home/3.png'
-import guide from '../../assets/home/4.png'
+import guide from '../../assets/home/4bis2.jpeg'
 import { ROUTES } from '@/lib/routes';
 import Link from 'next/link';
 import { Autoplay, Navigation } from 'swiper';
