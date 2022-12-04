@@ -37,7 +37,7 @@ export default function PromotionSlider() {
 
   const sliders2 = [
     {
-      img: guide,
+      img: 'https://buenosairesrawfood.com.ar/banner-info.jpeg',
       route: ROUTES.GUIDE
     },
     {

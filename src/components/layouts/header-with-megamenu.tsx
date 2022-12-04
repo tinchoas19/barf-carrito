@@ -52,7 +52,7 @@ const HeaderWithMegaMenu: React.FC<MenuProps> = ({ data, className }) => {
       >
         <div
           className={cn(
-            'top-0 flex justify-between items-center w-full h-14 md:h-16 lg:h-22 px-4 ltr:lg:pl-16 rtl:lg:pr-16 ltr:lg:pr-16 rtl:lg:pl-16 py-5 bg-light transition-transform duration-300 relative z-10'
+            'top-0 flex fixed justify-between items-center w-full h-14 md:h-16 lg:h-22 px-4 ltr:lg:pl-16 rtl:lg:pr-16 ltr:lg:pr-16 rtl:lg:pl-16 py-5 bg-light transition-transform duration-300 relative z-10'
           )}
         >
           <div className="flex items-center w-full">
