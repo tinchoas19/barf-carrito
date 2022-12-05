@@ -59,7 +59,7 @@ const Helium: React.FC<HeliumProps> = ({ product, className }) => {
           {t('text-personalized')}
         </div>
         }
-      <header className="p-3 md:p-6">
+      <div className="p-3 md:p-6">
         <div className="flex items-center mb-2">
           <span className="text-sm md:text-base text-heading font-semibold">
             {formatPrice({amount : price, currencyCode: 'ARS',locale: 'ES'})}
@@ -85,7 +85,7 @@ const Helium: React.FC<HeliumProps> = ({ product, className }) => {
 
 
         {/* End of add to cart */}
-      </header>
+      </div>
     </article>
   );
 };
