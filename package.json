@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "https://buenosairesrawfood.com.ar/",
   "scripts": {
-    "clean": "rimraf \"{.next,node_modules,__generated__,.cache,src/framework/graphql/**/*.d.ts}\"",
+    "clean": "rimraf \"{.next,node_modules,_generated_,.cache,src/framework/graphql/*/.d.ts}\"",
     "dev:rest": "next dev -p 3003",
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
@@ -33,7 +33,7 @@
     "next": "12.0.10",
     "next-auth": "^4.2.1",
     "next-i18next": "^10.2.0",
-    "next-pwa": "^5.4.4",
+    "next-pwa": "^3.0.3",
     "next-seo": "^5.1.0",
     "node": "^14.18.0",
     "npx": "^10.2.2",

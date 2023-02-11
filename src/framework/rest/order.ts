@@ -1,7 +1,7 @@
 import { Order, OrderQueryOptions } from '@/types';
 import { useMutation, useQuery } from 'react-query';
 
-import { toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 
 import { API_ENDPOINTS } from './client/api-endpoints';
 import client from './client';
@@ -51,7 +51,6 @@ export function useOrder({ tracking_number }: { tracking_number: string }) {
   };
 }
 
-
 export function useValidateStock() {
   const [_, closeSidebar] = useAtom(drawerAtom);
   const router = useRouter();
@@ -62,101 +61,106 @@ export function useValidateStock() {
   return useMutation(client.orders.validateStock, {
     onSettled: async (data) => {
       try {
-      if (data.status === 200) {
-        // checkea que sea sabado
-        const argTime = new Date().toLocaleString('en-US', {
-          timeZone: 'America/Argentina/Buenos_Aires',
-        });
-
-        const today = new Date(argTime);
-
-         if (today.getDay() === 6) {
-          toast.warning(t('text-no-order-today'), {
-            closeButton: true,
-            progress: 1,
-          });
-          return;
-        }  
-        // checkea que este iniciado el stock de la semana
-        if (data.data.noInit) {
-          
-          toast.error(t('error-something-wrong'));
-          return;
-        }
-
-        const products = data.data.products;
-        const pickupDays = data.data.pickupDays;
-        const deliveryDays = data.data.deliveryDays;
-        // checkea stock y errores en products
-        if (products.length !== 0) {
-          let moreThanStockLimit = false
-          let errors: string[] = [];
-          const noStockErrors: string[] = [];
-          products.forEach((prod: any) => {
-            if (prod.nohabrastock) {
-              // si no tiene errores es que no hay nada de stock en toda la semana
-              if (prod.errors.length === 0) {
-                noStockErrors.push(`${prod.name}: No hay stock esta semana.`);
-              // sino significa que tiene stcok pero no el suficiente para la cantidad seleccionada
-              } else {
-                moreThanStockLimit = true
-              } 
-            } 
-            errors = [...errors, ...prod.errors];
+        if (data.status === 200) {
+          // checkea que sea sabado
+          const argTime = new Date().toLocaleString('en-US', {
+            timeZone: 'America/Argentina/Buenos_Aires',
           });
 
-          // checkea que no haya errores
-          if (
-            //errors.length === 0 &&
-            !moreThanStockLimit &&
-            noStockErrors.length === 0
-          ) {
-            // checkea que haya minimo 1 dia de pickup
-            if (pickupDays.length > 0) {
-              setStockAuth(true);
-              setPickUpDays(pickupDays);
-              setDeliveryDays(deliveryDays);
-              await router.push(ROUTES.CHECKOUT).then(() => {
-                closeSidebar({ display: false, view: '' });
-              });
-            } else {
-              toast.error(t('error-no-days'), {
-                closeButton: true,
-                progress: 1,
-              });
-            }
-          } else {
-            if (noStockErrors.length > 0) {
-              noStockErrors.forEach((err, i) => {
-                setTimeout(() => {
-                  toast.error(err, {
-                    closeButton: true,
-                    progress: 1,
-                  });
-                },(i * 400))
-              });
-            }
-            else if (errors.length > 0) {
-              errors.forEach((err,i) => {
-                setTimeout(() => {
-                  toast.warning(err, {
-                    closeButton: true,
-                    progress: 1,
-                  });
-                },(i * 400))
-              });
-            }
-            
+          const today = new Date(argTime);
+
+          if (today.getDay() === 6) {
+            toast.warning(t('text-no-order-today'), {
+              closeButton: true,
+              progress: 1,
+            });
+            return;
           }
+          // checkea que este iniciado el stock de la semana
+          if (data.data.noInit) {
+            console.log('data.data.noInit salio mal?');
+            toast.error(t('error-something-wrong'));
+            return;
+          }
+
+          const products = data.data.products;
+          const pickupDays = data.data.pickupDays;
+          const deliveryDays = data.data.deliveryDays;
+          // checkea stock y errores en products
+          if (products.length !== 0) {
+            let moreThanStockLimit = false;
+            let errors: string[] = [];
+            const noStockErrors: string[] = [];
+            products.forEach((prod: any) => {
+              if (prod.nohabrastock) {
+                // si no tiene errores es que no hay nada de stock en toda la semana
+                if (prod.errors.length === 0) {
+                  noStockErrors.push(`${prod.name}: No hay stock esta semana.`);
+                  // sino significa que tiene stcok pero no el suficiente para la cantidad seleccionada
+                } else {
+                  moreThanStockLimit = true;
+                }
+              }
+              errors = [...errors, ...prod.errors];
+            });
+
+            // checkea que no haya errores
+            if (
+              //errors.length === 0 &&
+              !moreThanStockLimit &&
+              noStockErrors.length === 0
+            ) {
+              // checkea que haya minimo 1 dia de pickup
+              if (pickupDays.length > 0) {
+                setStockAuth(true);
+                setPickUpDays(pickupDays);
+                setDeliveryDays(deliveryDays);
+                await router.push(ROUTES.CHECKOUT).then(() => {
+                  closeSidebar({ display: false, view: '' });
+                });
+              } else {
+                toast.error(t('error-no-days'), {
+                  closeButton: true,
+                  progress: 1,
+                });
+              }
+            } else {
+              if (noStockErrors.length > 0) {
+                noStockErrors.forEach((err, i) => {
+                  setTimeout(() => {
+                    toast.error(err, {
+                      closeButton: true,
+                      progress: 1,
+                    });
+                  }, i * 400);
+                });
+              } else if (errors.length > 0) {
+                errors.forEach((err, i) => {
+                  setTimeout(() => {
+                    toast.warning(err, {
+                      closeButton: true,
+                      progress: 1,
+                    });
+                  }, i * 400);
+                });
+              }
+            }
+          }
+        } else {
+          console.log('else salio mal?');
+
+          toast.error(t('error-something-wrong'));
         }
-      } else toast.error(t('error-something-wrong'));
-    } catch {
-      toast.error(t('error-something-wrong'));
-    }
+      } catch {
+        console.log('catch salio mal?');
+        toast.error(t('error-something-wrong'));
+      }
     },
     onError: (error) => {
+      console.log('onError salio mal?', error);
+
       toast.error(t('error-something-wrong'));
-    }
+    },
   });
 }
 
@@ -166,35 +170,37 @@ export function useCreateOrder() {
   const [_, setDrawerView] = useAtom(drawerAtom);
   const { resetCart } = useCart();
 
-  const { mutate: createOrder, isLoading , data} = useMutation(client.orders.create, {
+  const {
+    mutate: createOrder,
+    isLoading,
+    data,
+  } = useMutation(client.orders.create, {
     onSettled: async (data) => {
       try {
-      if (data && data.status === 200) {
-        if (data.data.success) {
-          toast.success(t('send-order-successful'));
-          await router.push(`${ROUTES.ORDERS}`).then(() => {
-            resetCart();
-          });
-        } else {
-          await router.push('/').then(() => {
-            toast.warning(t('text-checkout-validation-fail'), {
-              closeButton: true,
-              progress: 1,
+        if (data && data.status === 200) {
+          if (data.data.success) {
+            toast.success(t('send-order-successful'));
+            await router.push(`${ROUTES.ORDERS}`).then(() => {
+              resetCart();
             });
-            setDrawerView({ display: true, view: 'cart' });
-          });
-        }
-      } else toast.error(t('error-something-wrong'));
-    } catch {
-      toast.error(t('error-something-wrong'));
-    }
+          } else {
+            await router.push('/').then(() => {
+              toast.warning(t('text-checkout-validation-fail'), {
+                closeButton: true,
+                progress: 1,
+              });
+              setDrawerView({ display: true, view: 'cart' });
+            });
+          }
+        } else toast.error(t('error-something-wrong'));
+      } catch {
+        toast.error(t('error-something-wrong'));
+      }
     },
     onError: (error) => {
       toast.error(t('error-something-wrong'));
     },
   });
-
-
 
   return {
     createOrder,

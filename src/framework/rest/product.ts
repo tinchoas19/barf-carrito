@@ -1,28 +1,26 @@
-import type {
-  PopularProductQueryOptions,
-  Product,
-} from '@/types';
+import type { PopularProductQueryOptions, Product } from '@/types';
 import { useMutation, useQuery } from 'react-query';
 import client from './client';
 import { API_ENDPOINTS } from './client/api-endpoints';
 
 export function useProducts() {
-  const { mutate: getProducts, isLoading, data } = useMutation(client.products.all, {
+  const {
+    mutate: getProducts,
+    isLoading,
+    data,
+  } = useMutation(client.products.all, {
     onSuccess: (data) => {
-
+      console.log('JAJAJAJJA');
     },
-    onError: (error) => {
-
-    },
+    onError: (error) => {},
   });
 
   return {
     getProducts,
     isLoading,
-    data
+    data,
   };
 }
-
 
 /* export function useProducts2(id:number = 0) {
   const { data } = useQuery<Product[], Error>(

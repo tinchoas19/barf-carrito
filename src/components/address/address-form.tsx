@@ -10,17 +10,25 @@ import DropDownInput from '../ui/forms/dropdown/dropdown-input';
 import { useEffect, useState } from 'react';
 import { useSettings } from '@/framework/settings';
 
-
 type FormValues = {
   address: {
-    cityid: string;
-    zone: string;
+    id?: string;
     street_address: string;
     street_number: number;
-    bell?: string;
+    cityid: number;
+    zone: string;
+    bell: string;
     note: string;
-    wtd: string;
+    wtd: number;
     wtd_note: string;
+    // cityid: number;
+    // zone: string;
+    // street_address: string;
+    // street_number: number;
+    // bell?: string;
+    // note: string;
+    // wtd: string;
+    // wtd_note: string;
   };
 };
 
@@ -42,21 +50,24 @@ export const AddressForm: React.FC<any> = ({
 }) => {
   const { t } = useTranslation('common');
 
-  const { settings: { zones, cities, wtd } } = useSettings()
+  const {
+    settings: { zones, cities, wtd },
+  } = useSettings();
 
-  const [selectedZone, setSelectedZone] = useState('')
-  const [citiesToShow, setCitiesToShow] = useState([])
+  const [selectedZone, setSelectedZone] = useState('');
+  const [citiesToShow, setCitiesToShow] = useState([]);
 
   function getZoneId(name: string) {
-    const finalZone = zones.find((zone: any) => zone.name === name)
-    return finalZone?.id
+    const finalZone = zones.find((zone: any) => zone.name === name);
+    return finalZone?.id;
   }
 
   useEffect(() => {
-    const listOfCities = cities.filter((city: any) => { return city.zoneid === getZoneId(selectedZone) })
-    setCitiesToShow(listOfCities)
-  }, [selectedZone])
-
+    const listOfCities = cities.filter((city: any) => {
+      return city.zoneid === getZoneId(selectedZone);
+    });
+    setCitiesToShow(listOfCities);
+  }, [selectedZone]);
 
   return (
     <Form<FormValues>
@@ -83,10 +94,9 @@ export const AddressForm: React.FC<any> = ({
             {...register('address.street_number')}
             error={t(errors.address?.street_number?.message!)}
             variant="outline"
-            type='number'
+            type="number"
             min={0}
           />
-
 
           <DropDownInput
             label={t('text-address-zone')}
@@ -94,7 +104,7 @@ export const AddressForm: React.FC<any> = ({
             error={t(errors.address?.zone?.message!)}
             variant="outline"
             className="col-span-2"
-            options={(zones.map((zone) => { return zone.name }))}
+            options={zones.map((zone: { name: any }) => zone.name)}
             isParent={true}
             onChange={setSelectedZone}
           />
@@ -114,7 +124,6 @@ export const AddressForm: React.FC<any> = ({
             error={t(errors.address?.bell?.message!)}
             variant="outline"
           />
-
 
           <TextArea
             label={t('text-address-note')}
@@ -165,12 +174,12 @@ export default function CreateOrUpdateAddressForm() {
   const { me } = useUser();
 
   function onSubmit(values: FormValues) {
-    const payload = { ...me }
+    const payload = { ...me };
     if (values.address) {
       if (payload.address) {
-        payload.address.push(values.address)
+        payload.address.push(values.address);
       } else {
-        payload.address = [values.address]
+        payload.address = [values.address];
       }
     }
     updateProfile(payload);

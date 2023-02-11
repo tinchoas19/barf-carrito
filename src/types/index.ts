@@ -18,7 +18,6 @@ export interface HomePageProps {
   layout: string;
 }
 
-
 export interface SearchParamOptions {
   type: string;
   name: string;
@@ -171,7 +170,6 @@ export interface Type {
   };
 }
 
-
 export interface Tag {
   id: string;
   name: string;
@@ -210,7 +208,6 @@ export interface Order {
   shipping_address?: Address;
 }
 
-
 export interface Address {
   id?: string;
   street_address: string;
@@ -244,8 +241,6 @@ export interface LoginUserInput {
   haveCode?: boolean;
 }
 
-
-
 export interface RegisterUserInput {
   name: string;
   surname: string;
@@ -263,8 +258,6 @@ export interface ResetPasswordUserInput {
   token: string;
   password: string;
 }
-
-
 
 export interface ChangePasswordUserInput {
   userId: string;
@@ -287,7 +280,6 @@ export interface AuthResponse {
   status: string;
   status_message: string;
 }
-
 
 export interface DigitalFile {
   id: string;
@@ -327,7 +319,7 @@ enum PaymentGatewayType {
 }
 
 export interface CreateOrderInput {
-  //$clienteid, $fechayhora, $tipoentregaid, $diaentrega, 
+  //$clienteid, $fechayhora, $tipoentregaid, $diaentrega,
   //$direccionentregaid, $formapagoid, $nota, $decuentoporcentaje, $productos
   customer_id: string;
   delivery_type_id: number; // RETIRO 1 ENVIO 2
@@ -356,7 +348,6 @@ export interface CreateOrderInput {
   card: CardInput;
   token?: string;
   billing_address: Address; */
-
 }
 export interface OrderStatus {
   id: string;
@@ -392,15 +383,15 @@ export interface VerifiedCheckoutData {
   wallet_amount?: number;
 }
 
-export interface ProductPaginator extends PaginatorInfo<Product> { }
+export interface ProductPaginator extends PaginatorInfo<Product> {}
 
-export interface CategoryPaginator extends PaginatorInfo<Category> { }
+export interface CategoryPaginator extends PaginatorInfo<Category> {}
 
-export interface TagPaginator extends PaginatorInfo<Tag> { }
+export interface TagPaginator extends PaginatorInfo<Tag> {}
 
-export interface OrderPaginator extends PaginatorInfo<Order> { }
+export interface OrderPaginator extends PaginatorInfo<Order> {}
 
-export interface OrderStatusPaginator extends PaginatorInfo<OrderStatus> { }
+export interface OrderStatusPaginator extends PaginatorInfo<OrderStatus> {}
 
 export interface DownloadableFilePaginator
-  extends PaginatorInfo<DownloadableFile> { }
+  extends PaginatorInfo<DownloadableFile> {}

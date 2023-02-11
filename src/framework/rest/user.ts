@@ -42,21 +42,21 @@ export const useDeleteAddress = () => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   const router = useRouter();
-  const {refetch} = useUser()
+  const { refetch } = useUser();
   return useMutation(client.users.deleteAddress, {
     onSettled: async (data) => {
       try {
-      queryClient.invalidateQueries('/me');
-      if (data.status === 200) {
-        if (data.data.success) {
-          refetch()
-          toast.success(t('successfully-address-deleted'));
-          return;
-        }
-      } else toast.error(t('error-something-wrong'));
-    } catch {
-      toast.error(t('error-something-wrong'));
-    }
+        queryClient.invalidateQueries('/me');
+        if (data.status === 200) {
+          if (data.data.success) {
+            refetch();
+            toast.success(t('successfully-address-deleted'));
+            return;
+          }
+        } else toast.error(t('error-something-wrong'));
+      } catch {
+        toast.error(t('error-something-wrong'));
+      }
     },
     onError: (error) => {
       const {
@@ -72,30 +72,30 @@ export const useUpdateUser = () => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   const { closeModal } = useModalAction();
-  const {refetch} = useUser()
+  const { refetch } = useUser();
   return useMutation(client.users.update, {
     onSettled: async (data) => {
       try {
-      queryClient.invalidateQueries('/me');
-      if (data.status === 200) {
-        if (data?.data?.success && data.data.errors?.length === 0) {
-          if (data.data.inserted) {
-            refetch()
-            toast.success(t('profile-update-successful'));
-            closeModal();
+        queryClient.invalidateQueries('/me');
+        if (data.status === 200) {
+          if (data?.data?.success && data.data.errors?.length === 0) {
+            if (data.data.inserted) {
+              refetch();
+              toast.success(t('profile-update-successful'));
+              closeModal();
+            } else {
+              toast.success(t('profile-update-successful'));
+              closeModal();
+            }
           } else {
-            toast.success(t('profile-update-successful'));
-            closeModal();
+            data?.data.errors.map((err) => {
+              toast.error(err);
+            });
           }
-        } else {
-          data?.data.errors.map((err) => {
-            toast.error(err);
-          })
-        }
-      } else toast.error(t('error-something-wrong'));
-    } catch {
-      toast.error(t('error-something-wrong'));
-    }
+        } else toast.error(t('error-something-wrong'));
+      } catch {
+        toast.error(t('error-something-wrong'));
+      }
     },
     onError: (error) => {
       toast.error(t('error-something-wrong'));
@@ -131,27 +131,27 @@ export function useLogin() {
   const { mutate, isLoading } = useMutation(client.users.login, {
     onSettled: async (res) => {
       try {
-      if (res.status === 200) {
-        if (res?.data.token === '' || res?.data.token === null) {
-          if (res?.data.errors) {
-            res?.data.errors.forEach((err) => {
-              toast.error(err);
-            });
-          } else {
-            setServerError('error-credential-wrong');
+        if (res.status === 200) {
+          if (res?.data.token === '' || res?.data.token === null) {
+            if (res?.data.errors) {
+              res?.data.errors.forEach((err) => {
+                toast.error(err);
+              });
+            } else {
+              setServerError('error-credential-wrong');
+            }
+            return;
           }
-          return;
-        }
-        setToken(res?.data.token);
-        setAuthorized(true);
-        await router.push('/').then(() => {
-          toast.success(t('text-welcome'))
-          closeModal();
-        });
-      } else toast.error(t('error-something-wrong'));
-    } catch {
-      toast.error(t('error-something-wrong'));
-    }
+          setToken(res?.data.token);
+          setAuthorized(true);
+          await router.push('/').then(() => {
+            toast.success(t('text-welcome'));
+            closeModal();
+          });
+        } else toast.error(t('error-something-wrong'));
+      } catch {
+        toast.error(t('error-something-wrong'));
+      }
     },
     onError: (error: Error) => {},
   });
@@ -171,23 +171,23 @@ export function useRegister() {
   const { mutate, isLoading } = useMutation(client.users.register, {
     onSettled: async (data) => {
       try {
-      if (data.status === 200) {
-        if (data?.data?.token && data?.status_message === 'autenticado') {
-          setToken(data?.data?.token);
-          setAuthorized(true);
-          await router.push('/').then(() => {
-            closeModal();
-            toast.success(t('text-register-success'));
-          });
-          return;
-        }
-        if (!data?.data?.token) {
-          data?.data?.errors.forEach((err: string) => toast.error(t(err)));
-        }
-      } else toast.error(t('error-something-wrong'));
-    } catch {
-      toast.error(t('error-something-wrong'));
-    }
+        if (data.status === 200) {
+          if (data?.data?.token && data?.status_message === 'autenticado') {
+            setToken(data?.data?.token);
+            setAuthorized(true);
+            await router.push('/').then(() => {
+              closeModal();
+              toast.success(t('text-register-success'));
+            });
+            return;
+          }
+          if (!data?.data?.token) {
+            data?.data?.errors.forEach((err: string) => toast.error(t(err)));
+          }
+        } else toast.error(t('error-something-wrong'));
+      } catch {
+        toast.error(t('error-something-wrong'));
+      }
     },
     onError: (error) => {
       const {
@@ -207,7 +207,7 @@ export function useLogout() {
   const [_r, resetCheckout] = useAtom(clearCheckoutAtom);
   const { openModal } = useModalAction();
   const { items, clearItemFromCart } = useCart();
-  const router = useRouter()
+  const router = useRouter();
   const mutate = function () {
     router.push(ROUTES.HOME).then(() => {
       items.forEach((item) => {
@@ -217,7 +217,7 @@ export function useLogout() {
       setAuthorized(false);
       resetCheckout();
       openModal('LOGIN_VIEW');
-    })
+    });
   };
   return { mutate };
   /*   const queryClient = useQueryClient();
@@ -247,21 +247,21 @@ export function useChangePassword() {
   const { mutate, isLoading } = useMutation(client.users.changePassword, {
     onSettled: async (data) => {
       try {
-      if (data.status === 200) {
-        if (!data.data?.success) {
-          setFormError({
-            oldPassword: data?.message ?? '',
+        if (data.status === 200) {
+          if (!data.data?.success) {
+            setFormError({
+              oldPassword: data?.message ?? '',
+            });
+            toast.error(t('error-change-password'));
+            return;
+          }
+          await router.push('/').then(() => {
+            toast.success(t('password-successful'));
           });
-          toast.error(t('error-change-password'));
-          return;
-        }
-        await router.push('/').then(() => {
-          toast.success(t('password-successful'));
-        });
-      } else toast.error(t('error-something-wrong'));
-    } catch {
-      toast.error(t('error-something-wrong'));
-    }
+        } else toast.error(t('error-something-wrong'));
+      } catch {
+        toast.error(t('error-something-wrong'));
+      }
     },
     onError: (error) => {
       const {
@@ -280,7 +280,7 @@ export function useForgotPassword() {
   let [message, setMessage] = useState<string | null>(null);
   let [formError, setFormError] = useState<any>(null);
   const { t } = useTranslation();
-  const router = useRouter()
+  const router = useRouter();
   const { openModal } = useModalAction();
 
   const { mutate, isLoading } = useMutation(client.users.forgotPassword, {
@@ -292,8 +292,8 @@ export function useForgotPassword() {
         toast.error(t('error-forget-password'));
         return;
       }
-        toast.success(t('text-forget-password-success'));
-        openModal('LOGIN_VIEW');
+      toast.success(t('text-forget-password-success'));
+      openModal('LOGIN_VIEW');
       /* setMessage(data?.message!);
       actions.updateFormState({
         email: variables.email,
@@ -314,6 +314,7 @@ export function useResetPassword() {
   return useMutation(client.users.resetPassword, {
     onSuccess: (data) => {
       if (data?.success) {
+        console.log('paso por aca');
         toast.success(t('text-reset-password-success'));
         actions.updateFormState({
           ...initialState,

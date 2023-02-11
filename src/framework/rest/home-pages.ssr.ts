@@ -1,7 +1,4 @@
-import type {
-  HomePageProps,
-  TypeQueryOptions,
-} from '@/types';
+import type { HomePageProps, TypeQueryOptions } from '@/types';
 import type { GetStaticPaths, GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { QueryClient } from 'react-query';
@@ -9,10 +6,7 @@ import { dehydrate } from 'react-query/hydration';
 import invariant from 'tiny-invariant';
 import client from './client';
 import { API_ENDPOINTS } from './client/api-endpoints';
-import {
-  PRODUCTS_PER_PAGE,
-  TYPES_PER_PAGE,
-} from './client/variables';
+import { PRODUCTS_PER_PAGE, TYPES_PER_PAGE } from './client/variables';
 
 type ParsedQueryParams = {
   pages: string[];
@@ -53,8 +47,7 @@ export const getStaticProps: GetStaticProps<
   const { pages } = params!;
   let pageType: string | undefined;
   if (!pages) {
-    pageType =
-      types.find((type) => true)?.slug ?? types[0].slug;
+    pageType = types.find((type) => true)?.slug ?? types[0].slug;
   } else {
     pageType = pages[0];
   }
@@ -66,18 +59,15 @@ export const getStaticProps: GetStaticProps<
     //type: pageType,
     limit: PRODUCTS_PER_PAGE,
   };
+  console.log('AAAAAHHHHHHHH');
   await queryClient.prefetchInfiniteQuery(
     [API_ENDPOINTS.PRODUCTS, { limit: PRODUCTS_PER_PAGE, type: pageType }],
     ({ queryKey }) => client.products.all(queryKey[1] as any)
   );
 
-
-
-
   return {
     props: {
       variables: {
-
         products: productVariables,
 
         types: {
@@ -91,4 +81,3 @@ export const getStaticProps: GetStaticProps<
     revalidate: 120,
   };
 };
-
