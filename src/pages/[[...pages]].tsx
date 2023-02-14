@@ -8,15 +8,14 @@ import { useEffect, useState } from 'react';
 import { scroller } from 'react-scroll';
 import { getStaticPaths, getStaticProps } from '@/framework/home-pages.ssr';
 import { InferGetStaticPropsType } from 'next';
+import { CART_KEY } from '@/lib/constants';
+import {initialState as emptyCart} from '../store/quick-cart/cart.reducer'
 export { getStaticPaths, getStaticProps };
 const CartCounterButton = dynamic(
   () => import('@/components/cart/cart-counter-button'),
   { ssr: false }
 );
 const Classic = dynamic(() => import('@/components/layouts/classic'));
-
-
-
 
 const MAP_LAYOUT_TO_GROUP: Record<string, any> = {
   classic: Classic,
@@ -27,34 +26,39 @@ const Home: NextPageWithLayout<
 > = ({ variables, layout }) => {
   const { query } = useRouter();
   const { width } = useWindowSize();
-  const router = useRouter()
+  const router = useRouter();
 
-  const [initPage, setInitPage] = useState(true)
+  const [initPage, setInitPage] = useState(true);
 
   function initRouter() {
-
     router.beforePopState((e) => {
       if (e.url === '/#') {
-        router.back()
+        router.back();
       }
-      return true
-    })
+      return true;
+    });
+  }
 
-  } 
-  
   useEffect(() => {
-    initRouter()
-    if(initPage && router.asPath === '/') {
-      setInitPage(false)
-        router.push('/#')
-          .then(() => {
-            router.push('/')
-            .then(() => {initRouter()})
-          }) 
-      } 
-  },[])
+    initRouter();
+    if (initPage && router.asPath === '/') {
+      setInitPage(false);
+      router.push('/#').then(() => {
+        router.push('/').then(() => {
+          initRouter();
+        });
+      });
+    }
 
+    // INTENTO DE VACIAR CARRITO
+/* 
 
+    const interval = setInterval(() => {
+      window.localStorage.setItem(CART_KEY,JSON.stringify(emptyCart))
+    },  43200000 );
+
+    return () => clearInterval(interval) */
+  }, []);
 
   useEffect(() => {
     if (query.text || query.category) {
