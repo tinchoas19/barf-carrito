@@ -38,7 +38,7 @@ export const initialState: State = {
   totalItems: 0,
   totalUniqueItems: 0,
   total: 0,
-  meta: null,
+  meta: null
 };
 export function cartReducer(state: State, action: Action): State {
   switch (action.type) {
@@ -70,6 +70,7 @@ export function cartReducer(state: State, action: Action): State {
       const items = updateItem(state.items, action.id, action.item);
       return generateFinalState(state, items);
     }
+    
     case 'RESET_CART':
       return initialState;
     default:

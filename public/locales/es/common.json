@@ -81,6 +81,7 @@
   "text-billing-address": "Dirección de facturación",
   "text-sub-total": "Total parcial",
   "text-discount": "Descuento",
+  "text-cart-expired":"Ha ocurrido un error. Por favor, vuelva a seleccionar los productos.",
   "text-delivery-fee": "Tarifa de envío",
   "text-deliver-time": "Tiempo de entrega",
   "text-shipping-charge": "Gastos de envío",

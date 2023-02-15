@@ -18,12 +18,13 @@ import { ArrowNextIcon } from '../icons/arrow-next';
 import { useModalAction } from '../ui/modal/modal.context';
 import { authorizationAtom, stockAuthBooleanAtom } from '@/store/authorization-atom';
 import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 
 const CartSidebarView = () => {
   const { openModal } = useModalAction();
   const { t } = useTranslation('common');
-  const { items, totalUniqueItems, total } = useCart();
+  const { items, totalUniqueItems, total, resetCart } = useCart();
   const [sideBar, closeSidebar] = useAtom(drawerAtom);
   const {me} = useUser();
   const [isAuthorize] = useAtom(authorizationAtom);
@@ -34,10 +35,19 @@ const CartSidebarView = () => {
   });
   const { isLoading, mutate: validateStock} = useValidateStock()
   const router = useRouter()
-
   
   
   function handleCheckout() {
+    const expirationDate = window.localStorage.getItem('CART_EXPIRATION')
+    if (expirationDate && new Date().setHours(0).toString() > expirationDate) {
+      resetCart()
+      toast.error(t('text-cart-expired'), {
+        closeButton: true,
+        progress: 1,
+      });
+      window.localStorage.setItem('CART_EXPIRATION', '')
+      return
+    }
     const itemsToValidate = items.map(item => {
       return {id: item.id, quantity: item.quantity, name:item.name}
     })

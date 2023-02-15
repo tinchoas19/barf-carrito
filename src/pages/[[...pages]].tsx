@@ -8,8 +8,6 @@ import { useEffect, useState } from 'react';
 import { scroller } from 'react-scroll';
 import { getStaticPaths, getStaticProps } from '@/framework/home-pages.ssr';
 import { InferGetStaticPropsType } from 'next';
-import { CART_KEY } from '@/lib/constants';
-import {initialState as emptyCart} from '../store/quick-cart/cart.reducer'
 export { getStaticPaths, getStaticProps };
 const CartCounterButton = dynamic(
   () => import('@/components/cart/cart-counter-button'),
@@ -50,15 +48,9 @@ const Home: NextPageWithLayout<
       });
     }
 
-    // INTENTO DE VACIAR CARRITO
-/* 
 
-    const interval = setInterval(() => {
-      window.localStorage.setItem(CART_KEY,JSON.stringify(emptyCart))
-    },  43200000 );
-
-    return () => clearInterval(interval) */
   }, []);
+
 
   useEffect(() => {
     if (query.text || query.category) {

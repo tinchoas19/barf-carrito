@@ -35,7 +35,7 @@ export const CartProvider: React.FC = (props) => {
   );
   const [state, dispatch] = React.useReducer(
     cartReducer,
-    savedCart ? JSON.parse(savedCart) : initialState
+    /*  savedCart ? JSON.parse(savedCart) : */ initialState
   );
   const [, emptyVerifiedResponse] = useAtom(verifiedResponseAtom);
   React.useEffect(() => {
@@ -46,12 +46,35 @@ export const CartProvider: React.FC = (props) => {
     saveCart(JSON.stringify(state));
   }, [state, saveCart]);
 
-  const addItemToCart = (item: Item, quantity: number) =>
+  function setExpirationDate() {
+    const localCart = JSON.parse(window.localStorage.getItem(CART_KEY) || '{}');
+    const cart = JSON.parse(localCart)
+    if (cart.isEmpty) {
+      const date = new Date().setHours(12)
+      window.localStorage.setItem('CART_EXPIRATION', date.toString())
+    }
+  }
+
+  function clearExpirationDate() {
+    const localCart = JSON.parse(window.localStorage.getItem(CART_KEY) || '{}');
+    const cart = JSON.parse(localCart)
+    if (cart.items.length === 1 && cart.items[0].quantity === 1) {
+      window.localStorage.setItem('CART_EXPIRATION', '')
+    }
+  }
+
+  const addItemToCart = (item: Item, quantity: number) => {
+    setExpirationDate();
     dispatch({ type: 'ADD_ITEM_WITH_QUANTITY', item, quantity });
-  const removeItemFromCart = (id: Item['id']) =>
+  };
+  const removeItemFromCart = (id: Item['id']) => {
     dispatch({ type: 'REMOVE_ITEM_OR_QUANTITY', id });
-  const clearItemFromCart = (id: Item['id']) =>
+    clearExpirationDate();
+  };
+  const clearItemFromCart = (id: Item['id']) => {
     dispatch({ type: 'REMOVE_ITEM', id });
+    clearExpirationDate();
+  };
   const isInCart = useCallback(
     (id: Item['id']) => !!getItem(state.items, id),
     [state.items]
