@@ -4,7 +4,6 @@ export { getStaticProps } from '@/framework/general.ssr';
 import DashboardLayout from '@/layouts/_dashboard';
 
 export default function OrdersPage() {
-
   return (
     <>
       <Seo noindex={true} nofollow={true} />

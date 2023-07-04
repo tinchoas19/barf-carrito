@@ -7,18 +7,18 @@ import OrderDetails from './order-details';
 
 interface OrdersWithLoaderProps {
   showLoaders: boolean;
-  hasNextPage: boolean;
-  isLoadingMore: boolean;
-  onLoadMore: () => void;
+  // hasNextPage: boolean;
+  // isLoadingMore: boolean;
+  // onLoadMore: () => void;
   notFound: boolean;
   order: any;
 }
 
 const OrdersWithLoader: React.FC<OrdersWithLoaderProps> = ({
   showLoaders,
-  hasNextPage,
-  isLoadingMore,
-  onLoadMore,
+  // hasNextPage,
+  // isLoadingMore,
+  // onLoadMore,
   notFound,
   children,
   order,
@@ -43,7 +43,7 @@ const OrdersWithLoader: React.FC<OrdersWithLoaderProps> = ({
             ) : (
               <div className="px-5">
                 {children}
-                {hasNextPage && (
+                {/* {hasNextPage && (
                   <div className="mt-8 flex justify-center lg:mt-12">
                     <Button
                       loading={isLoadingMore}
@@ -53,7 +53,7 @@ const OrdersWithLoader: React.FC<OrdersWithLoaderProps> = ({
                       {t('text-load-more')}
                     </Button>
                   </div>
-                )}
+                )} */}
               </div>
             )}
             {notFound && (

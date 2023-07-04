@@ -77,55 +77,43 @@ interface Props {
 
 const OrderDetails = ({ order }: Props) => {
   const { t } = useTranslation('common');
-  const {
-    products,
-    shipping_address,
-    delivery_type,
-    payment_method,
-    total
-  } = order ?? {};
+  const { products, shipping_address, delivery_type, payment_method, total } =
+    order ?? {};
 
-  function f(amount:number) {
-    return formatPrice({amount, currencyCode : 'ARS', locale: 'ES'})
+  function f(amount: number) {
+    return formatPrice({ amount, currencyCode: 'ARS', locale: 'ES' });
   }
-
 
   return (
     <div className="flex w-full flex-col border border-border-200 bg-white lg:w-2/3">
       {!isEmpty(order) ? (
         <>
-
-
           <div className="flex flex-col border-b border-border-200 sm:flex-row">
             <div className="flex w-full flex-col border-b border-border-200 px-5 py-4 sm:border-b-0 ltr:sm:border-r rtl:sm:border-l md:w-3/5">
-            <div className="mb-4">
-              <span className="mb-2 block text-sm font-bold text-heading">
-                {t('text-delivery-type')}
-              </span>
-              <span className="text-sm text-body">
-                {delivery_type.name}
-              </span>
-            </div>
-              
-              {delivery_type.id === '2' && <div className="mb-4">
+              <div className="mb-4">
                 <span className="mb-2 block text-sm font-bold text-heading">
-                  {t('text-shipping-address')}
+                  {t('text-delivery-type')}
                 </span>
-                <span className="text-sm text-body">
-                  {formatAddress(shipping_address)}
+                <span className="text-sm text-body">{delivery_type.name}</span>
+              </div>
+
+              {delivery_type.id === '2' && (
+                <div className="mb-4">
+                  <span className="mb-2 block text-sm font-bold text-heading">
+                    {t('text-shipping-address')}
+                  </span>
+                  <span className="text-sm text-body">
+                    {formatAddress(shipping_address)}
+                  </span>
+                </div>
+              )}
+
+              <div className="mb-4">
+                <span className="mb-2 block text-sm font-bold text-heading">
+                  {t('text-payment-method')}
                 </span>
-              </div>}
-
-            <div className="mb-4">
-              <span className="mb-2 block text-sm font-bold text-heading">
-                {t('text-payment-method')}
-              </span>
-              <span className="text-sm text-body">
-                {payment_method.name}
-              </span>
-            </div>
-
-
+                <span className="text-sm text-body">{payment_method.name}</span>
+              </div>
             </div>
 
             <div className="flex w-full flex-col px-5 py-4 md:w-2/5">
@@ -134,26 +122,44 @@ const OrderDetails = ({ order }: Props) => {
                 <span className="text-sm text-heading">{f(total)}</span>
               </div>
 
-              {delivery_type.id === '2' && <div className="mb-3 flex justify-between">
-                <span className="text-sm text-body">
-                  {t('text-delivery-fee')}
-                </span>
-                <span className="text-sm text-heading">{parseInt(shipping_address.delivery_fee) > 0 ? f(parseInt(shipping_address.delivery_fee)) : '???'}</span>
-              </div>}
-              {payment_method.id === '2' &&  <div className="mb-3 flex justify-between">
-                <span className="text-sm text-body">{t('text-private-discount')}</span>
-                <span className="text-sm text-heading">{f(total / 10)}</span>
-              </div>}
+              {delivery_type.id === '2' && (
+                <div className="mb-3 flex justify-between">
+                  <span className="text-sm text-body">
+                    {t('text-delivery-fee')}
+                  </span>
+                  <span className="text-sm text-heading">
+                    {parseInt(shipping_address.delivery_fee) > 0
+                      ? f(parseInt(shipping_address.delivery_fee))
+                      : '???'}
+                  </span>
+                </div>
+              )}
+              {payment_method.id === '2' && (
+                <div className="mb-3 flex justify-between">
+                  <span className="text-sm text-body">
+                    {t('text-private-discount')}
+                  </span>
+                  <span className="text-sm text-heading">{f(total / 10)}</span>
+                </div>
+              )}
 
               <div className="flex justify-between">
                 <span className="text-sm font-bold text-heading">
                   {t('text-total')}
                 </span>
-                <span className="text-sm font-bold text-heading">{f(
-                  total
-                  - (payment_method.id === '2' ?( total / 10) : 0)
-                  + (delivery_type.id === '2' ? parseInt((shipping_address.delivery_fee ? shipping_address.delivery_fee : 0)) : 0)
-                )}</span>
+                <span className="text-sm font-bold text-heading">
+                  {f(
+                    total -
+                      (payment_method.id === '2' ? total / 10 : 0) +
+                      (delivery_type.id === '2'
+                        ? parseInt(
+                            shipping_address.delivery_fee
+                              ? shipping_address.delivery_fee
+                              : 0
+                          )
+                        : 0)
+                  )}
+                </span>
               </div>
             </div>
           </div>

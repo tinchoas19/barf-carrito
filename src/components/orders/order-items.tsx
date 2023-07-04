@@ -7,38 +7,42 @@ import { Image } from '@/components/ui/image';
 import { productPlaceholder } from '@/lib/placeholders';
 
 const OrderItemList = (_: any, record: any) => {
-  const { price } = usePrice({
-    amount: parseInt(record.price),
-  });
+  console.log('record', record);
+  // const { price } = usePrice({
+  //   amount: parseInt(record.price),
+  // });
+  let price = '$' + record.price;
   let name = record.name;
-  if (record?.pivot?.variation_option_id) {
-    const variationTitle = record?.variation_options?.find(
-      (vo: any) => vo?.id === record?.pivot?.variation_option_id
-    )['title'];
-    name = `${name} - ${variationTitle}`;
-  }
+  // if (record?.pivot?.variation_option_id) {
+  //   const variationTitle = record?.variation_options?.find(
+  //     (vo: any) => vo?.id === record?.pivot?.variation_option_id
+  //   )['title'];
+  //   name = `${name} - ${variationTitle}`;
+  // }
   return (
     <div className="flex items-center">
-      <div className="w-16 h-16 flex shrink-0 rounded overflow-hidden relative">
+      <div className="relative flex h-16 w-16 shrink-0 overflow-hidden rounded">
         <Image
           src={record.image?.thumbnail ?? productPlaceholder}
           alt={name}
-          className="w-full h-full object-cover"
+          className="h-full w-full object-cover"
           layout="fill"
         />
       </div>
 
-      <div className="flex flex-col ltr:ml-4 rtl:mr-4 overflow-hidden">
-        <div className="flex mb-1">
-          <span className="text-sm text-body truncate inline-block overflow-hidden">
+      <div className="flex flex-col overflow-hidden ltr:ml-4 rtl:mr-4">
+        <div className="mb-1 flex">
+          <span className="inline-block overflow-hidden truncate text-sm text-body">
             {name}
           </span>
-
         </div>
-        <span className="text-sm text-accent font-semibold mb-1 truncate inline-block overflow-hidden">
+        <span className="mb-1 inline-block overflow-hidden truncate text-sm font-semibold text-accent">
           {price}
-          <span className="text-sm text-body font-light overflow-hidden">&nbsp;x 
-            <span className='font-semibold text-heading '>&nbsp;{record.quantity}&nbsp;</span> 
+          <span className="overflow-hidden text-sm font-light text-body">
+            &nbsp;x
+            <span className="font-semibold text-heading ">
+              &nbsp;{record.quantity}&nbsp;
+            </span>
             Kg{record.quantity > 1 && 's'}
           </span>
         </span>
@@ -62,31 +66,28 @@ export const OrderItems = ({ products }: { products: any }) => {
         render: OrderItemList,
       },
 
-       {
-         title: t('text-price'),
-          dataIndex: '',
-          key: 'price',
-         align: alignRight,
-         width: 100,
-         render: function RenderPrice(pivot: any) {
-           const { price } = usePrice({
-             amount: parseInt(pivot.price) * parseInt(pivot.quantity),
-           });
-           return <p>{price}</p>;
-         },
+      {
+        title: t('text-price'),
+        dataIndex: '',
+        key: 'price',
+        align: alignRight,
+        width: 100,
+        render: function RenderPrice(pivot: any) {
+          let price = parseInt(pivot.price) * parseInt(pivot.quantity);
+
+          return <p>${price}</p>;
+        },
       },
     ],
     [alignLeft, alignRight, t]
   );
-
+  console.log('products', products);
   return (
     <Table
       //@ts-ignore
       columns={orderTableColumns}
       data={products}
-      rowKey={(record: any) =>
-        record.created_at
-      }
+      rowKey={(record: any) => record.created_at}
       className="orderDetailsTable w-full"
       scroll={{ x: 350, y: 500 }}
     />

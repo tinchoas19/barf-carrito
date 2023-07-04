@@ -8,18 +8,18 @@ import noResult from '@/assets/no-result.svg';
 
 interface OrdersWithLoaderProps {
   showLoaders: boolean;
-  hasNextPage: boolean;
-  isLoadingMore: boolean;
-  onLoadMore: () => void;
+  // hasNextPage: boolean;
+  // isLoadingMore: boolean;
+  // onLoadMore: () => void;
   notFound: boolean;
   order: any;
 }
 
 const OrderListMobile: React.FC<OrdersWithLoaderProps> = ({
   showLoaders,
-  hasNextPage,
-  isLoadingMore,
-  onLoadMore,
+ // hasNextPage,
+ // isLoadingMore,
+ // onLoadMore,
   notFound,
   children,
   order,
@@ -45,7 +45,7 @@ const OrderListMobile: React.FC<OrdersWithLoaderProps> = ({
               children
             )}
 
-            {hasNextPage && (
+            {/* {hasNextPage && (
               <div className="flex justify-center mt-8">
                 <Button
                   loading={isLoadingMore}
@@ -55,7 +55,7 @@ const OrderListMobile: React.FC<OrdersWithLoaderProps> = ({
                   {t('text-load-more')}
                 </Button>
               </div>
-            )}
+            )} */}
           </Collapse>
         )}
 

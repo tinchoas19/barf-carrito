@@ -1,12 +1,12 @@
 {
-  "name": "@pick-bazar/shop",
-  "version": "7.0.0",
+  "name": "buenosairesrawfood",
+  "version": "9.0.1",
   "private": true,
   "homepage": "https://buenosairesrawfood.com.ar/",
   "scripts": {
     "clean": "rimraf \"{.next,node_modules,_generated_,.cache,src/framework/graphql/*/.d.ts}\"",
     "dev:rest": "next dev -p 3003",
-    "build": "next build",
+    "build": "NODE_ENV=production next build",
     "start": "NODE_ENV=production node server.js",
     "lint": "next lint",
     "prepare": "husky install"

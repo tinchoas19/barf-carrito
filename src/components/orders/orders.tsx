@@ -8,60 +8,62 @@ import OrderListMobile from '@/components/orders/order-list-mobile';
 import { useOrders } from '@/framework/order';
 
 export default function Orders() {
-  const { orders, isLoading, error} = useOrders();
+  const { orders, isLoading, error } = useOrders();
 
   const [order, setOrder] = useState<any>({});
-    useEffect(() => {
+  useEffect(() => {
     if (orders) {
       setOrder(orders[0]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orders]);
-  if (error) return <ErrorMessage message={error.message} />;  
- 
+  if (error) return <ErrorMessage message={error.message} />;
 
   return (
     <>
-    {orders && <>
-       <OrdersWithLoader
-        notFound={!isLoading && !orders?.length}
-        showLoaders={isLoading && !orders?.length}
-        order={order}
-      >
-        {orders && orders.map((_order: any, index: number) => (
-          <OrderCard
-            key={index}
-            order={_order}
-            onClick={() => setOrder(_order)}
-            isActive={order?.id === _order?.id}
-          />
-        ))}
-      </OrdersWithLoader>
-
-      <OrderListMobile
-        notFound={!isLoading && !orders?.length}
-        showLoaders={isLoading && !orders.length}
-        order={order}
-      >
-        {orders.map((_order: any, index: number) => (
-          <Collapse.Panel
-            header={
-              <OrderCard
-                key={`mobile_${index}`}
-                order={_order}
-                onClick={() => setOrder(_order)}
-                isActive={order?.id === _order?.id}
-              />
-            }
-            headerClass="accordion-title"
-            key={index}
-            className="mb-4"
+      {orders && (
+        <>
+          <OrdersWithLoader
+            notFound={!isLoading && !orders}
+            showLoaders={isLoading && !orders}
+            order={order}
           >
-            <OrderDetails order={order} />
-          </Collapse.Panel>
-        ))}
-      </OrderListMobile> 
-    </>}
+            {orders &&
+              orders.map((_order: any, index: number) => (
+                <OrderCard
+                  key={index}
+                  order={_order}
+                  onClick={() => setOrder(_order)}
+                  isActive={order?.id === _order?.id}
+                />
+              ))}
+          </OrdersWithLoader>
+
+          <OrderListMobile
+            notFound={!isLoading && !orders}
+            showLoaders={isLoading && !orders}
+            order={order}
+          >
+            {orders.map((_order: any, index: number) => (
+              <Collapse.Panel
+                header={
+                  <OrderCard
+                    key={`mobile_${index}`}
+                    order={_order}
+                    onClick={() => setOrder(_order)}
+                    isActive={order?.id === _order?.id}
+                  />
+                }
+                headerClass="accordion-title"
+                key={index}
+                className="mb-4"
+              >
+                <OrderDetails order={order} />
+              </Collapse.Panel>
+            ))}
+          </OrderListMobile>
+        </>
+      )}
     </>
   );
 }
