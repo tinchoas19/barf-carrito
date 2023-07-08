@@ -12,7 +12,6 @@ import Cookies from 'js-cookie';
 export default function ClassicLayout({ variables }: HomePageProps) {
  
   const [showSlider, setShowSlider] = useState(false)
-  const [showAlert, setShowAlert] = useState(true)
 
   const {
     settings: { mensajehome },
