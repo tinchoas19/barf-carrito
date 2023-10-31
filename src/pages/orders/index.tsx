@@ -14,5 +14,5 @@ export default function OrdersPage() {
 OrdersPage.authenticationRequired = true;
 
 OrdersPage.getLayout = function getLayout(page: React.ReactElement) {
-  return <DashboardLayout>{page}</DashboardLayout>;
+  return <DashboardLayout pageType="orders">{page}</DashboardLayout>;
 };

@@ -103,6 +103,18 @@ export const useUpdateUser = () => {
   });
 };
 
+export const useUpdateRating = () => {
+  const { t } = useTranslation();
+  return useMutation(client.users.updateRating, {
+    onSuccess: () => {
+      toast.success(t('thanks-rating'));
+    },
+    onError: (error) => {
+      toast.error(t('error-something-wrong'));
+    },
+  });
+};
+
 export const useContact = () => {
   const { t } = useTranslation('common');
 

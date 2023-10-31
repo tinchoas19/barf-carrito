@@ -303,6 +303,11 @@ export interface CreateContactUsInput {
   description: string;
 }
 
+export interface UpdateRatingInput {
+  rating: string;
+  clientid: string;
+}
+
 export interface CardInput {
   number: string;
   expiryMonth: string;

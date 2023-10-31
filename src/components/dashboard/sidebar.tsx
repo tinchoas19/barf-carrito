@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import classNames from 'classnames';
 import { useLogout } from '@/framework/user';
 
-
 type DashboardSidebarProps = {
   className?: string;
 };
@@ -16,9 +15,8 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ className }) => {
   const { t } = useTranslation();
   const { pathname } = useRouter();
   return (
+    <>
     <aside className={className}>
-
-
       <div className="overflow-hidden border rounded border-border-200 bg-light">
         <ul className="py-7">
           {siteSettings.dashboardSidebarMenu
@@ -56,6 +54,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ className }) => {
         {/* End of bottom part menu */}
       </div>
     </aside>
+    </>
   );
 };
 

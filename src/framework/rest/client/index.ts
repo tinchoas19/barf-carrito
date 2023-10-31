@@ -6,7 +6,7 @@ import type {
 
   CreateContactUsInput,
   CreateOrderInput,
-
+  UpdateRatingInput,
   DownloadableFilePaginator,
   ForgotPasswordUserInput,
   LoginUserInput,
@@ -102,6 +102,8 @@ class Client {
       HttpClient.post<any>(API_ENDPOINTS.USERS_SUBSCRIBE_TO_NEWSLETTER, input),
     contactUs: (input: CreateContactUsInput) =>
       HttpClient.post<any>(API_ENDPOINTS.USERS_CONTACT_US, input),
+    updateRating: (input: UpdateRatingInput) =>
+      HttpClient.post<any>(API_ENDPOINTS.UPDATE_RATING, input),
   };
   settings = {
     //FIXME: check this async function

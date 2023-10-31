@@ -8,6 +8,7 @@ export const API_ENDPOINTS = {
   USERS_CHANGE_PASSWORD: '/change-password.php',
   USERS_CONTACT_US: '/contact.php',
   UPDATE_CONTACT: '/update-user.php',
+  UPDATE_RATING: '/update-rating.php',
   USERS_REGISTER: '/register.php',
   USERS_FORGOT_PASSWORD: '/forget-password.php',
   VALIDATE_STOCK: '/days-validation.php',

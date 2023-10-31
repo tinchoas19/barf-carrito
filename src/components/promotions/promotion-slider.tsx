@@ -71,9 +71,9 @@ export default function PromotionSlider() {
             <SwiperSlide
               key={'slider' + i}
               id={'slider' + i}
-              style={{ cursor: 'pointer' }}
+              
             >
-              <Link href={slider.route} passHref={true}>
+             
                 <Image
                   className="h-auto w-full"
                   src={slider.img}
@@ -82,7 +82,7 @@ export default function PromotionSlider() {
                   width="586"
                   height="270"
                 />
-              </Link>
+              
             </SwiperSlide>
           ))}
         </Swiper>

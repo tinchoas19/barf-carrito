@@ -136,6 +136,7 @@ export default function LoginView() {
         {t('login-helper')}
       </p>
       <LoginForm />
+      <p className="mt-4 mb-8 text-center text-sm text-body sm:mt-5 sm:mb-10 md:text-base">Si no estás registrado, hablanos por <a style={{color: 'blue'}} href="https://api.whatsapp.com/send/?phone=541123974839&text&type=phone_number&app_absent=0" target="_blank">WhatsApp</a> para que te creemos un usuario!</p>
     </div>
   );
 }

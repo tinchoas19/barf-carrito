@@ -7,7 +7,7 @@ import { Image } from '@/components/ui/image';
 import { productPlaceholder } from '@/lib/placeholders';
 
 const OrderItemList = (_: any, record: any) => {
-  console.log('record', record);
+  
   // const { price } = usePrice({
   //   amount: parseInt(record.price),
   // });
@@ -81,7 +81,7 @@ export const OrderItems = ({ products }: { products: any }) => {
     ],
     [alignLeft, alignRight, t]
   );
-  console.log('products', products);
+  
   return (
     <Table
       //@ts-ignore
